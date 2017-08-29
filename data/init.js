@@ -3,25 +3,25 @@ function init(){
     
     colorSet = [[[97,97,97],"rgb(65,65,65)",[140,140,140,-30,-30,-30],[0,0,0]],[[42,65,101],"rgb(34,53,82)",[20,70,10,2,5,1],[72,98,178]],[[137,97,97],"rgb(115,65,65)",[200,140,140,-20,-30,-30],[209,82,28]],[[80,80,130],"rgb(40,40,85)",[140,140,200,-30,-30,-20],[0,0,50]],[[170,170,170],"rgb(150,150,150)",[210,210,210,-20,-20,-20],[0,0,15]],[[97,97,97],"rgb(65,65,65)",[140,140,140,-30,-30,-30],[28,134,182]],[[34,70,2],"rgb(19,55,0)",[30,120,20,-5,-20,-2],[20,40,0]],[[0,70,2],"rgb(19,55,0)",[30,120,20,-5,-20,-2],[0,30,30]],[[0,25,30],"rgb(0,20,25)",[4,35,45,0,7,7],[0,5,10]]];
     
-    quests = {"chef":0,"jehan":0,"garcon":0,"boussole":0,"boussoleF":0,"dev":0,"sky":0,"pencil":0};
+    quests = {"chef":0,"jehan":0,"garcon":0,"boussole":0,"boussoleF":0,"dev":0,"sky":0,"pencil":0,armes:{"pencil":1}};
     
-    imgHeros = [new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image()];
+    imgHeros = [new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image()];
     
-    imgArbre = ["pont0","pont1","pont2","pont3","pont4","pont5","barriere0","barriere1","barriere2","palmiton","herbe0","herbe1","bush0","house0","house1","house2","palmier","gear","special","lambda0","fastTravel","loot","outDoor","inDoor","monsters","fireTemple","sky","sky1","sky2","sky3","rocher","shell","spe","save","delete"];
+    imgArbre = ["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","passerelle3","barriere0","barriere1","barriere2","palmiton","herbe0","herbe1","bush0","house0","house1","house2","palmier","sword1","gear","special","lambda0","fastTravel","loot","outDoor","inDoor","monsters","fireTemple","sky","sky1","sky2","sky3","rocher","shell","spe","save","delete"];
     
     nSpeImg = 10;
     
     editObject = [[["bokoblin",2],["chuchu",17]], [["cochon",0],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]]];
     
-    editArray = {"gear":[],"loot":["rubisVert","rubisBleu","rubisRouge","coeur","fragment","coffre0","coffre1","porte0","cle0","cle1","mastersword","boomerang","hookShot","parachale","baton","boat"],"herbe0":["herbe0","herbe1","palmier","palmiton","bush0","rocher","shell"],"outDoor":["pont0","pont1","pont2","pont3","pont4","pont5","barriere0","barriere1","barriere2","house0","house1","house2","lambda0"],"inDoor":[],"monsters":["bokoblin","chuchu","moblin","feu","scie","ballon"],"fireTemple":[],"sky":["sky","sky1","sky2","sky3","delete"],"special":["tele","mark","coffre2","fastTravel"],"spe":["spe0","spe1","spe2","spe3","spe4","spe5","spe6","spe7","spe8","spe9"]};
+    editArray = {"gear":[],"loot":["rubisVert","rubisBleu","rubisRouge","sword"],"herbe0":["herbe0","herbe1","palmier","palmiton","bush0","rocher","shell"],"outDoor":["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","barriere0","barriere1","barriere2","house0","house1","house2","lambda0"],"inDoor":[],"monsters":["bokoblin","chuchu","moblin","feu","scie","ballon"],"fireTemple":[],"sky":["sky","sky1","sky2","sky3","delete"],"special":["tele","mark","coffre2","fastTravel"],"spe":["spe0","spe1","spe2","spe3","spe4","spe5","spe6","spe7","spe8","spe9"]};
     
     boatPosition = [200,100];
 
     chargImage.coeur = ["coeurVide","coeur1","coeur05"];
     chargImage.debris = ["pot0","pot1","pot2","pot3","pot4","palmier0","palmier1","palmier2","palmier3","palmier4","herbe0","herbe1","herbe2","herbe3","herbe4","fumeeM","fumeeF","feu0","feu1","feu2","feu3","flamme0","flamme1","hook","chaineA","excla","hitB","rond","eclabousse","rondB","eclabousseB","sword0","sword1","sword2","sword3","pale0","bla","fumeeP"];
-    chargImage.interface = ["blank","mastersword","boomerang","hookShot","pencil","boat","pot","lettre","GPS","aiguille","vitre","corps","parachale","baton","batonF","maskWind","flowerRod","seeds"];
+    chargImage.interface = ["blank","sword","pencil"];
     chargImage.rubis = ["rubisVert","rubisBleu","rubisRouge","rubisBlanc","fragment","coeur","bourgeon"];
-    chargImage.PNJ = ["petitFan"];
+    chargImage.PNJ = ["petitFan","pancarte"];
     chargImage.truc = ["mastersword0","mastersword1","mastersword2","mastersword3","boomerang0","boomerang1","boomerang2","boomerang3","pencil0","pencil1","pencil2","pencil3","pot0","pot1","pot2","pot3","baton0","baton1","baton2","baton3","batonF0","batonF1","batonF2","batonF3"];
 }
 
@@ -38,8 +38,8 @@ function drawObj(x,y,f,e,ctxa,objNivniv){
     }
     if (objNivniv[y][x][0] == "pont0" || objNivniv[y][x][0] == "pont1" || objNivniv[y][x][0] == "pont2" || objNivniv[y][x][0] == "pont3" || objNivniv[y][x][0] == "pont4" || objNivniv[y][x][0] == "pont5" || objNivniv[y][x][0] == "herbe1" || objNivniv[y][x][0] == "herbe0" || objNivniv[y][x][0] == "rocher" || objNivniv[y][x][0] == "shell") Painter.img( ctxa, x+0.1, y + 0.5, f, imgElement[objNivniv[y][x][0]] );
     //else if (objNiveau[y][x][0] == "house0") Painter.img( ctx, x - 0.07, y + 0.35, f, imgElement[objNiveau[y][x][0]] );
-    else if (objNiveau[y][x][0] == "PNJ") Painter.img( ctx, x,y,f,imgPersoN[objNiveau[y][x][1]]);
-    // else if (objNiveau[y][x][0] == "pont") Painter.img( ctx, x+0.1,y + 0.5,f + objNiveau[y][x][1],imgElement[objNiveau[y][x][0]]);
+    else if (objNivniv[y][x][0] == "PNJ") Painter.img( ctxa, x,y,f,imgPersoN[objNivniv[y][x][1]]);
+    else if (objNivniv[y][x][0] == "passerelle0" || objNivniv[y][x][0] == "passerelle1" || objNivniv[y][x][0] == "passerelle2" || objNivniv[y][x][0] == "passerelle3") Painter.img( ctxa, x,y + 0.5,f + objNivniv[y][x][1],imgElement[objNivniv[y][x][0]]);
     else Painter.img( ctxa, x, y, f, imgElement[objNivniv[y][x][0]] );
 }
 

@@ -6,8 +6,8 @@ var ctx,canvas;
 var X = 0;
 var Y = 0;
 var keys = [];
-var heros = [{"x":0,"y":8,z:0,g:0,"vx":0,"vy":0,"sens":2,"delay":0,"rubis":0,"objet":0,"invent":["blank"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"prim":"pencil","imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":10,"touche":[38,39,40,37,16,17,32],"scrollSpeed":1,anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0]},{"x":0,"y":9,z:0,g:0,"vx":0,"vy":0,"sens":2,"delay":0,"rubis":0,"objet":0,"invent":["blank"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":0,"touche":[101,99,98,97,13,96],anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0]}];
-var questObj = {"carteMaritime":0,"boussole":0};
+var heros = [{"x":0,"y":8,z:0,g:0,"vx":0,"vy":0,"sens":2,"delay":0,"rubis":0,"objet":0,"invent":["blank"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"prim":"pencil","imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":10,"touche":[38,39,40,37,16,17,32],"scrollSpeed":1,anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0},{"x":0,"y":9,z:0,g:0,"vx":0,"vy":0,"sens":2,"delay":0,"rubis":0,"objet":0,"invent":["blank"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":0,"touche":[101,99,98,97,13,96],anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0}];
+var questObj = {"carteMaritime":0,"boussole":0,wear:0};
 var objInvent = [];
 var seaLimit = [1200,900];
 var ennemis = [];
@@ -64,7 +64,7 @@ var islandData = {};
 var fondfond = new Image();
 var fondInvent = new Image();
 fondInvent.src = "images/menu4.png";
-var imgCinema = [new Image,new Image];
+var imgCinema = [new Image,new Image,[]];
 var cinematicos = 0;
 var sideEdit = ["monsters","spe","sky","fireTemple","inDoor","herbe0","outDoor","special","gear","loot"];
 var sideSelect = -1;
@@ -329,6 +329,8 @@ function start(){
     backDraw = backg.fa;
     W = canvas.width;
     H = canvas.height;
+    actx.play();
+    actx.loop = true;
     ctx.imageSmoothingEnabled = false;
     goto = "depart";
     out = 1;
@@ -552,15 +554,17 @@ function drawHeros(n){
         heros[n].mortal -= 1;
         if (heros[n].mortal % 4 < 2)return;
     }
+    animObject[n].bf(n);
     var N = 0;
     if (Math.abs(heros[n].vx + heros[n].vy)%50 >= 25 && heros[n].g == 0) N = 24;
-    if (heros[n].plane == 1){
-        Painter.img(ctx,heros[n].x + heros[n].vx/50, heros[n].y + heros[n].vy/50,niveau[Math.round(heros[n].y + heros[n].vy/50)][Math.round(heros[n].x + heros[n].vx/50)],imgElement.marque);
-    }
-    Painter.img( ctx, heros[n].x + heros[n].vx/50, heros[n].y + heros[n].vy/50, heros[n].z, imgHeros[heros[n].img + heros[n].sens] );
-    if (heros[n].invent[heros[n].objet] != "blank" && heros[n].imgUp == 0) {
-        Painter.img(ctx,heros[n].x + heros[n].vx/50,heros[n].y + heros[n].vy/50,heros[n].z,imgArme[heros[n].invent[heros[n].objet] + heros[n].sens]);
-    }
+    //if (heros[n].plane == 1){
+        //Painter.img(ctx,heros[n].x + heros[n].vx/50, heros[n].y + heros[n].vy/50,niveau[Math.round(heros[n].y + heros[n].vy/50)][Math.round(heros[n].x + heros[n].vx/50)],imgElement.marque);
+    //}
+    Painter.img( ctx, heros[n].x + heros[n].vx/50, heros[n].y + heros[n].vy/50, heros[n].z, imgHeros[heros[n].img + heros[n].sens + n*32] );
+    animObject[n].f(n);
+    //if (heros[n].invent[heros[n].objet] != "blank" && heros[n].imgUp == 0) {
+        //Painter.img(ctx,heros[n].x + heros[n].vx/50,heros[n].y + heros[n].vy/50,heros[n].z,imgArme[heros[n].invent[heros[n].objet] + heros[n].sens]);
+    //}
     if (heros[n].aura != ""){
         Painter.imgScale(ctx,heros[n].x + heros[n].vx/50,heros[n].y - 1 + heros[n].vy/50,heros[n].z,heros[n].tAura/40,imgElement[heros[n].aura]);
     }
@@ -606,27 +610,6 @@ function attack(n,x){
         var use = heros[0].prim;
     }
     else var use = heros[n].invent[heros[n].objet];
-    if (use == "boat"){
-        if (heros[n].etat != 0) return;
-        if (heros[n].y + vecteurs[heros[n].sens][0] == niveau.length || heros[n].y + vecteurs[heros[n].sens][0] == -1 || heros[n].x + vecteurs[heros[n].sens][1] == niveau[0].length || heros[n].x + vecteurs[heros[n].sens][1] == -1){
-            if (out == 1){
-                boatPosition[1] = heros[n].x + vecteurs[heros[n].sens][1] + boatPosition[1];
-                boatPosition[0] = heros[n].y + vecteurs[heros[n].sens][0] + boatPosition[0];
-                goto = "";
-                onSea = 1;
-                return;
-            }
-        }
-        else if (niveau[heros[n].y+vecteurs[heros[n].sens][0]][heros[n].x+vecteurs[heros[n].sens][1]] == -1){
-            if (out == 1){
-                boatPosition[1] = heros[n].x + vecteurs[heros[n].sens][1] + boatPosition[1];
-                boatPosition[0] = heros[n].y + vecteurs[heros[n].sens][0] + boatPosition[0];
-                goto = "";
-                onSea = 1;
-                return;
-            }
-        }
-    }
     var controlKeys = [[38,39,40,37],[101,99,98,97]];
     var grassContent = ["","","","rubisVert","rubisVert","rubisBleu"];
     var truc = objNiveau[heros[n].y + vecteurs[heros[n].sens][0]][heros[n].x + vecteurs[heros[n].sens][1]][0];
@@ -641,7 +624,7 @@ function attack(n,x){
         }
     );
     if (heros[n].carry[0] != 0) return;
-    if ((truc == "coffre0" || truc == "porte0" || truc == "pot" || truc == "PNJ" || truc == "checkPoint" || truc == "unCheckPoint") && niveau[heros[n].y + vecteurs[heros[n].sens][0]][heros[n].x + vecteurs[heros[n].sens][1]] == niveau[heros[n].y][heros[n].x]){
+    if ((truc == "coffre0" || truc == "porte0" || truc == "pot" || truc == "PNJ" || truc == "checkPoint" || truc == "unCheckPoint") && Math.abs(niveau[heros[n].y + vecteurs[heros[n].sens][0]][heros[n].x + vecteurs[heros[n].sens][1]] - niveau[heros[n].y][heros[n].x]) < 1){
         if (truc == "coffre0"){
             Crossed.improve();
             objNiveau[heros[n].y + vecteurs[heros[n].sens][0]][heros[n].x + vecteurs[heros[n].sens][1]][0] = "coffre1";
@@ -898,7 +881,8 @@ function donnerHeros(obj,n){
     if (obj == "rubisVert") heros[n].rubis += 1;
     else if (obj == "rubisBleu") heros[n].rubis += 5;
     else if (obj == "rubisRouge") heros[n].rubis += 20;
-    else if (obj == "mastersword" || obj == "hookShot" || obj == "boomerang" || obj == "pencil" || obj == "lettre" || obj == "boat" || obj == "pot" || obj == "parachale" || obj == "baton" || obj == "maskWind" || obj == "flowerRod" || obj == "seeds"){
+    else if (obj == "sword" || obj == "hookShot" || obj == "boomerang" || obj == "pencil" || obj == "lettre" || obj == "boat" || obj == "pot" || obj == "parachale" || obj == "baton" || obj == "maskWind" || obj == "flowerRod" || obj == "seeds"){
+        quests.armes[obj] = 1;
         addObj(obj,n);
     }
     else if (obj == "cle0") {heros[n].cles += 1;}
@@ -920,6 +904,7 @@ function addObj(type,n){
     else{
         objInvent.push(type);
     }
+    chooseAnimObject(n);
 }
 
 function changeColor(){
@@ -1027,7 +1012,7 @@ function pencil(x,y,action){
                 );
             }
             else {
-                if (editArray[sideEdit[editNs[1]]][editNs[3]] == "pont" && objNiveau[coor[0]][coor[1]][0] == "pont"){
+                if ((editArray[sideEdit[editNs[1]]][editNs[3]] == "passerelle0" || editArray[sideEdit[editNs[1]]][editNs[3]] == "passerelle1" || editArray[sideEdit[editNs[1]]][editNs[3]] == "passerelle2") && (objNiveau[coor[0]][coor[1]][0] == "passerelle0" || objNiveau[coor[0]][coor[1]][0] == "passerelle1" || objNiveau[coor[0]][coor[1]][0] == "passerelle2")){
                     objNiveau[coor[0]][coor[1]][1] -= 1;
                 }
                 else {
@@ -1066,11 +1051,11 @@ function pencil(x,y,action){
             onSea = 5;
             islandData = {out:1,ileSet:0,x:0,y:0,select:0};
         }
-        else if (action == "pont"){
-            if (objNiveau[coor[0]][coor[1]][0] == "pont"){
+        else if (action == "passerelle0" || action == "passerelle1" || action == "passerelle2"){
+            if (objNiveau[coor[0]][coor[1]][0] == "passerelle0" || objNiveau[coor[0]][coor[1]][0] == "passerelle1" || objNiveau[coor[0]][coor[1]][0] == "passerelle2"){
                 objNiveau[coor[0]][coor[1]][1] += 1;
             }
-            else objNiveau[coor[0]][coor[1]] = ["pont",3];
+            else objNiveau[coor[0]][coor[1]] = [action,2];
         }
         else{
             if (objNiveau[coor[0]][coor[1]][0] != "") objNiveau[coor[0]][coor[1]].splice(0,0,action);

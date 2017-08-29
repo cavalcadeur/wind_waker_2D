@@ -13,3 +13,16 @@ window.disalert = function(n) {
     elem.className = ' ';
 };
 
+window.alertBlackVersion = function(msg,n) {
+    var elem = document.getElementById("alert");
+	//alerting = 1;
+    elem.textContent = msg;
+    elem.className = 'blackOne';
+};
+
+window.disAlertBlackVersion = function() {
+    var elem = document.getElementById("alert");
+	//alerting = 1;
+    //elem.textContent = msg;
+    elem.className = 'blackOneHide';
+};

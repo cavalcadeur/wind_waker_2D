@@ -1,12 +1,26 @@
  --  0.0.1  --
 
 - separation en moteur/data (réussie ???)
+- animation déplacement
+- animation saut
+- musique
+- système de voisin
+- plages
+- cases texturées
 
   635 m^2
 
  -- TO DO --
 
 - ile de l'aurore
+- reaction command
+- caverne secrete aurore
+- cycle jour/nuit
+- fondu de la musique
+- créatures marines
+- maisons skulltullas
+- particules de vie
+- intro
 
  -- Lexique --
 

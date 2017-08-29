@@ -34,6 +34,7 @@ function drawIsland(ile,Y,X){
 }
 
 function goToLevel(oo,go,x,y,x2,y2,scrollStore,d,n){
+    chooseMusic(go);
     ennemis.forEach(
         function (e,i){
             ennemis[i] = e.takeBack();
@@ -155,6 +156,10 @@ function goToLevel(oo,go,x,y,x2,y2,scrollStore,d,n){
         heros[n].vx += -50 * vecteurs[d][1];
         heros[n].vy += -50 * vecteurs[d][0];
     }
+    else {
+        heros[0].z = niveau[heros[0].y][heros[0].x];
+        heros[1].z = niveau[heros[1].y][heros[1].x];
+    }
     ennemis.forEach(
         function (e,i){
             findEnnemy(e[2],i,e[0],e[1],e[3]);
@@ -167,9 +172,9 @@ function goToLevel(oo,go,x,y,x2,y2,scrollStore,d,n){
         }
     );
     onSea = 0;
-    respawnPoint = [x,y];
-    heros[0].z = niveau[heros[0].y][heros[0].x];
-    heros[1].z = niveau[heros[1].y][heros[1].x];
+    respawnPoint = [heros[0].x,heros[0].y];
+    //console.log(respawnPoint);
+    
     Painter.niveau(niveau , textured);
     if (scrollStore == undefined){
         Painter.scroll(0,0);
@@ -204,6 +209,7 @@ function goToLevel(oo,go,x,y,x2,y2,scrollStore,d,n){
         cinematicos = 5;
         heros[0].x += 1;
     }
+    //console.log(respawnPoint);
 }
 
 function defineTele(gg,outa){

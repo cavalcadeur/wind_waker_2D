@@ -128,8 +128,8 @@ function action(t){
                         teleport = [h.y,h.x];
                         goToLevel(truc[1],truc[2],truc[3],truc[4],truc[5],truc[6]);
                     }
-                    else if (truc[0] == "boomerang" || truc[0] == "mastersword" || truc[0] == "pencil" || truc[0] == "boat" || truc[0] == "hookShot" || truc[0] == "parachale" || truc[0] == "baton" || truc[0] == "seeds" || truc[0] == "flowerRod" || truc[0] == "maskWind"){
-                        if (truc[0] == "boomerang") {addObj(truc[0],n);}
+                    else if (truc[0] == "boomerang" || truc[0] == "sword" || truc[0] == "pencil" || truc[0] == "boat" || truc[0] == "hookShot" || truc[0] == "parachale" || truc[0] == "baton" || truc[0] == "seeds" || truc[0] == "flowerRod" || truc[0] == "maskWind"){                        
+                        if (quests.armes[truc[0]] == 1) {addObj(truc[0],n);}
                         else donnerHeros(truc[0],n);
                         supress = 0;
                     }
@@ -228,9 +228,10 @@ function fall(h,n){
             addParticles("eclabousseB",h.x,h.y,-1,15,0,30,0);
             //particles.push({n:0,x:h.x,y:h.y,s:0,type:"eclabousseB",lim:30,alti:-1,g:15});
         }
-        if (niveau[respawnPoint[1]][respawnPoint[0]] < 0){
+        if (getAlti(respawnPoint[0],respawnPoint[1]) < 0){
+			//console.log("LOL PUTAIN");
             var xxx = 0;
-            while (niveau[respawnPoint[1]][respawnPoint[0]] < 0){
+            while (getAlti(respawnPoint[0],respawnPoint[1]) < 0){
                 xxx += 1;
                 respawnPoint[0] += 1;
                 if (respawnPoint[0] == niveau[0].length) {
@@ -242,6 +243,7 @@ function fall(h,n){
                 }
                 if (xxx == 500){
                     niveau[respawnPoint[1]][respawnPoint[0]] = 0;
+                    Painter.niveau();
                 }
             }
         }
@@ -254,6 +256,7 @@ function fall(h,n){
 
 function move(d,n,gg){
     if (heros[n].stun > 0) return;
+    chooseAnimObject(n);
     if (heros[n].sens != d){
         heros[n].sens = d;
         heros[n].delay = 4;
@@ -364,6 +367,7 @@ function move(d,n,gg){
 }
 
 function changeArme(n){
+    chooseAnimObject(n);
     if (heros[n].etat != 0){
         cinematicos = 4;
         heros[n].etat = 0;
@@ -380,7 +384,7 @@ function changeArme(n){
 
 function getFloor(x,y,z){
     workFloor = objNiveau[y][x][0];
-    if (workFloor == "pont"){
+    if (workFloor == "passerelle0" || workFloor == "passerelle1" || workFloor == "passerelle2"){
         if (z+0.3 >= niveau[y][x] + objNiveau[y][x][1]) return niveau[y][x] + objNiveau[y][x][1];
         else return niveau[y][x];
     }
@@ -395,7 +399,7 @@ function SuperGetFloor(x,y,z){
     y = Math.round(y);
     if (y >= niveau.length || y < 0 || x < 0 || x >= niveau[0].length) return z + 5000;
     workFloor = objNiveau[y][x][0];
-    if (workFloor == "pont"){
+    if (workFloor == "passerelle0" || workFloor == "passerelle1" || workFloor == "passerelle2"){
         if (z+0.3 >= niveau[y][x] + objNiveau[y][x][1]) return niveau[y][x] + objNiveau[y][x][1];
         else return niveau[y][x];
     }

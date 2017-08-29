@@ -314,19 +314,56 @@ function cIntro(){
         cIntroCinq();
     }
     else{
+        actx.src = "musiques/ancientHero.mp3";
+        actx.play();
         imgCinema[0] = new Image();
         imgCinema[1] = new Image();
-        imgCinema[0].src = "images/cinematiques/intro0.png";
-        imgCinema[1].src = "images/cinematiques/tache.png";
+        imgCinema[2] = 50;
+        imgCinema[3] = -1;
+        imgCinema[4] = new Image();
+        //imgCinema[5] = new Image();
+        imgCinema[0].src = "images/cinematiques/prologue0.png";
+        imgCinema[1].src = "images/cinematiques/nuage.png";
+        imgCinema[4].src = "images/cinematiques/nuage1.png";
+        //imgCinema[1].src = "images/cinematiques/nuage.png";
         ctx.fillStyle = "rgb(0,0,0)";
-        ctx.fillRect(0,0,W,H);
+        ctx.strokeStyle = "rgb(255,255,255)";
+        var ff = function(t) {
+            if (imgCinema[3] == -1) imgCinema[3] = t;
+            ctx.fillRect(0,0,W,H);
+
+            ctx.drawImage(imgCinema[0],(W)/2 - 450,Math.min(imgCinema[2],0));
+            ctx.drawImage(imgCinema[1],(W)/2 -450 - (imgCinema[2] - 50)*5,Math.min(imgCinema[2],0));
+            ctx.drawImage(imgCinema[4],(W)/2 - 450 + (imgCinema[2] - 50)*5,Math.min(imgCinema[2],0));
+
+            ctx.fillRect(0,H * 70 / 100,W,H);
+            ctx.fillRect(0,0,W/2 - 450,H);
+            ctx.fillRect(W/2 + 450,0,W/2 - 450,H);
+            ctx.strokeRect(W/2 - 450,0,900,H * 70 / 100);
+            if ( 900 + imgCinema[2] > H*70 / 100)imgCinema[2] -= 0.4;
+            imgCinema[3] += 1;
+            if (t - imgCinema[3] >= 9000) {
+                disAlertBlackVersion();
+            }
+            if (t - imgCinema[3] >= 10000){
+                alertBlackVersion("C'était une province splendide, verdoyante et fertile.");
+            }
+            if (t - imgCinema[3] >= 17000 && 900 + imgCinema[2] <= H*70 / 100) {
+                disAlertBlackVersion();
+                //imgCinema[1].src = "images/cinematiques/nuage.png";
+                //imgCinema[4].src = "images/cinematiques/nuage1.png";
+                cIntroDeux();
+            }
+            else window.requestAnimationFrame(ff);
+        };
         imgCinema[0].onload = function(){
-            ctx.drawImage(imgCinema[0],(W-500)/2,(H-319)/2);
-            imgCinema[0].src = "images/cinematiques/intro1.png";
-            imgCinema[0].onload = function(){};
-            alert("Il n'y a pas si longtemps, le seigneur du mal fut vaincu par le heros du vent.");
-            var timeoutID = window.setTimeout(transition, 9000);
-            var timeoutA = window.setTimeout(cIntroDeux, 9600);
+            window.requestAnimationFrame(ff);
+            //ctx.drawImage(imgCinema[0],(W-500)/2,(H-319)/2);
+            //imgCinema[0].src = "images/cinematiques/intro1.png";
+            //imgCinema[0].onload = function(){};
+            alertBlackVersion("Il y a bien longtemps, existait un royaume où l'on disait cachés les pouvoirs des dieux.");
+            //var timeoutID = window.setTimeout(transition, 9000);
+            //var timeoutA = window.setTimeout(cIntroDeux, 9600);
         };
     }
 
@@ -354,17 +391,53 @@ function drawfafa(){
 }
 
 function cIntroDeux(){
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = "rgb(0,0,0)";
-    ctx.fillRect(0,0,W,H);
-    ctx.drawImage(imgCinema[0],(W-600)/2,H-600);
-    imgCinema[0].src = "images/cinematiques/intro2.png";
-    alert("Sa légende fit le tour de l'océan. Et nombreux furent ceux qui voulurent marcher sur ses pas. Ce fut le cas de nos deux jeunes héros.");
-    var timeoutID = window.setTimeout(transition, 9000);
-    var timeoutA = window.setTimeout(cIntroTrois, 9600);
+    var ff = function(t) {
+        if (imgCinema[3] == -1) imgCinema[3] = t;
+        ctx.fillRect(0,0,W,H);
+
+        ctx.drawImage(imgCinema[0],(W)/2 - 450,H*70/100 - 525);
+        //ctx.drawImage(imgCinema[1],(W)/2 -450 - (imgCinema[2] - 50)*5,Math.min(imgCinema[2],0));
+        //ctx.drawImage(imgCinema[4],(W)/2 - 450 + (imgCinema[2] - 50)*5,Math.min(imgCinema[2],0));
+
+        ctx.fillRect(0,H * 70 / 100,W,H);
+        ctx.fillRect(0,0,W/2 - 450,H);
+        ctx.fillRect(W/2 + 450,0,W/2 - 450,H);
+        ctx.strokeRect(W/2 - 450,0,900,H * 70 / 100);
+        if ( 900 + imgCinema[2] > H*70 / 100)imgCinema[2] -= 0.4;
+        imgCinema[3] += 1;
+        if (t - imgCinema[3] >= 1000) alertBlackVersion("Mais un beau jour, l'attention d'un être maléfique se porta sur ce royaume. Et il déroba le pouvoir des dieux.");
+        if (t - imgCinema[3] >= 10000) {
+            disAlertBlackVersion();
+        }
+        if (t - imgCinema[3] >= 11000){
+            alertBlackVersion("Ses forces maléfiques plongèrent la province dans les ténêbres.");
+        }
+        if (t - imgCinema[3] >= 19000) {
+            disAlertBlackVersion();
+        }
+        if (t - imgCinema[3] >= 20000){
+            alertBlackVersion("Alors que le sort du royaume semblait scellé ...");
+        }
+        if (t - imgCinema[3] >= 28000) cIntroTrois();
+        else window.requestAnimationFrame(ff);
+    };
+    imgCinema[0].src = "images/cinematiques/prologue1.png";
+    imgCinema[0].onload = function(){
+        window.requestAnimationFrame(ff);
+        //ctx.drawImage(imgCinema[0],(W-500)/2,(H-319)/2);
+        //imgCinema[0].src = "images/cinematiques/intro1.png";
+        //imgCinema[0].onload = function(){};
+        imgCinema[2] = 50;
+        imgCinema[3] = -1;
+        disAlertBlackVersion();
+        
+        //var timeoutID = window.setTimeout(transition, 9000);
+        //var timeoutA = window.setTimeout(cIntroDeux, 9600);
+    };
 }
 
 function cIntroTrois(){
+    disAlertBlackVersion();
     ctx.globalAlpha = 1;
     ctx.fillStyle = "rgb(0,0,0)";
     ctx.fillRect(0,0,W,H);
@@ -875,7 +948,7 @@ function drawDuPauvre(hee){
     ctx.fillStyle = colors[0];
     ctx.fillRect(0,0,W,H);
     backDraw();
-	drawRoom(0,ctx,niveau,objNiveau);
+    drawRoom(0,ctx,niveau,objNiveau);
 
 }
 

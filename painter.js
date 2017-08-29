@@ -277,8 +277,9 @@ var Painter = function() {
             ctx.drawImage(img,-img.width/2,-img.height/2);
             ctx.restore();
         },
-        imgFullControl: function( ctx, x, y, z, s, r, img ) {
+        imgFullControl: function( ctx, x, y, z, s, r, img ,ss) {
             if( !img ) return;
+			//if (ss == undefined) ss = s;
 
             var X = toX( x, y, z ) + cellS / 2 + (cellX) / 2;
             var Y = toY( x, y, z ) - img.height/2 - cellY / 2;
