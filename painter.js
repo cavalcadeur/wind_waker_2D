@@ -1,3 +1,5 @@
+// La fonction essentielle qui permet tout l'affichage et les changements de base de coordonnées.
+
 var Painter = function() {
     var scrollX = 300;
     var scrollY = 190;
@@ -40,13 +42,15 @@ var Painter = function() {
             cellY = b;
             cellZ = c;
             cellS = d;
-			width = e;
+	    width = e;
         },
         realCoor: function(x,y,z){
             if (z == undefined) z = 1;
             return [toX(x,y,z),toY(x,y,z)];
         },
         niveau: function( level , texture) {
+            level.updateOutlines();
+            /*
             if (texture == undefined) texture = [];
 			editNumber = 1;
             var rows = level.length;
@@ -91,6 +95,9 @@ var Painter = function() {
                     if( x == 0 || level[y][x - 1] < z ) {
                         v += 8;
                     }
+
+                    //v = 0;
+                    
                     line.push( v );
 
                     if( z < 0 ) {
@@ -103,20 +110,10 @@ var Painter = function() {
                     var lineB = 0;
                     var lineC = 0;
 
-                    if( x == 0 ){
-                        if (level.length-1 == y) lineA = z + 1;
-                        else if (level[y+1][x] < z) lineA = Math.min(z - level[y+1][x],z + 1);
-                    }
-                    else if( level[y][x - 1] < z ) {
-                        if (level.length-1 == y){
-                            if (level[y][x-1] < -1) lineA = z + 1;
-                            else lineA = z - level[y][x - 1];
-                        }
-                        else{
-                            if (level[y][x-1] < -1) lineA = Math.min(z + 1,z - level[y+1][x]);
-                            else lineA = Math.min(z - level[y][x - 1],z - level[y+1][x]);
-                        }
-                    }
+             if( level[y][x - 1] < z ) {
+             if (level[y][x-1] < -1) lineA = Math.min(z + 1,z - level[y+1][x]);
+             else lineA = Math.min(z - level[y][x - 1],z - level[y+1][x]);
+             }
                     lineC = y == 0 ? z + 1 : 0;
                     if( y > 0 && level[y - 1][x] < z ) {
                         if (level[y-1][x] < -1) lineC = z + 1;
@@ -135,6 +132,10 @@ var Painter = function() {
                         lineB = Math.min( lineB, z - level[y + 1][x] );
                     }
 
+                    //lineA = 0;
+                    //lineB = 0;
+                    //lineC = 0;
+                    
                     lineVert.push( [lineA, lineB, lineC] );
                      
                 });
@@ -145,8 +146,17 @@ var Painter = function() {
                     colorsZ[e[0]][e[1]][0] = e[2];
                 }
             );
+             */
 
             //console.info("[painter] wallsVert=...", wallsVert);
+        },
+
+        getnCases: function( W, H){
+            var y = Math.ceil(H / cellY) + 2;
+            var n = Math.ceil((W + y*cellS) / (cellX));
+            var x = n + 1;
+            console.log([n,x,y]);
+            return [x,y];
         },
 
         scroll: function( x, y ) {
@@ -165,24 +175,33 @@ var Painter = function() {
         },
 
         scrollCenter: function ( x, y , z , W, H) {
-            x = x/2 + niveau[0].length/4;
-            y = y/2 + niveau.length/4;
             var goalX = Math.floor(W/2 - x*cellX + y*cellS);
             var goalY =  Math.floor(H/2 - y*cellY + z*cellZ);
             var dist = Math.hypot(goalX - scrollX,goalY - scrollY);
-            lscr = dist/100;
+            lscr = dist/70;
             if (dist <= 11) {vscr = 0; return;}
-            if (vscr < lscr) vscr += 0.05;
-            else if (vscr > lscr + 0.05) vscr -= 0.05;
+            if (vscr < lscr) vscr += 0.5;
+            else if (vscr > lscr + 0.5) vscr -= 0.5;
             dscrX = (goalX - scrollX)/dist;
             dscrY = (goalY - scrollY)/dist;
             scrollX += vscr * dscrX;
             scrollY += vscr * dscrY;
+            scrollCaseY = Math.floor((-1*scrollY)/cellY);
+            scrollCaseX = Math.floor((-1*scrollX + scrollCaseY*cellS)/cellX);
+            
             backg.pushWave(vscr * dscrY,vscr * dscrX,W,H);
          },
         
         scrollYPlus: function(a) {
             scrollY += a;
+        },
+
+        scrollPlus: function(x,y,W,H){
+            scrollX += x;
+            scrollY += y;
+            scrollCaseY = Math.floor((-1*scrollY)/cellY);
+            scrollCaseX = Math.floor((-1*scrollX + scrollCaseY*cellS)/cellX);
+            backg.pushWave(y,x,W,H);
         },
 
         scrollStore: function(x,y,z){
@@ -195,7 +214,7 @@ var Painter = function() {
         },
 
         drawQuake: function( n ) {
-			scrollX += Math.sin(n)*20;
+	    scrollX += Math.sin(n)*20;
         },
 
         drawChain: function(ctx,x,y,x2,y2,z) {
@@ -306,41 +325,35 @@ var Painter = function() {
             ctx.restore();
         },
 
-        cell: function( ctx, x, y, z ,n , nivel) {
+        cell: function( ctx, x, y, z ,n , outline) {
      
             //-----------------------------------------------------------------
 
             //counter += 0.001;
             //LSD = Math.sin(counter/10)*5;
             
-			if( typeof nivel === 'undefined' ) nivel = niveau; 
             if( z > -1 ) {
                 var X = toX( x, y, z );
                 var Y = toY( x, y, z );
                 // Partie frontale (verticale)
-                	if  (y >= nivel.length - 1 || z > nivel[y+1][x]){
-                    	    //ctx.fillStyle = colors[1];
-                            ctx.fillStyle = colorsZ[y][x][1];
-                            //ctx.createPattern(imgPat,"repeat");
-                    	ctx.fillRect( X, Y, cellX, cellZ * (z + 1) );
-                	}
+                ctx.fillStyle = colors[1];
+                //ctx.createPattern(imgPat,"repeat");
+                ctx.fillRect( X, Y, cellX, cellZ * (z + 1) );
+                
                 // Partie latérale (verticale)
-                	if  (x == nivel[y].length - 1 || z > nivel[y][x+1]){
-                    	    //ctx.fillStyle = colors[2];
-                            ctx.fillStyle = colorsZ[y][x][2];
-                    	ctx.beginPath();
-                    	ctx.moveTo( X + cellX, Y );
-                    	ctx.lineTo( X + cellX + cellS, Y - cellY );
-                    	ctx.lineTo( X + cellX + cellS, Y - cellY + (z + 1) * cellZ);
-                    	ctx.lineTo( X + cellX, Y + (z + 1) * cellZ );
-                    	ctx.closePath();
-                    	ctx.fill();
-                	}			
+                ctx.fillStyle = colors[2];
+                ctx.beginPath();
+                ctx.moveTo( X + cellX, Y );
+                ctx.lineTo( X + cellX + cellS, Y - cellY );
+                ctx.lineTo( X + cellX + cellS, Y - cellY + (z + 1) * cellZ);
+                ctx.lineTo( X + cellX, Y + (z + 1) * cellZ );
+                ctx.closePath();
+                ctx.fill();			
 
                 // Partie horizontale.
                 //ctx.fillStyle = "rgb("+Math.round(colors[3][0]+z*colors[3][3])+","+Math.round(colors[3][1]+z*colors[3][4])+","+Math.round(colors[3][2]+z*colors[3][5])+")";
-                ctx.fillStyle = colorsZ[y][x][0];
-				if (n == 1) ctx.fillStyle = "rgb(255,255,255)";
+                ctx.fillStyle = "rgb("+Math.round(colors[3][0]+z*colors[3][3])+","+Math.round(colors[3][1]+z*colors[3][4])+","+Math.round(colors[3][2]+z*colors[3][5])+")";
+		if (n == 1) ctx.fillStyle = "rgb(255,255,255)";
                 ctx.beginPath();
                 ctx.moveTo( X, Y );
                 ctx.lineTo( X + cellX + 1, Y );
@@ -349,12 +362,15 @@ var Painter = function() {
                 ctx.closePath();
                 ctx.fill();
 				
-				if (n == 1) return;
+		if (n == 1) {
+                    return;
+                }
 
                 ctx.strokeStyle = "#000";
                 ctx.lineWidth = width;
+                
                 // Tracer les lignes des plateaux.
-                var wall = walls[y][x];
+                var wall = outline[0];
                 if( wall & 1 ) {
                     ctx.beginPath();
                     ctx.moveTo( X + cellS, Y - cellY );
@@ -381,7 +397,7 @@ var Painter = function() {
                 }
                 // Tracer les lignes verticales.
                 
-                wall = wallsVert[y][x];
+                wall = outline[1];
                 if( wall[0] > 0 ) {
                     ctx.beginPath();
                     ctx.moveTo( X, Y );
@@ -400,6 +416,7 @@ var Painter = function() {
                     ctx.lineTo( X + cellX + cellS, Y + cellZ * wall[2] - cellY);
                     ctx.stroke();
                 }
+                 
             }
         },
 
@@ -412,27 +429,33 @@ var Painter = function() {
         },
         
         case: function(level,x,y){
+            // Cette fonction est à revoir elle ne peut pas fonctionner de cette façon il va falloir trouver une astuce ma foi fort sympathique
+            // Voici l'astuce. On ne peut pas parcourir toutes les cases mais on va parcourir uniquement celle qui sont visibles grâce à ce formidable scrollCaseX et scrollCaseY
+            
             var result = ["ah","ah"];
-            level.forEach(
-                function(e,Y){
-                    e.forEach(
-                        function(f,X){
-                            if (toY(X,Y,f) > y && toY(X,Y,f) - cellY < y){
-                                if (toX(X,Y,f) < x && toX(X,Y,f) + cellX + cellS > x) result = [Y,X];
-                            }
-                        }
-                    );
+            for (var Y = scrollCaseY + nCasesY - 1;Y >= scrollCaseY;Y -= 1){
+                for (var X = scrollCaseX;X < scrollCaseX + nCasesX;X++){
+                    var f = level.getAlti(X,Y);
+                    if (toY(X,Y,f) > y && toY(X,Y,f) - cellY < y){
+                        var percent = (y - toY(X,Y,f) + cellY)/cellY;
+                        if (toX(X,Y + percent,f) < x && toX(X,Y + percent,f) + cellX + cellS > x) return [Y,X];
+                    }
                 }
-            );
-            return result;
+            }
+            
+            return ["ah","ah"];
         },
+        
+        // Pas sûr de l'utilité de ces deux fonctions mais elles ne peuvent pas fonctionner avec le système d'arbre
         getRealWidth(niv){
             return (niv[0].length * cellX + niv.length * cellS);
         },
         getRealHeight(niv){
             return (niv.length * cellY);
         },
+
         caseGround: function(level,x,y){
+            // C'est la même que this.case enfin pas tout à fait
             var result = ["ah","ah"];
             level.forEach(
                 function(e,Y){
@@ -447,6 +470,7 @@ var Painter = function() {
             );
             return result;
         },
+        
         scrolling: function(){
             //vscr = 0;
             var x = toX(heros[0].x+heros[0].vx/50,heros[0].y+heros[0].vy/50,heros[0].z);

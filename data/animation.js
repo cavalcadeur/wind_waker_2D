@@ -23,6 +23,8 @@ function walkAnim(i){
             heros[i].anim = nonifiant;
             heros[i].nAnim = -1;
             heros[i].img = 0;
+            // L'animation de déplacement est terminée. On effectue alors les mouvements scriptés grâce à followPath()
+            followPath(i);
             if (heros[i].carry[0] == 1) heros[i].img = 12;
         }
     }
@@ -49,24 +51,25 @@ function flyAnim(i){
     else if (heros[i].vx < 0) {heros[i].vx += 4; }
     else if (heros[i].vy < 0) {heros[i].vy += 4; }
     if (Math.abs(heros[i].vx) < 8 && heros[i].vx != 0) {
-        if (heros[i].z == getFloor(heros[i].x,heros[i].y,heros[i].z) || heros[i].datAnim == -1){
+        if (heros[i].z == Map.getFloor(heros[i].x,heros[i].y,heros[i].z) || heros[i].datAnim == -1){
             heros[i].anim = nonifiant;
             heros[i].vx = 0;
             heros[i].vy = 0;
             heros[i].nAnim = 0;
             heros[i].img = 0;
+            followPath(i);
             if (heros[i].carry[0] == 1) heros[i].img = 12;
         }
         else {
             heros[i].datAnim = -1;
             if (heros[i].vx > 0){
-                if (SuperGetFloor(heros[i].x - 1 , heros[i].y , heros[i].z) <= heros[i].z){
+                if (Map.superGetFloor(heros[i].x - 1 , heros[i].y , heros[i].z) <= heros[i].z){
                     heros[i].x -= 1;
                     heros[i].vx = 50;
                 }
             }
             else {
-                if (SuperGetFloor(heros[i].x + 1 , heros[i].y , heros[i].z) <= heros[i].z){
+                if (Map.superGetFloor(heros[i].x + 1 , heros[i].y , heros[i].z) <= heros[i].z){
                     heros[i].x += 1;
                     heros[i].vx = -50;
                 }
@@ -74,28 +77,53 @@ function flyAnim(i){
         }
     }
     if (Math.abs(heros[i].vy) < 8 && heros[i].vy != 0){
-        if (heros[i].z == getFloor(heros[i].x,heros[i].y,heros[i].z) || heros[i].datAnim == -1){
+        if (heros[i].z == Map.getFloor(heros[i].x,heros[i].y,heros[i].z) || heros[i].datAnim == -1){
             heros[i].anim = nonifiant;
             heros[i].vx = 0;
             heros[i].vy = 0;
             heros[i].nAnim = 0;
             heros[i].img = 0;
+            followPath(i);
             if (heros[i].carry[0] == 1) heros[i].img = 12;
         }
         else {
             heros[i].datAnim = -1;
             if (heros[i].vy > 0){
-                if (SuperGetFloor(heros[i].x , heros[i].y - 1 , heros[i].z) <= heros[i].z){
+                if (Map.superGetFloor(heros[i].x , heros[i].y - 1 , heros[i].z) <= heros[i].z){
                     heros[i].y -= 1;
                     heros[i].vy = 50;
                 }
             }
             else {
-                if (SuperGetFloor(heros[i].x , heros[i].y + 1 , heros[i].z) <= heros[i].z){
+                if (Map.superGetFloor(heros[i].x , heros[i].y + 1 , heros[i].z) <= heros[i].z){
                     heros[i].y += 1;
                     heros[i].vy = -50;
                 }
             }
         }
     }
+}
+
+function bubbleAnim(i){
+    if (heros[i].nAnim == -1){
+        heros[i].nAnim = [heros[i].vx,heros[i].vy,100];
+        heros[i].s = 0.6;
+    }
+    heros[i].vy = heros[i].nAnim[1] *  heros[i].nAnim[2] / 100;
+    heros[i].vx = heros[i].nAnim[0] *  heros[i].nAnim[2] / 100;
+    
+    heros[i].nAnim[2] -= 1;
+    heros[i].r += 0.2;
+
+    
+    if (heros[i].nAnim[2] <= 0){
+        heros[i].r = 0;
+        heros[i].anim = nonifiant;
+        heros[i].nAnim = -1;
+        heros[i].s = 1;
+        heros[i].img = 0;
+        heros[i].vx = 0;
+        heros[i].vy = 0;
+        if (heros[i].carry[0] == 1) heros[i].img = 12;
+    } 
 }

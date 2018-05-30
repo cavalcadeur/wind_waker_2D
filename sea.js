@@ -1,3 +1,6 @@
+// Fichier de gestion du déplacement entre les différents lieux.
+// Ce fichier contient drawSea() drawIsland() goToLevel() defineTele() chooseBack()
+
 function drawSea(){
     var seaScroll = [boatPosition[1]*3 - 10-W/2,boatPosition[0]*3-30-H/2];
     ctx.fillStyle = "rgb(72,98,178)";
@@ -18,6 +21,7 @@ function drawSea(){
 }
 
 function drawIsland(ile,Y,X){
+    // Cette fonction ne marche pas quoi qu'on en dise
     var truc = iles[ile].alti;
     truc.forEach(
         function(f,y){
@@ -74,6 +78,7 @@ function goToLevel(oo,go,x,y,x2,y2,scrollStore,d,n){
     heros[1].grap = 0;
     heros[1].grapD = -1;
     hookShots = [];
+    Map.goOut(oo);
     out = oo;
     chooseBack(oo);
     for(var i = 0;i<nSpeImg;i++){
@@ -84,70 +89,7 @@ function goToLevel(oo,go,x,y,x2,y2,scrollStore,d,n){
         imgMonstre[i].src = "images/ennemis/" + out + "/e" + i + ".png";
     }
     goto = go;
-    if (oo == 1){
-        if (iles[go].particles == undefined){
-            particles = [];
-        }
-        else {
-            particles = iles[go].particles;
-        }
-        niveau = iles[go].alti;
-        ennemis = iles[go].ennemis;
-        objNiveau = iles[go].obj;
-        textured = iles[go].textures;
-        
-        // attention, les voisins sont forcément exterieurs si la pièce est une île.
-        var voisins = iles[go].voisins;
-    }
-    else{
-        if (interieurs[go].particles == undefined){
-            particles = [];
-        }
-        else {
-            particles = interieurs[go].particles;
-        }
-        niveau = interieurs[go].alti;
-        ennemis = interieurs[go].ennemis;
-        objNiveau = interieurs[go].obj;
-        textured = interieurs[go].textures;
-
-        // attention, les voisins sont forcément interieurs si la pièce est interieure.
-        var voisins = interieurs[go].voisins;
-
-    }
-    canvImg = [0,0,0,0];
-    if (voisins != undefined){
-        voisins.forEach(
-            function (e,i){
-                if (oo == 1){
-                    var Vniveau = iles[e[0]].alti;
-                    var Vennemis = iles[e[0]].ennemis;
-                    var VobjNiveau = iles[e[0]].obj;
-                    var Vtextures = iles[e[0]].textures;
-                }
-                else {
-                    var Vniveau = interieurs[e[0]].alti;
-                    var Vennemis = interieurs[e[0]].ennemis;
-                    var VobjNiveau = interieurs[e[0]].obj;
-                    var Vtextures = interieurs[e[0]].textures;
-                }
-
-                canvImg[e[1]] = [document.createElement("canvas")];
-                canvImg[e[1]][1] = canvImg[e[1]][0].getContext("2d");
-
-                canvImg[e[1]][0].setAttribute("width",Painter.getRealWidth(Vniveau)+700);
-                canvImg[e[1]][0].setAttribute("height",Painter.getRealHeight(Vniveau)+700);
-                
-                Painter.niveau(Vniveau , Vtextures);
-                Painter.scrollVoisin(Vniveau);
-                drawRoom(0,canvImg[e[1]][1],Vniveau,VobjNiveau);
-            }
-        );
-    }
-    if (x == -1) heros[0].x = niveau[0].length - 1;
-    if (x2 == -1) heros[1].x = niveau[0].length - 1;
-    if (y == -1) heros[0].y = niveau.length - 1;
-    if (y2 == -1) heros[1].y = niveau.length - 1;
+    Map.goto(go);
     if (d != undefined){
         heros[n].anim = walkAnim;
             
@@ -157,8 +99,8 @@ function goToLevel(oo,go,x,y,x2,y2,scrollStore,d,n){
         heros[n].vy += -50 * vecteurs[d][0];
     }
     else {
-        heros[0].z = niveau[heros[0].y][heros[0].x];
-        heros[1].z = niveau[heros[1].y][heros[1].x];
+        heros[0].z = Map.getAlti(heros[0].x,heros[0].y);
+        heros[1].z = Map.getAlti(heros[1].x,heros[1].y);
     }
     ennemis.forEach(
         function (e,i){
@@ -175,7 +117,7 @@ function goToLevel(oo,go,x,y,x2,y2,scrollStore,d,n){
     respawnPoint = [heros[0].x,heros[0].y];
     //console.log(respawnPoint);
     
-    Painter.niveau(niveau , textured);
+    Painter.niveau(Map , textured);
     if (scrollStore == undefined){
         Painter.scroll(0,0);
         Painter.centerScroll(x,y,0,W,H);
@@ -183,32 +125,7 @@ function goToLevel(oo,go,x,y,x2,y2,scrollStore,d,n){
     else{
         Painter.adjustScroll(scrollStore,heros[0].x - vecteurs[d][1],heros[0].y - vecteurs[d][0],heros[0].z);
     }
-    if (out == 7){
-        objNiveau.forEach(
-            function (e,yz){
-                e.forEach(
-                    function (g,xz){
-                        if (g[0] == "spe1"){
-                            objNiveau[yz][xz][1] += nPas - objNiveau[yz][xz][2];
-                            objNiveau[yz][xz][2] = nPas;
-                            if (objNiveau[yz][xz][1] > 1000) objNiveau[yz][xz][0] = "spe2";
-                        }
-                        if (g[0] == "spe2"){
-                            objNiveau[yz][xz][1] += nPas - objNiveau[yz][xz][2];
-                            objNiveau[yz][xz][2] = nPas;
-                            var listo = ["rubisBleu","bourgeon","rubisRouge"];
-                            if (objNiveau[yz][xz][1] > 6000) objNiveau[yz][xz] = ["spe3",listo[rnd(listo.length)],"spe0"];
-                        }
-                    }
-                );
-            }
-        );
-    }
     setColors(out,5);
-    if (go == "sky4" && quests.sky == 0){
-        cinematicos = 5;
-        heros[0].x += 1;
-    }
     //console.log(respawnPoint);
 }
 

@@ -137,39 +137,11 @@ function clickEdit(x,y,b){
 function exportFileAsFuck(){
     var result = "";
    
-    result += "Niveau Maker's Pencil " + goto + " out="+out + " :\n \n";
-    
-    var nnn = niveau;
-    var ooo = objNiveau;
-    var eee = ennemis;
-    
-    var body = JSON.stringify(nnn);
-    result += body + "\n \n";
-    body = JSON.stringify(ooo);
-    result += body + "\n \n";
-    body = JSON.stringify(eee);
-    result += body + "\n \n";
+    result += Map.getString();
     
     markedLevels.forEach(
         function (ee){
-            if (ee[0] != goto){
-                if (ee[1] == 1){
-                    var llevel = iles[ee[0]];
-                }
-                else {
-                    var llevel = interieurs[ee[0]];
-                }
-                var nnn = llevel.alti;
-                var ooo = llevel.obj;
-                var eee = llevel.ennemis;
-                result += "Niveau Maker's Pencil " + ee[0] + " out=" + ee[1] + " : \n \n";
-                var body = JSON.stringify(nnn);
-                result += body + "\n \n";
-                body = JSON.stringify(ooo);
-                result += body + "\n \n";
-                body = JSON.stringify(eee);
-                result += body + "\n \n";
-            }
+            result += Map.getString(ee[0]);
         }
     );
 

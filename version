@@ -1,12 +1,10 @@
  --  0.0.1  --
 
-- separation en moteur/data (réussie ???)
+- separation en moteur/data (réussie ??? NON)
 - animation déplacement
-- animation saut
-- musique
-- système de voisin
-- plages
-- cases texturées
+- animation saut    
+- musique     N
+- Système de stockage sous forme d'arbre
 
   635 m^2
 
@@ -28,4 +26,5 @@ C : compatible avec le pinceau
 A : compatibilité améliorable
 N : non compatible et source de bugs
 H : caché dans le code / non visible lors d'une partie normale
+I : invalidé par une méthode plus efficace
 B : bugué as fuck

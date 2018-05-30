@@ -9,7 +9,7 @@ var background = function(ctx) {
     function bfa(){
         waves.forEach(
             function(e,n){
-                if (n < 7) waveNiveau(e);
+                waveNiveau(e);
             }
         );
     }

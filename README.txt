@@ -2,7 +2,7 @@
 
 *Version offline*
 
- Pour ceux qui possède les fichiers complets sur leur ordinateur, il suffit d'ouvrir le fichier index.html avec firefox ou chrome.
+ Pour ceux qui possèdent les fichiers complets sur leur ordinateur, il suffit d'ouvrir le fichier index.html avec firefox ou chrome.
 
 *version en ligne*
 

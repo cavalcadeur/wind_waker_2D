@@ -1,3 +1,5 @@
+// Ce fichier permet de déterminer les couleurs d'affichage en fonction de l'heure et de l'endroit.
+
 function setColors(oo,hour){
     colors[0] = "rgb(" + Math.round(colorSet[oo][3][0]) + "," + Math.round(colorSet[oo][3][1]) + "," + Math.round(colorSet[oo][3][2]) + ")";
     colors[1] = "rgb(" + Math.round(colorSet[oo][0][0]) + "," + Math.round(colorSet[oo][0][1]) + "," + Math.round(colorSet[oo][0][2]) + ")";

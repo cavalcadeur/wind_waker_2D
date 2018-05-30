@@ -1,30 +1,40 @@
 function drawInvent(){
-    ctx.drawImage(fondInvent,0,0,W,H);
+    ctx.fillStyle = colors[0];
+    ctx.fillRect(0,0,W,H);
+    backDraw();
+
+    ctx.fillStyle = "rgba(0,0,0,0.5)";
+    ctx.fillRect(0,0,W,H);
+    
+    var marginX = (W - 1300)/2;
+    var marginY = (H - 656)/2;
+    ctx.drawImage(fondInvent,marginX,marginY);
 
     // inventaire defilable
 
-    for (var i = 0; i < 5; i++){
-        if (i < heros[0].invent.length) ctx.drawImage(imgMenu[heros[0].invent[i]],i*(W/15),W/30,W/30,W/30);
-        else ctx.drawImage(imgMenu["blank"],i*(W/15),W/30,W/30,W/30);
+    for (var i = 2; i < 7; i++){
+        if (i < heros[0].invent.length) ctx.drawImage(imgMenu[heros[0].invent[i]],W/2 - i*100,marginY + 40);
+        else ctx.drawImage(imgMenu["blank"],W/2 - i*100,marginY + 40);
     }
-    for (var i = 0; i < 5; i++){
-        if (i < heros[1].invent.length) ctx.drawImage(imgMenu[heros[1].invent[i]],W - W/30 - i*(W/15),W/30,W/30,W/30);
-        else ctx.drawImage(imgMenu["blank"],W - W/30 - i*(W/15),W/30,W/30,W/30);
+    for (var i = 1; i < 6; i++){
+        if (i < heros[1].invent.length) ctx.drawImage(imgMenu[heros[1].invent[i]],W/2 + i*100 + 50,marginY + 40);
+        else ctx.drawImage(imgMenu["blank"],W/2 + i*100 + 50,marginY + 40);
     }
 
     // inventaire prioritaire
 
-    ctx.drawImage(imgMenu[heros[0].prim],W/2 - W/ 60,W/30,W/30,W/30);
+    ctx.drawImage(imgMenu[heros[0].prim],W/2 - 25,marginY + 40);
 
     // inventaire interne
 
-    for (var i = 0; i < 4; i++){
-        for (var j = 0; j < 8; j++){
-            if (i*8 + j < objInvent.length) ctx.drawImage(imgMenu[objInvent[j + 8*i]],W/4 + j*(W/15),H/2 + i*W/15,W/30,W/30);
-            else ctx.drawImage(imgMenu["blank"],W/4 + j*(W/15),H/2 + i*W/15,W/30,W/30);
+    for (var i = 0; i < 5; i++){
+        for (var j = 0; j < 9; j++){
+            if (i*8 + j < objInvent.length) ctx.drawImage(imgMenu[objInvent[j + 8*i]],W/2 + (j-4)*70 - 25,marginY + 240 + i*75);
+            else ctx.drawImage(imgMenu["blank"],W/2 + (j-4)*70 - 25,marginY + 240 + i*75);
         }
     }
 
+    /*
     //rubis du joueur 1
     
     ctx.fillStyle = "rgb(0,0,0)";
@@ -45,6 +55,7 @@ function drawInvent(){
     ctx.font = "30px purisa";
     ctx.textAlign = "right";
     ctx.fillText(heros[0].rubis + "",W-60,W/10 + 45);
+     */
 }
 
 function inventclick(x,y){

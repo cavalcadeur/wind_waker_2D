@@ -1,3 +1,6 @@
+// Ce fichier est obsolète en l'état.
+// Je ne le supprime pas car ses fonctions peuvent s'averer utiles un de ces jours lorsque le bateau sera mis en place même si ce sera d'une autre façon du coup.
+
 function sail(t){
     drawSail(t);
     var controlKeys = [[38,39,40,37],[101,99,98,97]];

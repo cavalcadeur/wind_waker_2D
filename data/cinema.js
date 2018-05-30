@@ -55,6 +55,7 @@ function cTitre(){
                         ctx.save();
                         ctx.translate(e[0],H-e[1]-i*15);
                         ctx.rotate(i/2+e[1]/30);
+						//console.log(e[4]);
                         ctx.drawImage(e[4],-35,-35);
                         ctx.restore();
                     }
@@ -83,26 +84,11 @@ function cTitre(){
             animation();
         }
         else if (imgCinema[1] == "bitch"){
-            goto = "tuto";
-            out = 4;
-            niveau = interieurs["tuto"].alti;
-            objNiveau = interieurs["tuto"].obj;
-            particles = interieurs["tuto"].particles;
-            Painter.niveau( niveau );
-            chooseBack(out);
-            for(var i = 0;i<nSpeImg;i++){
-                imgElement["spe"+i].src = "images/elements/spe/"+ out +"/spe" + i + ".png";
-            }
-            particles.forEach(
-                function(e,i){
-                    particles[i] = composeParticle(e);
-                }
-            );
             cinematicos = 1;
             animation();
         }
         else if (imgCinema[1] == "salsonForever"){
-            goToLevel(1,"depart",4,10,3,10);
+            goToLevel(1,"ocean",4,10,3,10);
             /*
              goto = "depart";
              out = 1;
@@ -948,7 +934,7 @@ function drawDuPauvre(hee){
     ctx.fillStyle = colors[0];
     ctx.fillRect(0,0,W,H);
     backDraw();
-    drawRoom(0,ctx,niveau,objNiveau);
+    drawRoom(0,ctx,Map);
 
 }
 

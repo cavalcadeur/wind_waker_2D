@@ -1,19 +1,21 @@
+// Fichier qui initialise les variables. Il contient la fonction init(), drawObject() et la fonction taille().
+
 function init(){
     Painter.init(70,55,30,10,3);
     
-    colorSet = [[[97,97,97],"rgb(65,65,65)",[140,140,140,-30,-30,-30],[0,0,0]],[[42,65,101],"rgb(34,53,82)",[20,70,10,2,5,1],[72,98,178]],[[137,97,97],"rgb(115,65,65)",[200,140,140,-20,-30,-30],[209,82,28]],[[80,80,130],"rgb(40,40,85)",[140,140,200,-30,-30,-20],[0,0,50]],[[170,170,170],"rgb(150,150,150)",[210,210,210,-20,-20,-20],[0,0,15]],[[97,97,97],"rgb(65,65,65)",[140,140,140,-30,-30,-30],[28,134,182]],[[34,70,2],"rgb(19,55,0)",[30,120,20,-5,-20,-2],[20,40,0]],[[0,70,2],"rgb(19,55,0)",[30,120,20,-5,-20,-2],[0,30,30]],[[0,25,30],"rgb(0,20,25)",[4,35,45,0,7,7],[0,5,10]]];
+    colorSet = [[[97,97,97],"rgb(65,65,65)",[140,140,140,-30,-30,-30],[0,0,0]],[[90,70,50],"rgb(80,64,46)",[20,70,10,2,5,1],[72,98,178]],[[137,97,97],"rgb(115,65,65)",[200,140,140,-20,-30,-30],[209,82,28]],[[80,80,130],"rgb(40,40,85)",[140,140,200,-30,-30,-20],[0,0,50]],[[170,170,170],"rgb(150,150,150)",[210,210,210,-20,-20,-20],[0,0,15]],[[97,97,97],"rgb(65,65,65)",[140,140,140,-30,-30,-30],[28,134,182]],[[34,70,2],"rgb(19,55,0)",[30,120,20,-5,-20,-2],[20,40,0]],[[0,70,2],"rgb(19,55,0)",[30,120,20,-5,-20,-2],[0,30,30]],[[0,25,30],"rgb(0,20,25)",[4,35,45,0,7,7],[0,5,10]]];
     
     quests = {"chef":0,"jehan":0,"garcon":0,"boussole":0,"boussoleF":0,"dev":0,"sky":0,"pencil":0,armes:{"pencil":1}};
     
     imgHeros = [new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image()];
     
-    imgArbre = ["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","passerelle3","barriere0","barriere1","barriere2","palmiton","herbe0","herbe1","bush0","house0","house1","house2","palmier","sword1","gear","special","lambda0","fastTravel","loot","outDoor","inDoor","monsters","fireTemple","sky","sky1","sky2","sky3","rocher","shell","spe","save","delete"];
+    imgArbre = ["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","passerelle3","barriere0","barriere1","barriere2","palmiton","herbe0","herbe1","bush0","house0","house1","house2","palmier","sword1","sword2","sword3","gear","special","lambda0","fastTravel","loot","outDoor","inDoor","monsters","fireTemple","sky","sky1","sky2","sky3","expand","rocher","shell","spe","save","delete"];
     
     nSpeImg = 10;
     
     editObject = [[["bokoblin",2],["chuchu",17]], [["cochon",0],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]]];
     
-    editArray = {"gear":[],"loot":["rubisVert","rubisBleu","rubisRouge","sword"],"herbe0":["herbe0","herbe1","palmier","palmiton","bush0","rocher","shell"],"outDoor":["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","barriere0","barriere1","barriere2","house0","house1","house2","lambda0"],"inDoor":[],"monsters":["bokoblin","chuchu","moblin","feu","scie","ballon"],"fireTemple":[],"sky":["sky","sky1","sky2","sky3","delete"],"special":["tele","mark","coffre2","fastTravel"],"spe":["spe0","spe1","spe2","spe3","spe4","spe5","spe6","spe7","spe8","spe9"]};
+    editArray = {"gear":[],"loot":["rubisVert","rubisBleu","rubisRouge","sword"],"herbe0":["herbe0","herbe1","palmier","palmiton","bush0","rocher","shell"],"outDoor":["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","barriere0","barriere1","barriere2","house0","house1","house2","lambda0"],"inDoor":[],"monsters":["bokoblin","chuchu","moblin","feu","scie","ballon"],"fireTemple":[],"sky":["sky","sky1","sky2","sky3","delete","expand"],"special":["tele","mark","coffre2","fastTravel"],"spe":["spe0","spe1","spe2","spe3","spe4","spe5","spe6","spe7","spe8","spe9"]};
     
     boatPosition = [200,100];
 
@@ -23,24 +25,17 @@ function init(){
     chargImage.rubis = ["rubisVert","rubisBleu","rubisRouge","rubisBlanc","fragment","coeur","bourgeon"];
     chargImage.PNJ = ["petitFan","pancarte"];
     chargImage.truc = ["mastersword0","mastersword1","mastersword2","mastersword3","boomerang0","boomerang1","boomerang2","boomerang3","pencil0","pencil1","pencil2","pencil3","pot0","pot1","pot2","pot3","baton0","baton1","baton2","baton3","batonF0","batonF1","batonF2","batonF3"];
+
+    Map.taille = taille;
 }
 
-function drawObj(x,y,f,e,ctxa,objNivniv){
-    if (objNivniv[y][x][0] == "coffre3") objetMort = 1;
-    else if (objNivniv[y][x][0] == "main0"){
-        if (edition == 0 && figer == 0){
-            objNivniv[y][x][1] -=1;
-            if (objNivniv[y][x][1] == 0){
-                objNivniv[y][x][0] = "main1";
-                boomerang.push({"x":x,"y":y,"vx":0,"vy":0,"sx":x,"sy":x,"r":0,"alti":niveau[y][x],"sens":objNivniv[y][x][2],"endu":10,"content":[]});
-            }
-        }
-    }
-    if (objNivniv[y][x][0] == "pont0" || objNivniv[y][x][0] == "pont1" || objNivniv[y][x][0] == "pont2" || objNivniv[y][x][0] == "pont3" || objNivniv[y][x][0] == "pont4" || objNivniv[y][x][0] == "pont5" || objNivniv[y][x][0] == "herbe1" || objNivniv[y][x][0] == "herbe0" || objNivniv[y][x][0] == "rocher" || objNivniv[y][x][0] == "shell") Painter.img( ctxa, x+0.1, y + 0.5, f, imgElement[objNivniv[y][x][0]] );
+function drawObj(x,y,z,obj,ctxa){
+    if (obj[0] == "coffre3") objetMort = 1;
+    if (obj[0] == "pont0" || obj[0] == "pont1" || obj[0] == "pont2" || obj[0] == "pont3" || obj[0] == "pont4" || obj[0] == "pont5" || obj[0] == "herbe1" || obj[0] == "herbe0" || obj[0] == "rocher" || obj[0] == "shell") Painter.img( ctxa, x+0.1, y + 0.5, z, imgElement[obj[0]] );
     //else if (objNiveau[y][x][0] == "house0") Painter.img( ctx, x - 0.07, y + 0.35, f, imgElement[objNiveau[y][x][0]] );
-    else if (objNivniv[y][x][0] == "PNJ") Painter.img( ctxa, x,y,f,imgPersoN[objNivniv[y][x][1]]);
-    else if (objNivniv[y][x][0] == "passerelle0" || objNivniv[y][x][0] == "passerelle1" || objNivniv[y][x][0] == "passerelle2" || objNivniv[y][x][0] == "passerelle3") Painter.img( ctxa, x,y + 0.5,f + objNivniv[y][x][1],imgElement[objNivniv[y][x][0]]);
-    else Painter.img( ctxa, x, y, f, imgElement[objNivniv[y][x][0]] );
+    else if (obj[0] == "PNJ") Painter.img( ctxa, x,y,z,imgPersoN[obj[1]]);
+    else if (obj[0] == "passerelle0" || obj[0] == "passerelle1" || obj[0] == "passerelle2" || obj[0] == "passerelle3") Painter.img( ctxa, x,y + 0.5,z + obj[1],imgElement[obj[0]]);
+    else Painter.img( ctxa, x, y, z, imgElement[obj[0]] );
 }
 
 function taille(caseT){
@@ -48,3 +43,4 @@ function taille(caseT){
     if (tailles[caseT] == undefined) return 0;
     else return tailles[caseT];
 }
+

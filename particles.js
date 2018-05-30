@@ -100,12 +100,11 @@ function suppParticles(n){
 }
 
 function actPhysic(e,i){
-    e.ground = getFloor(Math.floor(e.x),Math.floor(e.y),e.alti);
+    e.ground = Map.getFloor(Math.floor(e.x),Math.floor(e.y),e.alti);
     if (e.alti > e.ground) {e.onGround = 0; e.g -= 1; e.alti += e.g/50;}
     else {e.onGround = 1; e.g = 0; e.alti = e.ground;}
     var frottement = e.onGround/50;
-    if (e.x + e.vx < 0 || e.y + e.vy < 0 || e.x + e.vx >= niveau[0].length || e.y + e.vy >= niveau.length) var altim = 66666;
-    else var altim = getFloor(Math.floor(e.x + e.vx),Math.floor(e.y + e.vy),e.alti);
+    var altim = Map.getFloor(Math.floor(e.x + e.vx),Math.floor(e.y + e.vy),e.alti);
     if (altim > e.alti){
         e.vx = 0;
         e.vy = 0;
@@ -122,21 +121,21 @@ function actPhysic(e,i){
     }
     if (e.vx == 0 && e.vy == 0 && e.onGround == 1){
         if (e.spe == "normal"){
-            objNiveau[Math.floor(e.y)][Math.floor(e.x)].splice(0,0,e.name);
+            Map.setObject(Math.floor(e.x),Math.floor(e.y),e.name,0);
             suppParticles(i);
         }
         else if (e.spe == "deliver"){
             addParticles("fumeeP",e.x-0.5,e.y-0.5,e.alti,0,0,40);
             e.carry.forEach(
                 function (a,j){
-                    objNiveau[Math.floor(e.y)][Math.floor(e.x)].splice(j,0,a);
+                    Map.setObject(Math.floor(e.x),Math.floor(e.y),a,j);
                 }
             );
             suppParticles(i);
         }
         else if (e.spe == "break"){
             if (e.name == "pot") addParticles("debris",e.x-0.5,e.y-0.5,e.alti,5,0,10,e.name);            
-            objNiveau[Math.floor(e.y)][Math.floor(e.x)].splice(0,0,"rubisVert");
+            Map.setObject(Math.floor(e.x),Math.floor(e.y),"rubisVert",0);
             suppParticles(i);
         }
     }
