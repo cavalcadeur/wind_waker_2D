@@ -289,7 +289,6 @@ var mapNode = function(){
             else if (id == 0){ // Il y a déjà un élément ici ! Aïe il va falloir faire de la place pour le nouvel élément
                 var formerElem = clone(children[branche]);
                 children[branche] = new mapNode();
-                console.log(formerElem);
                 var newPivot = posElem;
                 var formerPivot = formerElem.position();
                 newPivot = [(newPivot[0] + formerPivot[0])/2,(newPivot[1] + formerPivot[1])/2];
@@ -396,21 +395,40 @@ var mapNode = function(){
             var droite = taitaille[1] + taitaille[3];
             var gauche = taitaille[0] + taitaille[2];
             if (Math.abs(gauche - droite) >= 2){
-                if (gauche > droite) {
-                    var extremes = this.getExtreme(-1,0,true);
-                    // On a l'extreme centre on va maintenant vérifier qu'on peut bien s'en servir
-                    if (extremes[2] == 1){
-                        // Ok on a un élément on va devoir l'utiliser pour trouver un nouveau pivot puis déplacer l'élément.
-                        //Nouveau pivot
-                        var newX = extremes[0] - 0.5;
-                        var newY = pivot[1];
-                        pivot = [newX,newY]; // On a définit notre pivot
-                        var elem = this.pop(extremes[0],extremes[1]);
-                        this.add(elem);
-                    }
-                }
+                if (gauche > droite) { var mod = -1;}
+                else var mod = 1;
 
+                var extremes = this.getExtreme(mod,0,true);
+                // On a l'extreme centre on va maintenant vérifier qu'on peut bien s'en servir
+                if (extremes[2] == 1){
+                    // Ok on a un élément on va devoir l'utiliser pour trouver un nouveau pivot puis déplacer l'élément.
+                    //Nouveau pivot
+                    var newX = extremes[0] + 0.5*mod;
+                    var newY = pivot[1];
+                    pivot = [newX,newY]; // On a définit notre pivot
+                    var elem = this.pop(extremes[0],extremes[1]);
+                    if (elem.getType() != -1) this.addElem(elem);
+                }
             }
+            var bas = taitaille[1] + taitaille[0];
+            var haut = taitaille[3] + taitaille[2];
+            if (Math.abs(haut - bas) >= 2){
+                if (haut > bas) { var mod = -1;}
+                else var mod = 1;
+
+                var extremes = this.getExtreme(0,mod,true);
+                // On a l'extreme centre on va maintenant vérifier qu'on peut bien s'en servir
+                if (extremes[2] == 1){
+                    // Ok on a un élément on va devoir l'utiliser pour trouver un nouveau pivot puis déplacer l'élément.
+                    //Nouveau pivot
+                    var newY = extremes[1] + 0.5*mod;
+                    var newX = pivot[0];
+                    pivot = [newX,newY]; // On a définit notre pivot
+                    var elem = this.pop(extremes[0],extremes[1]);
+                    if (elem.getType() != -1) this.addElem(elem);
+                }
+            }
+
         },
 
         pop: function(x,y){
@@ -432,7 +450,7 @@ var mapNode = function(){
                     return result;
                 }
             }
-            return [-1];
+            return new mapVide();
         },
 
         getExtreme: function(x,y,reverse){
@@ -458,13 +476,17 @@ var mapNode = function(){
             var n = 0;
             for (var i = 0;i < extremes.length;i++){
                 if (extremes[i][2] == 0){
-                    // On a affaire à un élément vide donc on s'en bat la race.
+                    // On a affaire à un élément vide donc on s'en bat la race. Sauf s'il s'agit du max par défaut, là on a un problème
+                    if (max == i) {
+                        max += 1; // On prend l'élément suivant mais des fois ça peut dépasser ...
+                        if (max == extremes.length) return [0,0,0];
+                    }
                 }
                 else {
-                    if (extremes[i][0] == extremes[max][0] && extremes[i][1] == extremes[max][1]) {
+                    if (extremes[i][0]*x == extremes[max][0]*x && extremes[i][1]*y == extremes[max][1]*y) {
                         n += extremes[i][2];
                     }
-                    if (extremes[i][0]*x > extremes[max][0]*x && extremes[i][1]*y > extremes[max][1]*y) {
+                    else if (extremes[i][0]*x >= extremes[max][0]*x && extremes[i][1]*y >= extremes[max][1]*y) {
                         n = extremes[i][2];
                         max = i;
                     }
@@ -599,7 +621,7 @@ var mapVide = function(){
 
         setOutlines: function(){},
 
-        getExtremes: function(x,y){
+        getExtreme: function(x,y){
             return [x*-50000,y*-50000,0];
         }
 

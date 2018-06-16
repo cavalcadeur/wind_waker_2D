@@ -143,6 +143,18 @@ var Map = function(){
 
         taille: function(){},
 
+        purifie: function(){
+            // Fonction qui regarde en détail l'arbre actuel et le purifie pour en faciliter l'usage et le stockage à l'avenir. C'est une opération coûteuse mais fort utile. C'est le fameux dilemne du temps de précalcul.
+            // On commence tout simplement par enlever toutes les cases vides et tous les noeuds inutiles.
+            var type = arbre.getType();
+            if (type == 1){
+                // Si l'arbre contient plusieurs éléments, on peut l'épurer
+                var newOne = arbre.epure();
+                arbre = newOne;
+            }
+            // Bon on a réussi à se débarasser de tous les noeuds et éléments inutiles. Réduisant ainsi l'arbre et donc facilitant le stockage et augmentant la vitesse générale de calcul.
+        },
+
         isSolid: function(){},
 
         getFloor: function(x,y,z){
@@ -280,7 +292,7 @@ var mapNode = function(){
             var posElem = elem.position();
             if (posElem[0] > pivot[0]) branche += 1;  // Ici on évalue la branche du nouvel élément par rapport au noeud.
             if (posElem[1] > pivot[1]) branche += 2;
-
+           
             // On va ensuite interroger ce qu'il y a déjà dans cette branche
             var id = children[branche].getType();
             if (id == 1){  // La branche donne sur un autre noeud à qui on va pouvoir refiler le bébé sans se poser de question.
@@ -373,6 +385,44 @@ var mapNode = function(){
             );
         },
 
+        epure: function(){
+            // fonction qui épure le noeud et tous ceux en dessous de lui.
+            var nVide = 0;
+            for (var i = 0;i < 4; i++){
+                var type = children[i].getType();
+                if (type == 1){
+                    var newOne = children[i].epure();
+                    children[i] = newOne;
+                }
+                
+                type = children[i].getType();
+                if (type == 0){
+                    var value = children[i].getAll();
+                    if (value[1] <= -1 && value[0].length == 1 && value[0][0] == ""){
+                        // Le noeud est un noeud vide on va donc s'en débarasser.
+                        children[i] = new mapVide();
+                    }
+                }
+                
+                type = children[i].getType();
+                if (type == -1){
+                    nVide += 1;
+                }
+            }
+            // On connaît maintenant le nombre de branches significatives sous ce noeud.
+            if (nVide == 4){ // Il n'y a aucunes branches valables sous ce noeud
+                return new mapVide();
+            }
+            else if (nVide == 3){ // Une seule branche est non vide, rien ne sert d'un noeud pour les départager.
+                for (var i = 0;i < 4; i++){
+                    if (children[i].getType() != -1) {
+                        return clone(children[i]);
+                    }
+                }
+            }
+            return this;
+        },
+
         getTaille: function(){
             // Fonction qui renvoie le nombre d'élément sous la juridiction de ce noeud ma foi fort sympathique.
             var result = 0;
@@ -383,7 +433,7 @@ var mapNode = function(){
         },
 
         equilibre: function(){
-            // Fonction qui rééquilibre le noeud mais elle est vide pour l'instant.
+            // Fonction qui rééquilibre le noeud.
             // Bon déjà la première chose à faire c'est determiner la taille des sous-branches pour savoir laquelle est la plus peuplée.
             var taitaille = [0,0,0,0];
             for (var i = 0;i<4;i++){
@@ -405,15 +455,15 @@ var mapNode = function(){
                     //Nouveau pivot
                     var newX = extremes[0] + 0.5*mod;
                     var newY = pivot[1];
-                    pivot = [newX,newY]; // On a définit notre pivot
                     var elem = this.pop(extremes[0],extremes[1]);
+                    pivot = [newX,newY]; // On a définit notre pivot
                     if (elem.getType() != -1) this.addElem(elem);
                 }
             }
             var bas = taitaille[1] + taitaille[0];
             var haut = taitaille[3] + taitaille[2];
             if (Math.abs(haut - bas) >= 2){
-                if (haut > bas) { var mod = -1;}
+                if (haut < bas) { var mod = -1;}
                 else var mod = 1;
 
                 var extremes = this.getExtreme(0,mod,true);
@@ -423,8 +473,8 @@ var mapNode = function(){
                     //Nouveau pivot
                     var newY = extremes[1] + 0.5*mod;
                     var newX = pivot[0];
-                    pivot = [newX,newY]; // On a définit notre pivot
                     var elem = this.pop(extremes[0],extremes[1]);
+                    pivot = [newX,newY]; // On a définit notre pivot
                     if (elem.getType() != -1) this.addElem(elem);
                 }
             }
@@ -479,14 +529,14 @@ var mapNode = function(){
                     // On a affaire à un élément vide donc on s'en bat la race. Sauf s'il s'agit du max par défaut, là on a un problème
                     if (max == i) {
                         max += 1; // On prend l'élément suivant mais des fois ça peut dépasser ...
-                        if (max == extremes.length) return [0,0,0];
+                        if (max == extremes.length) return [pivot[0],pivot[1],2];
                     }
                 }
                 else {
-                    if (extremes[i][0]*x == extremes[max][0]*x && extremes[i][1]*y == extremes[max][1]*y) {
+                    if (extremes[i][0]*xx == extremes[max][0]*xx && extremes[i][1]*yy == extremes[max][1]*yy) {
                         n += extremes[i][2];
                     }
-                    else if (extremes[i][0]*x >= extremes[max][0]*x && extremes[i][1]*y >= extremes[max][1]*y) {
+                    else if (extremes[i][0]*xx >= extremes[max][0]*xx && extremes[i][1]*yy >= extremes[max][1]*yy) {
                         n = extremes[i][2];
                         max = i;
                     }

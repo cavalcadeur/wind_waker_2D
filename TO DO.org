@@ -1,5 +1,4 @@
 - La fonction drawEnnemi doit gérer uniquement l'affichage mais fait aussi la partie action
 - Le path finding a des problèmes de temps en temps
-- Segmenter la carte en plus petits morceaux pour faciliter le stockage.
 - La partie goToLevel doit être vérifiée et retravaillée.
 - La section combat est vide. Il faut réécrire le système d'attaque.

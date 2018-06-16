@@ -136,14 +136,15 @@ function clickEdit(x,y,b){
 
 function exportFileAsFuck(){
     var result = "";
-   
+
+    Map.purifie();
     result += Map.getString();
-    
+    /*
     markedLevels.forEach(
         function (ee){
             result += Map.getString(ee[0]);
         }
     );
-
+     */
     SaveAs(new Blob([result]),"ile"+rnd(78000)+".txt");
 }

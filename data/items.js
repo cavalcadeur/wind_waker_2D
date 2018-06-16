@@ -8,6 +8,7 @@ function attack(n,x){
             edition = 0;
             drawInterface = AInterface;
             casePencil = ["ah","ah"];
+            Map.purifie();
             console.log(Map.getString());
         }
         return;
@@ -33,13 +34,15 @@ function attack(n,x){
     var controlKeys = [[38,39,40,37],[101,99,98,97]];
     var grassContent = ["","","","rubisVert","rubisVert","rubisBleu"];
     var truc = Map.getObject(heros[n].x + vecteurs[heros[n].sens][1],heros[n].y + vecteurs[heros[n].sens][0],0);
+    var continu = true;
     ennemis.forEach(
         function (e,ii){
-            if (e.isThere(heros[n].x + vecteurs[heros[n].sens][1]*0.5,heros[n].y + vecteurs[heros[n].sens][0]*0.5,heros[n].z)){
+            if (e.isThere(heros[n].x + vecteurs[heros[n].sens][1]*0.5,heros[n].y + vecteurs[heros[n].sens][0]*0.5,heros[n].z) && continu){
                 heros[n].carry[0] = 1;
                 heros[n].carry[1] = ii;
                 e.carried(n);
                 heros[n].img = 12;
+                continu = false;
             }
         }
     );

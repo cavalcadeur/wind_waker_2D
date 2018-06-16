@@ -111,23 +111,19 @@ var Cochon = function(){
             n = 0;
         }
 
-        else if (g == 0 && getFloor(Math.floor(x),Math.floor(y),z) <= z){
+        else if (g == 0 && Map.getFloor(Math.floor(x),Math.floor(y),z) <= z){
 
             n = -1;
             r = 0;
-            if (getFloor(Math.floor(x),Math.floor(y),z) <= -1){
+            if (Map.getFloor(Math.floor(x),Math.floor(y),z) <= -1){
                 mort = 0;
                 if (out == 1 || out == 3){
                     addParticles("rond",Math.floor(x),Math.floor(y),-1,0,0,30,0.3);
-                    //particles.push({n:0,x:Math.floor(x),y:Math.floor(y),s:0.3,type:"rond",lim:30,alti:-1,g:0});
                     addParticles("eclabousse",Math.floor(x),Math.floor(y),-1,15,0,30,0);
-                    //particles.push({n:0,x:Math.floor(x),y:Math.floor(y),s:0,type:"eclabousse",lim:30,alti:-1,g:15});
                 }
                 else if (out == 2){
                     addParticles("rondB",Math.floor(x),Math.floor(y),-1,0,0,30,0.3);
-                    //particles.push({n:0,x:Math.floor(x),y:Math.floor(y),s:0.3,type:"rond",lim:30,alti:-1,g:0});
                     addParticles("eclabousseB",Math.floor(x),Math.floor(y),-1,15,0,30,0);
-                    //particles.push({n:0,x:Math.floor(x),y:Math.floor(y),s:0,type:"eclabousse",lim:30,alti:-1,g:15});
                 }
                 this.act = nada;
                 this.display = nada;
@@ -138,9 +134,7 @@ var Cochon = function(){
             else if (pv <= 0){
                 mort = 0;
                 addParticles("fumeeM",Math.floor(x),Math.floor(y),z,0,0,40);
-                //particles.push({n:0,type:"fumeeM",x:Math.floor(x),y:Math.floor(y),g:0,alti:z,lim:40});
                 addParticles("exploM",Math.floor(x),Math.floor(y),z,0,0,80);
-                //particles.push({n:0,type:"exploM",x:Math.floor(x),y:Math.floor(y),g:0,alti:z,lim:80});
                 this.act = nada;
                 this.display = nada;
                 this.doing = nada;
@@ -170,19 +164,14 @@ var Cochon = function(){
         for (var i = 0;i < eyeSight;i++){
             YY += vecteurs[sens][0];
             XX += vecteurs[sens][1];
-            //console.log(XX);
-            if (XX > -1 && YY > -1 && XX < niveau[0].length && YY < niveau.length){
-                var ZZ = niveau[YY][XX];
-                if (ZZ <= z + high && getFloor(XX,YY,z) > z - high){
-                    champsVision[i] = [objNiveau[YY][XX][0],XX,YY];
-                    //particles.push({n:0,type:"flower",x:XX,y:YY,g:0,alti:z,lim:40});
-                }
-                if (getFloor(XX,YY,z) > z + high){
-                    return;
-                }
+            var ZZ = Map.getAlti(XX,YY);
+            if (ZZ <= z + high && Map.getFloor(XX,YY,z) > z - high){
+                champsVision[i] = [Map.getObject(XX,YY,0),XX,YY];
+            }
+            if (Map.getFloor(XX,YY,z) > z + high){
+                return;
             }
         }
-        //console.log(champsVision);
     }
 
     function react(){
@@ -192,7 +181,7 @@ var Cochon = function(){
             var XX = Math.floor(x) + vecteurs[sens][1];
             var YY = Math.floor(y) + vecteurs[sens][0];
             if ((XX == heros[0].x && YY == heros[0].y) || (XX == heros[1].x && YY == heros[1].y)){
-                if (Math.abs(getFloor(Math.floor(x),Math.floor(y),z) - getFloor(XX,YY,z)) < high){
+                if (Math.abs(Map.getFloor(Math.floor(x),Math.floor(y),z) - Map.getFloor(XX,YY,z)) < high){
                     result = "hit";
                     objectif[2] = sens;
                 }
@@ -220,11 +209,9 @@ var Cochon = function(){
         for (var i = 0;i<4;i++){
             var YY = Math.floor(y) + vecteurs[i][0];
             var XX = Math.floor(x) + vecteurs[i][1];
-            if (XX > -1 && YY > -1 && XX < niveau[0].length && YY < niveau.length){
-                var ZZ = getFloor(XX,YY,z);
-                if (ZZ <= z + high && ZZ > -1){
-                    result.push(i);
-                }
+            var ZZ = Map.getFloor(XX,YY,z);
+            if (ZZ <= z + high && ZZ > -1){
+                result.push(i);
             }
         }
         return result;
@@ -237,7 +224,7 @@ var Cochon = function(){
         return false;
     }
     function meurs(){
-        alert("Je suis MORT !");
+        //alert("Je suis MORT !");
         this.act = nada;
         this.display = nada;
         this.doing = nada;
@@ -259,19 +246,19 @@ var Cochon = function(){
                 fx = xx;
                 fy = yy;
                 fm = mm;
-                z = niveau[Math.round(y)][Math.round(x)];
+                z = Map.getAlti(x,y);
                 this.doing = walking;
                 mort = mm;
             }
         },
         act: function(){
-            if (z > getFloor(Math.floor(x),Math.floor(y),z)){
+            if (z > Map.getFloor(Math.floor(x),Math.floor(y),z)){
                 g -= 0.1;
                 z += g/2;
             }
             else{
                 g = 0;
-                z = getFloor(Math.floor(x),Math.floor(y),z);
+                z = Map.getFloor(Math.floor(x),Math.floor(y),z);
             }
         },
         display: function(){
@@ -304,9 +291,7 @@ var Cochon = function(){
             scale = 1;
             flyMode = 1;
             addParticles("hitA",Math.floor(x),Math.floor(y),z,0,0,10);
-            //particles.push({n:0,type:"hitA",x:Math.floor(x),y:Math.floor(y),g:0,alti:z,lim:10});
-            if (Math.floor(x) + vecteurs[sens][1] < 0 || Math.floor(y) + vecteurs[sens][0] < 0 || Math.floor(x) + vecteurs[sens][1] >= niveau[0].length || Math.floor(y) + vecteurs[sens][0] >= niveau.length) flyMode = 0;
-            else if (getFloor(Math.floor(x) + vecteurs[sens][1],Math.floor(y) + vecteurs[sens][0],z) > z) flyMode = 0;
+            if (Map.getFloor(Math.floor(x) + vecteurs[sens][1],Math.floor(y) + vecteurs[sens][0],z) > z) flyMode = 0;
         },
         touchDamage(xx,yy,zz,n){
             /*
