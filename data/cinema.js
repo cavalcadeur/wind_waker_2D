@@ -119,7 +119,13 @@ function cTitre(){
 }
 
 function cTitreFond(){
-    drawDuPauvre(1);
+    // On se contente ici d'afficher l'île comme on l'affiche lors des phases de jeu.
+    
+    ctx.fillStyle = colors[0];
+    ctx.fillRect(0,0,W,H);
+    backDraw();
+    
+    drawRoom(1,ctx,Map);
 }
 
 function cClickTitle(){

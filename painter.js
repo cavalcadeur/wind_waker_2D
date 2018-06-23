@@ -162,6 +162,8 @@ var Painter = function() {
         scroll: function( x, y ) {
             scrollX = x;
             scrollY = y;
+            scrollCaseY = Math.floor((-1*scrollY)/cellY);
+            scrollCaseX = Math.floor((-1*scrollX + scrollCaseY*cellS)/cellX);
         },
         scrollVoisin: function(niv){
             //scrollX = (niv.length)*cellS;
@@ -352,7 +354,7 @@ var Painter = function() {
 
                 // Partie horizontale.
                 //ctx.fillStyle = "rgb("+Math.round(colors[3][0]+z*colors[3][3])+","+Math.round(colors[3][1]+z*colors[3][4])+","+Math.round(colors[3][2]+z*colors[3][5])+")";
-                ctx.fillStyle = "rgb("+Math.round(colors[3][0]+z*colors[3][3])+","+Math.round(colors[3][1]+z*colors[3][4])+","+Math.round(colors[3][2]+z*colors[3][5])+")";
+                ctx.fillStyle = outline[2];
 		if (n == 1) ctx.fillStyle = "rgb(255,255,255)";
                 ctx.beginPath();
                 ctx.moveTo( X, Y );

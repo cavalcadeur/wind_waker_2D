@@ -80,7 +80,7 @@ function pencil(x,y,action){
             }
             else {
                 var cObj = Map.getObject(coor[1],coor[0]);
-                if ((editArray[sideEdit[editNs[1]]][editNs[3]] == "passerelle0" || editArray[sideEdit[editNs[1]]][editNs[3]] == "passerelle1" || editArray[sideEdit[editNs[1]]][editNs[3]] == "passerelle2") && (cObj[0] == "passerelle0" || cObj[0] == "passerelle1" || cObj[0] == "passerelle2")){
+                if ((editArray[sideEdit[editNs[1]]][editNs[3]] == "passerelle0" || editArray[sideEdit[editNs[1]]][editNs[3]] == "passerelle1" || editArray[sideEdit[editNs[1]]][editNs[3]] == "passerelle2" || editArray[sideEdit[editNs[1]]][editNs[3]] == "passerelle3") && (cObj[0] == "passerelle0" || cObj[0] == "passerelle1" || cObj[0] == "passerelle2" || cObj[0] == "passerelle3")){
                     Map.replaceObject(coor[1],coor[0],cObj[1]-1,1);
                 }
                 else {
@@ -122,9 +122,9 @@ function pencil(x,y,action){
             onSea = 5;
             islandData = {out:1,ileSet:0,x:0,y:0,select:0};
         }
-        else if (action == "passerelle0" || action == "passerelle1" || action == "passerelle2"){
+        else if (action == "passerelle0" || action == "passerelle1" || action == "passerelle2" || action == "passerelle3"){
             var cObj = Map.getObject(coor[1],coor[0]);
-            if (cObj[0] == "passerelle0" || cObj[0] == "passerelle1" || cObj[0] == "passerelle2"){
+            if (cObj[0] == "passerelle0" || cObj[0] == "passerelle1" || cObj[0] == "passerelle2" || cObj[0] == "passerelle3"){
                 Map.replaceObject(coor[1],coor[0],cObj[1] + 1,1);
             }
             else Map.replaceObject(coor[1],coor[0],[action,2],true);
@@ -134,13 +134,15 @@ function pencil(x,y,action){
             if (action == "lambda0"){
                 var dia = prompt("Que doit dire ce PNJ ?");
                 if (dia == undefined) dia = "";
-                Map.replaceObject(coor[1],coor[0],["PNJ","lambda0",[[dia],[dia]]],true);
+                Map.replaceObject(coor[1],coor[0],["PNJ","pancarte",[[dia],[dia]]],true);
             }
             else if (action == "house0"){
-                Map.setObject(coor[1],coor[0],"void",1);
+                Map.replaceObject(coor[1],coor[0],["house0"],true);
+                /*
                 teleport = [coor[0],coor[1]];
                 onSea = 5;
                 islandData = {out:1,ileSet:0,x:0,y:0,select:0};
+                 */
             }
             else if (action == "main0"){
                 Map.replaceObject(coor[1],coor[0],["main0",50],true);

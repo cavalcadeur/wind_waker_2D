@@ -102,7 +102,16 @@ var Map = function(){
             else if(arbre.getAll(x+1,y)[1] >= z) lineB = 0;
             lineB = Math.min( lineB, z - arbre.getAll(x,y+1)[1] );
 
-            var result = [v,[lineA,lineB,lineC]];
+            var groundColor = "rgb(0,0,0)";
+            if (z < -0.4){
+                groundColor = "rgb(180,180,98)";
+            }
+            else {
+                groundColor = "rgb("+Math.round(colors[3][0]+z*colors[3][3])+","+Math.round(colors[3][1]+z*colors[3][4])+","+Math.round(colors[3][2]+z*colors[3][5])+")";
+            }
+
+            
+            var result = [v,[lineA,lineB,lineC],groundColor];
 
             arbre.setOutlines(x,y,result);
 
@@ -359,7 +368,7 @@ var mapNode = function(){
 
         getJSON: function(){
             // Fonction qui renvoie le noeud dans son ensemble sous la forme d'une liste. Alors c'est un peu compliqué mais pourquoi pas.
-            var result = [1,pivot,[],tailleBranche];
+            var result = [1,pivot,[]];
             children.forEach(
                 function(e){
                     result[2].push(e.getJSON());
@@ -577,29 +586,32 @@ var mapElem = function(){
             return 0;
         },
 
-        setObject: function(type,x,y,where,what){
+        setObject: function(type,x,y,what,where){
             // On va modifier la case x,y à l'aide des données type, where et what
             if (x == id[0] && y == id[1]){
                 if (type == "obj" || type == "objRep" || type == "objSupp"){
-                    if (what == true) obj = where;
+                    if (where === true) obj = what;
                     else {
-                        if (what > obj.length){
+                        if (where > obj.length){
                             if (type == "objSupp") obj.splice(obj.length-1,1);
-                            else obj.push(where);
+                            else obj.push(what);
                         }
                         else {
-                            if (type == "obj") obj.splice(what,0,where);
-                            else if (type == "objSupp") {
-                                if (obj.length <= 1) obj = [where];
-                                else obj.splice(what,1);
+                            if (type == "obj")  {
+                                if (obj.length <= 1 && obj[0] == "") obj = [what];
+                                else obj.splice(where,0,what);
                             }
-                            else obj[what] = where;
+                            else if (type == "objSupp") {
+                                if (obj.length <= 1) obj = [what];
+                                else obj.splice(where,1);
+                            }
+                            else if (type == "objRep") obj[where] = what;
                         }
                     }
                 }
                 else if (type == "alti"){
-                    if (what == true) alti = where;
-                    else alti += where;
+                    if (where == true) alti = what;
+                    else alti += what;
                 }
             }
         },

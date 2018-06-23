@@ -15,7 +15,7 @@ function init(){
     
     editObject = [[["bokoblin",2],["chuchu",17]], [["cochon",0],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]]];
     
-    editArray = {"gear":[],"loot":["rubisVert","rubisBleu","rubisRouge","sword"],"herbe0":["herbe0","herbe1","palmier","palmiton","bush0","rocher","shell"],"outDoor":["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","barriere0","barriere1","barriere2","house0","house1","house2","lambda0"],"inDoor":[],"monsters":["bokoblin","chuchu","moblin","feu","scie","ballon"],"fireTemple":[],"sky":["sky","sky1","sky2","sky3","delete","expand"],"special":["tele","mark","coffre2","fastTravel"],"spe":["spe0","spe1","spe2","spe3","spe4","spe5","spe6","spe7","spe8","spe9"]};
+    editArray = {"gear":[],"loot":["rubisVert","rubisBleu","rubisRouge","sword"],"herbe0":["herbe0","herbe1","palmier","palmiton","bush0","rocher","shell"],"outDoor":["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","passerelle3","barriere0","barriere1","barriere2","house0","house1","house2","lambda0"],"inDoor":[],"monsters":["bokoblin","chuchu","moblin","feu","scie","ballon"],"fireTemple":[],"sky":["sky","sky1","sky2","sky3","delete","expand"],"special":["tele","mark","coffre2","fastTravel"],"spe":["spe0","spe1","spe2","spe3","spe4","spe5","spe6","spe7","spe8","spe9"]};
     
     boatPosition = [200,100];
 

@@ -13,6 +13,11 @@ function drawRoom(kk,ctxa,map){
             var cell = map.getCell(x,y);
             var f = cell[1];
             var outline = cell[4];
+            /*
+            if (outline[2] == undefined){        // A n'activer qu'en cas de besoin
+                map.updateOutlinesCase(x,y,0);  //  Cela sert à remettre d'aplomb des données qui seraient partielles
+            }
+             */
             Painter.cell( ctxa, x, y, f ,0 , outline);
 
             drawObj(x,y,f,map.getObject(x,y,true),ctxa);
@@ -62,7 +67,7 @@ function draw() {
         if (casePencil[1] != "ah"){
             ctx.globalAlpha = 0.2;
             var ZZZ = Map.getAlti(casePencil[1],casePencil[0]);
-            Painter.cell( ctx, casePencil[1], casePencil[0], ZZZ ,1);  // Celui ci sert pour dessiner le curseur lors de l'edition
+            Painter.cell( ctx, casePencil[1], casePencil[0], ZZZ ,1 , []);  // Celui ci sert pour dessiner le curseur lors de l'edition
             ctx.globalAlpha = 1;
         }
         if (mouse[1] > 150 && mouse[1] < W - 150){

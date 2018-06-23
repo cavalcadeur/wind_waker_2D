@@ -68,7 +68,7 @@ function attack(n,x){
         else if (truc == "PNJ"){
             if (alerting == 0){
                 questPNJ(XX,YY,n);
-                say(Map.getObj(XX,YY)[2],XX,YY,n);
+                say(Map.getObject(XX,YY)[2],XX,YY,n);
             }
             else unsay();
         }
