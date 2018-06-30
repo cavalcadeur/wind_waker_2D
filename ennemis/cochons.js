@@ -275,7 +275,7 @@ var Cochon = function(){
         },
         takeBack(){
             if (fm == 2) mort = 2;
-            return [fx,fy,"bokoblin",mort];
+            return [fx,fy,"cochon",mort];
         },
         isThere(XX,YY,ZZ){
             if (Math.hypot(x-XX,y-YY,z-ZZ) < 1){

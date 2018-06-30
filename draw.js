@@ -52,7 +52,31 @@ function drawRoom(kk,ctxa,map){
             }
         );
     }
+
+    ennemyTakeBack(map);
+    
     //);
+}
+
+function ennemyTakeBack(map){
+    // Fonction qui range les ennemis dans les cases hors de vue et active ceux qui au contraire sont proches.
+
+    var listeSup = [];
+    ennemis.forEach(
+        function(a,m){
+            var YY = a.giveY();
+            var XX = a.giveX();
+            if (YY >= scrollCaseY + nCasesY || XX >= scrollCaseX + nCasesX || XX < scrollCaseX || YY < scrollCaseY) {
+                listeSup.splice(0,0,m);
+            }
+        }
+    );
+
+    for(var i = 0;i < listeSup.length;i++){
+        var ranger = ennemis[listeSup[i]].takeBack();
+        map.addEnnemy(ranger);
+        ennemis.splice(listeSup[i],1);
+    }
 }
 
 function draw() {

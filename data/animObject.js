@@ -19,6 +19,8 @@ function chooseAnimObject(n){
     }
 }
 
+
+
 // L'épée est rangée dans le dos du personnage
 
 function swordDispBack(n){
@@ -36,6 +38,8 @@ function swordDispBackG(n){
 function swordDispBackD(n){
     Painter.imgEnnemy(ctx,heros[n].x + heros[n].vx/50 + 0.72,heros[n].y + heros[n].vy/50 + 1,heros[n].z + 1.9,1,0,imgElement["sword2"],1);
 }
+
+
 
 // L'épée est tenue à la main
 

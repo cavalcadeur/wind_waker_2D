@@ -190,7 +190,7 @@ var Map = function(){
         getObject: function(x,y,n){
             // Cette fonction renvoie l'élément n de la case x,y cependant si n == true alors la fonction renvoie la liste de tous les objets de la case
             var cell = this.getCell(x,y);
-            if (n || n == undefined){
+            if (n === true || n == undefined){
                 return cell[0];
             }
             else{
@@ -215,6 +215,10 @@ var Map = function(){
                 objNiveau[y][x].splice(n,1);
             }
              */
+        },
+
+        addEnnemy: function(data){
+            arbre.addEnnemy(data[0],data[1],data);
         },
 
         getAlti: function(x,y){
@@ -320,8 +324,6 @@ var mapNode = function(){
             else { // Il n'y a rien d'important sur cette branche. On y place simplement notre élément.
                 children[branche] = elem;
             }
-            // On n'oublie pas de compter le nouvel élément.
-            tailleBranche[branche] += 1;
 
             // On n'oublie pas de rééquilibrer l'arbre lors de la remontée de la recursion.
             if (equi || equi == undefined){
@@ -356,6 +358,33 @@ var mapNode = function(){
             children[branche].setObject(type,x,y,where,what);
         },
 
+        addEnnemy: function(x,y,data){
+            // Fonction qui refile le bébé à ceux en dessous de lui en les chargeant de modifier le noeud en x,y
+            var branche = 0;
+            if (x > pivot[0]) branche += 1;  // Ici on évalue la branche du nouvel élément par rapport au noeud.
+            if (y > pivot[1]) branche += 2;
+
+            // On doit ensuite vérifier que la case que l'on va modifier existe bien. Si elle n'existe pas il va falloir la créer ce qui peut s'averer compliqué. Bon déjà on vérifie si l'enfant est un noeud.
+
+            var typeC = children[branche].getType();
+            if (typeC == 0){ // On remarque qu'il s'agit d'un élément. On doit alors vérifier si ses coordonnées corespondent
+                var posC = children[branche].position();
+                if (posC[0] != x || posC[1] != y){
+                    typeC = -1;
+                }
+            }
+            
+            if (typeC < 0){ // typeC < 0 : cela signifie que la case que l'on veut modifier n'existe pas encore ! On va devoir la créer.
+                // D'abord on setup l'élément
+                var e = new mapElem();
+                e.init([x,y],[[""],-1,[],[],[]]);
+                // Et après on l'ajoute.
+                this.addElem(e);
+            }
+
+            children[branche].addEnnemy(x,y,data);
+        },
+
         setOutlines: function(x,y,outline){
             // Fonction qui remplace l'outline de la case x,y par outline.
             var branche = 0;
@@ -378,7 +407,6 @@ var mapNode = function(){
         },
 
         fill: function(child,taille){
-            tailleBranche = taille;
             child.forEach(
                 function(e,i){
                     if (e[0] == 1){
@@ -616,6 +644,10 @@ var mapElem = function(){
             }
         },
 
+        addEnnemy: function(x,y,data){
+            ennemis.push(data);
+        },
+
         setOutlines: function(x,y,outline){
             // Fonction qui modifie les outlines de la case enfin si c'est bien la bonne case ...
             if (id[0] == x && id[1] == y){
@@ -680,6 +712,8 @@ var mapVide = function(){
         },
 
         setObject: function(){},
+
+        addEnnemy: function(){},
 
         setOutlines: function(){},
 

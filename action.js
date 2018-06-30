@@ -12,7 +12,7 @@ function action(t){
 
             if (h.vx == 0 && h.vy == 0 && figer == 0){
                 var supress = 1;
-                if (Map.getObject(h.x,h.y) != "" && Map.isSolid(h.x,h.y) == false){
+                if (Map.getObject(h.x,h.y,0) != ""){
                     var truc = Map.getObject(h.x,h.y,true);
                     if (truc[0] == "rubisVert"){
                         h.rubis += 1;
@@ -244,10 +244,20 @@ function move(d,n,gg){
     //}
 
     if (heros[n].g == 0){
-        if (heros[n].z - Map.getFloor(heros[n].x+vecteurs[d][1],heros[n].y+vecteurs[d][0],heros[n].z) > 1 || Map.getFloor(heros[n].x+vecteurs[d][1],heros[n].y+vecteurs[d][0],heros[n].z) <= -1){
+        var floor = Map.getFloor(heros[n].x+vecteurs[d][1],heros[n].y+vecteurs[d][0],heros[n].z);
+        if (heros[n].z - floor > 1 || floor <= -1){
             heros[n].anim = jumpAnim;
             heros[n].datAnim = d;
             //console.log("JUMP !!!");
+        }
+        else if (heros[n].z != floor){
+            heros[n].anim = walkLedgeAnim;
+
+            heros[n].datAnim = heros[n].z;
+            heros[n].x +=  vecteurs[d][1];
+            heros[n].y +=  vecteurs[d][0];
+            heros[n].vx += -50 * vecteurs[d][1];
+            heros[n].vy += -50 * vecteurs[d][0];
         }
         else{
             heros[n].anim = walkAnim;

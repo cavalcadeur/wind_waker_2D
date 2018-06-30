@@ -269,7 +269,7 @@ function start(){
     H = canvas.height;
     actx.play();
     actx.loop = true;
-    ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = true;
     Map.goOut(1);
     Map.goto("ocean");
     goto = "ocean";

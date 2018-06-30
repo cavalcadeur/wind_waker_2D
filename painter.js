@@ -174,6 +174,9 @@ var Painter = function() {
         centerScroll: function ( x, y , z , W , H) {
             scrollX = Math.floor(W/2 - x*cellX + y*cellS);
             scrollY = Math.floor(H/2 - y*cellY + z*cellZ);
+            
+            scrollCaseY = Math.floor((-1*scrollY)/cellY);
+            scrollCaseX = Math.floor((-1*scrollX + scrollCaseY*cellS)/cellX);
         },
 
         scrollCenter: function ( x, y , z , W, H) {
