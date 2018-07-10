@@ -68,6 +68,11 @@ function pencil(x,y,action){
             var altiZ = Map.getAlti(coor[1],coor[0]);
             if (altiZ + action > -2) Map.setAlti(coor[1],coor[0],Math.round((altiZ + action)*10)/10,undefined,true);
         }
+        else if (action == "expand"){
+            // Dans ce cas là on veut faire monter 5 cases d'un coup. Pour des raisons de maniabilité, on ne fait monter les cases adjacentes que si elles sont plus basses que celle du centre.
+            var altiZ = Map.getAlti(coor[1],coor[0]);
+            Map.setAlti(coor[1],coor[0],Math.round((altiZ + 1)*10)/10,undefined,true);
+        }
         else if (action == "delete"){
             if (editNs[1] == 0){
                 ennemis.forEach(

@@ -129,13 +129,14 @@ var Map = function(){
             // Fonction qui setup la classe pour un lieu en particulier
             whereAmI = where;
             // On va chercher le fichier json qui nous interesse
-            var requestURL = "data/maps/" + JSON.stringify(out) + "/" + where + ".json";
+            var requestURL = "data/maps/" + out + "/" + where + ".json";
             var request = new XMLHttpRequest();
             request.open("GET",requestURL);
             request.responseType = 'json';
             request.send();
             var that = this;
             request.onload = function(){
+                console.log("==================================================");
                 currentData = request.response;
                 // les données sont arrivées, alors là ça va se compliquer.
                 // On va créer notre arborescence à partir de ça.
@@ -218,7 +219,19 @@ var Map = function(){
         },
 
         addEnnemy: function(data){
-            arbre.addEnnemy(data[0],data[1],data);
+            arbre.addEnnemy(Math.floor(data[0]),Math.floor(data[1]),data,"ennemy");
+        },
+
+        clearEnnemy: function(x,y,data){
+            arbre.addEnnemy(x,y,data,"clearEnnemy");
+        },
+
+        addParticle: function(x,y,data){
+            arbre.addEnnemy(x,y,data,"particle");
+        },
+
+        clearParticle: function(x,y,data){
+            arbre.addEnnemy(x,y,data,"clearParticle");
         },
 
         getAlti: function(x,y){
@@ -358,7 +371,7 @@ var mapNode = function(){
             children[branche].setObject(type,x,y,where,what);
         },
 
-        addEnnemy: function(x,y,data){
+        addEnnemy: function(x,y,data,type){
             // Fonction qui refile le bébé à ceux en dessous de lui en les chargeant de modifier le noeud en x,y
             var branche = 0;
             if (x > pivot[0]) branche += 1;  // Ici on évalue la branche du nouvel élément par rapport au noeud.
@@ -382,7 +395,7 @@ var mapNode = function(){
                 this.addElem(e);
             }
 
-            children[branche].addEnnemy(x,y,data);
+            children[branche].addEnnemy(x,y,data,type);
         },
 
         setOutlines: function(x,y,outline){
@@ -644,8 +657,12 @@ var mapElem = function(){
             }
         },
 
-        addEnnemy: function(x,y,data){
-            ennemis.push(data);
+        addEnnemy: function(x,y,data,type){
+            if (type == "ennemy") ennemis.push(data);
+            else if (type == "particle") particles.push(data);
+            else if (type == "clearEnnemy") ennemis = [];
+            else if (type == "clearParticle") particles = [];
+            
         },
 
         setOutlines: function(x,y,outline){

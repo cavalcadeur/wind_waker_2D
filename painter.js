@@ -152,7 +152,7 @@ var Painter = function() {
         },
 
         getnCases: function( W, H){
-            var y = Math.ceil(H / cellY) + 2;
+            var y = Math.ceil(H / cellY) + 3;
             var n = Math.ceil((W + y*cellS) / (cellX));
             var x = n + 1;
             console.log([n,x,y]);
@@ -162,8 +162,7 @@ var Painter = function() {
         scroll: function( x, y ) {
             scrollX = x;
             scrollY = y;
-            scrollCaseY = Math.floor((-1*scrollY)/cellY);
-            scrollCaseX = Math.floor((-1*scrollX + scrollCaseY*cellS)/cellX);
+            this.getScrollCase();
         },
         scrollVoisin: function(niv){
             //scrollX = (niv.length)*cellS;
@@ -175,8 +174,7 @@ var Painter = function() {
             scrollX = Math.floor(W/2 - x*cellX + y*cellS);
             scrollY = Math.floor(H/2 - y*cellY + z*cellZ);
             
-            scrollCaseY = Math.floor((-1*scrollY)/cellY);
-            scrollCaseX = Math.floor((-1*scrollX + scrollCaseY*cellS)/cellX);
+            this.getScrollCase();
         },
 
         scrollCenter: function ( x, y , z , W, H) {
@@ -191,8 +189,7 @@ var Painter = function() {
             dscrY = (goalY - scrollY)/dist;
             scrollX += vscr * dscrX;
             scrollY += vscr * dscrY;
-            scrollCaseY = Math.floor((-1*scrollY)/cellY);
-            scrollCaseX = Math.floor((-1*scrollX + scrollCaseY*cellS)/cellX);
+            this.getScrollCase();
             
             backg.pushWave(vscr * dscrY,vscr * dscrX,W,H);
          },
@@ -204,9 +201,13 @@ var Painter = function() {
         scrollPlus: function(x,y,W,H){
             scrollX += x;
             scrollY += y;
+            this.getScrollCase();
+            backg.pushWave(y,x,W,H);
+        },
+
+        getScrollCase: function(){
             scrollCaseY = Math.floor((-1*scrollY)/cellY);
             scrollCaseX = Math.floor((-1*scrollX + scrollCaseY*cellS)/cellX);
-            backg.pushWave(y,x,W,H);
         },
 
         scrollStore: function(x,y,z){

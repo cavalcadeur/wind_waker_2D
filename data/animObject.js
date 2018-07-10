@@ -48,7 +48,7 @@ function swordDispOut(n){
 }
 
 function swordDispOutF(n){
-    Painter.imgEnnemy(ctx,heros[n].x + heros[n].vx/50 + 0.6,heros[n].y + heros[n].vy/50 + 1,heros[n].z-1.15 + 0.6*n,-1,0,imgElement["sword1"],-1);
+    Painter.imgEnnemy(ctx,heros[n].x + heros[n].vx/50 + 0.77,heros[n].y + heros[n].vy/50 + 1,heros[n].z-2.15 + 0.6*n,1,-0.3,imgElement["sword"],-1);
 }
 
 function swordDispOutG(n){

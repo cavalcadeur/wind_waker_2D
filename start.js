@@ -89,6 +89,8 @@ var nCasesY = 0;
 var scrollCaseX = 0;
 var scrollCaseY = 0;
 var scrollEditSpeed = [0,0,0.2,20]; // [vitesseX,vitesseY,acceleration,max]
+var ennemyRefresh = 0;
+var ennemyRefreshLim = 60;
 
 // programme
 

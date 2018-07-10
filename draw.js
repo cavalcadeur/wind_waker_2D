@@ -21,6 +21,28 @@ function drawRoom(kk,ctxa,map){
             Painter.cell( ctxa, x, y, f ,0 , outline);
 
             drawObj(x,y,f,map.getObject(x,y,true),ctxa);
+
+            if (ennemyRefresh <= 0){
+                if (cell[2].length > 0){
+                    cell[2].forEach(
+                        function(e,i){
+                            particles.push(composeParticle(e));
+                        }
+                    );
+                    map.clearParticle(x,y);
+                }
+                
+                if (cell[3].length > 0){
+                    cell[3].forEach(
+                        function (e,i){
+                            findEnnemy(e[2],ennemis.length,e[0],e[1],e[3]);
+                        }
+                    );
+                    console.log(ennemis);
+                    map.clearEnnemy(x,y);
+                }
+
+            }
         }
         
         if (kk == 1){
@@ -53,13 +75,18 @@ function drawRoom(kk,ctxa,map){
         );
     }
 
-    ennemyTakeBack(map);
+    if (ennemyRefresh <= 0){
+        ennemyRefresh = ennemyRefreshLim;
+    }
+    else ennemyRefresh -= 1;
+    takeBackEvent(map);
     
     //);
 }
 
-function ennemyTakeBack(map){
-    // Fonction qui range les ennemis dans les cases hors de vue et active ceux qui au contraire sont proches.
+function takeBackEvent(map){
+    // Fonction qui range les ennemis dans les cases hors de vue.
+    // Cette fonction s'occupe aussi des particules.
 
     var listeSup = [];
     ennemis.forEach(
@@ -76,6 +103,21 @@ function ennemyTakeBack(map){
         var ranger = ennemis[listeSup[i]].takeBack();
         map.addEnnemy(ranger);
         ennemis.splice(listeSup[i],1);
+    }
+
+    var listeSup = [];
+    particles.forEach(
+        function(a,m){
+            if (a.y >= scrollCaseY + nCasesY || a.x >= scrollCaseX + nCasesX || a.x < scrollCaseX || a.y < scrollCaseY) {
+                listeSup.splice(0,0,m);
+            }
+        }
+    );
+
+    for(var i = 0;i < listeSup.length;i++){
+        var ranger = deComposeParticle(particles[listeSup[i]]);
+        map.addParticle(particles[listeSup[i]].x,particles[listeSup[i]].y,ranger);
+        particles.splice(listeSup[i],1);
     }
 }
 

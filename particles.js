@@ -24,9 +24,12 @@ function deComposeParticle(e){
     if (e.type == "titre"){
         return ["none",0,0,0,0,0,0];
     }
-    result = [e.type,e.x,e.y,e.z,e.g,e.n,e.lim];
-    if (e.name != undefined){
-        result[7] = e.name;
+    result = [e.type,e.x,e.y,e.alti,e.g,e.n,e.lim];
+    if (e.s != undefined || e.content != undefined){
+        
+        if (e.s != undefined) result[7] = e.s;
+        else if (e.name != undefined) result[7] = e.name;
+        
         if (e.carry != undefined){
             result[8] = e.carry;
             if (e.sens != undefined){
@@ -42,7 +45,7 @@ function deComposeParticle(e){
 
 function defineParticles(type,x,y,z,g,n,lim,name,carry,sens,objType){
     if (type == "sword"){
-        return({type:"sword",x:x,y:y,z:z,g:g,n:n,lim:lim,draw:drawSword,act:limAct,sens:sens});
+        return({type:"sword",x:x,y:y,alti:z,g:g,n:n,lim:lim,draw:drawSword,act:limAct,sens:sens});
         //particles[particles.length-1].draw = drawSword;
     }
     else if (type == "flower"){

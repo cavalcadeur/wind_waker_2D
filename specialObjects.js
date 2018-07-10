@@ -81,7 +81,7 @@ function drawHit(e){
 
 function drawRond(kgb){
     ctx.globalAlpha = (30-kgb.n)/30;
-    Painter.imgScaleTot(ctx,kgb.x+0.3,kgb.y,kgb.alti-2,kgb.s+kgb.n/30,imgDebris[kgb.type]);
+    Painter.imgScaleTot(ctx,kgb.x+0.3,kgb.y,kgb.alti-1.5,kgb.s+kgb.n/30,imgDebris[kgb.type]);
     ctx.globalAlpha = 1;
 }
 

@@ -155,14 +155,11 @@ function fall(h,n){
             addParticles("eclabousseB",h.x,h.y,-1,15,0,30,0);
             //particles.push({n:0,x:h.x,y:h.y,s:0,type:"eclabousseB",lim:30,alti:-1,g:15});
         }
-        if (Map.getFloor(respawnPoint[0],respawnPoint[1],10) < 0){
-			//console.log("LOL PUTAIN");
+        if (Map.getFloor(respawnPoint[0],respawnPoint[1],10) <= -1){
             var xxx = 0;
             
-            while (Map.getAlti(respawnPoint[0],respawnPoint[1]) <= -1){
-                // Bon la case de respawn n'est pas suffisament haute, on va donc la remonter pour que les personnages puissent y atterir correctement.
-                Map.setAlti(respawnPoint[0],respawnPoint[1],0,Painter,true);
-            }
+            // Bon la case de respawn n'est pas suffisament haute, on va donc la remonter pour que les personnages puissent y atterir correctement.
+            Map.setAlti(respawnPoint[0],respawnPoint[1],0,Painter,true);            
              
         }
         heros[n].x = respawnPoint[0];
