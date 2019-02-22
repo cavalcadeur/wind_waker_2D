@@ -6,6 +6,9 @@ function cTitre(){
     for (var i = 0; i < 0; i++){
         imgCinema[2][4].push([rnd(W),-rnd(500),0,4,trucMuche[rnd(trucMuche.length)]]);
     }
+
+    //loadGame();
+    
     var ff = function(t) {
         cTitreFond();
         imgCinema[2][0] += imgCinema[2][2];
@@ -22,7 +25,7 @@ function cTitre(){
          imgCinema[2][3] = imgCinema[2][3]*-1;
          }
          */
-        ctx.drawImage(fondfond,W/2-187,0);
+        ctx.drawImage(fondfond,W/2-255,0);
         imgCinema[0] = [3.5,3.5,3.5];
         if (mouse[1] < W/2 + 200 && mouse[1] > W/2 - 200){
             if (mouse[0] < H/2 + 75 && mouse[0] > H/2 - 75){
@@ -41,6 +44,9 @@ function cTitre(){
         }
         else if (imgCinema[2][5] == 2){
 
+        }
+        else if (imgCinema[2][5] == 666){
+            cBouton(W/2,H/2,400,150,"Choisir un fichier",40,imgCinema[0][0]);
         }
         else {
             cBouton(W/2,H/2,400,150,"Partie normale",40,imgCinema[0][0]);
@@ -129,20 +135,21 @@ function cTitreFond(){
 }
 
 function cClickTitle(){
-
+    if (imgCinema[2][5] == 666) return;
     if (imgCinema[2][5] == 0){
         if (mouse[1] < W/2 + 200 && mouse[1] > W/2 - 200){
             if (mouse[0] < H/2 + 75 && mouse[0] > H/2 - 75){
                 imgCinema[2][5] = 1;
             }
             else if (mouse[0] < H/5*4 + 75 && mouse[0] > H/5*4 - 75){
-                cChargementMule();
+                loadGame();
+                imgCinema[2][5] = 666;
             }
         }
         else if (Math.hypot(mouse[1] - W + 35, mouse[0] - H + 35) < 30){
             var elem = document.getElementById("alert");
             imgCinema[2][5] = 2;
-            elem.innerHTML = "A propos de Wind Waker 2D <br> <br> The Wind Waker 2D est un jeu amateur open source. Vous pouvez y jouer dans votre navigateur web. <br> Le jeu est disponible directement en ligne afin d'avoir toujours la dernière mise à jour à cette adresse : <br> <br>http://cavalcadeur.github.io/zelda_maker/. <br> <br> Il est également possible de télécharger le jeu afin de jouer hors connexion. Cela raccourcie les temps de chargement mais vous ne benificierez pas des mises à jour automatiques. <br> <br>https://github.com/cavalcadeur/zelda_maker/archive/gh-pages.zip <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br><br><br> <br><br><br><br> <br><br><br><br> <br><br><br><br> <br><br> <br> Woaw ! Vous avez un écran sacrément grand pour réussir à voir ce message.";
+            elem.innerHTML = "A propos de Cavalcade <br> <br> Cavalcade est un jeu amateur open source. Vous pouvez y jouer dans votre navigateur web. <br> Le jeu est disponible directement en ligne afin d'avoir toujours la dernière mise à jour à cette adresse : <br> <br>http://cavalcadeur.github.io/zelda_maker/. <br> <br> Il est également possible de télécharger le jeu afin de jouer hors connexion. Cela raccourcie les temps de chargement mais vous ne benificierez pas des mises à jour automatiques. <br> <br>https://github.com/cavalcadeur/zelda_maker/archive/gh-pages.zip <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br><br><br> <br><br><br><br> <br><br><br><br> <br><br><br><br> <br><br> <br> Woaw ! Vous avez un écran sacrément grand pour réussir à voir ce message.";
             elem.className = 'allText';
         }
     }

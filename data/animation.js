@@ -2,6 +2,38 @@ function nonifiant(){
 
 }
 
+function swordAttackAnim(i){
+    if (heros[i].nAnim == 5){
+        heros[i].img = 16;
+        chooseAnimObject(i);
+
+        // Le personnage a un rush 1.2 fois plus rapide qu'une marche normale.
+        if (heros[i].vx > 0) {heros[i].vx -= 12; }
+        else if (heros[i].vy > 0) {heros[i].vy -= 12; }
+        else if (heros[i].vx < 0) {heros[i].vx += 12; }
+        else if (heros[i].vy < 0) {heros[i].vy += 12; }
+
+        //console.log(heros[i].vy);
+
+        if (Math.abs(heros[i].vx) < 12) heros[i].vx = 0;
+        if (Math.abs(heros[i].vy) < 12) heros[i].vy = 0;
+    }
+    else if (heros[i].nAnim == 0){
+        if (heros[i].vx == 0 && heros[i].vy == 0){
+            heros[i].anim = nonifiant;
+        }
+        else{
+            heros[i].wear = 0;
+            heros[i].anim = walkAnim;
+        }
+        heros[i].nAnim = 1;
+        heros[i].img = 0;
+        chooseAnimObject(i);
+    }
+
+    heros[i].nAnim -= 1;    
+}
+
 function walkAnim(i){
     if (heros[i].nAnim%5 == 0){
         if (heros[i].nAnim%10 == 0){
@@ -23,6 +55,7 @@ function walkAnim(i){
             heros[i].anim = nonifiant;
             heros[i].nAnim = -1;
             heros[i].img = 0;
+            chooseAnimObject(i);
             // L'animation de déplacement est terminée. On effectue alors les mouvements scriptés grâce à followPath()
             followPath(i);
             if (heros[i].carry[0] == 1) heros[i].img = 12;
@@ -66,7 +99,7 @@ function walkLedgeAnim(i){
 
 function jumpAnim(i){
     if (heros[i].nAnim == 3){
-        heros[i].g = -0.45;
+        heros[i].g = -0.2;
         heros[i].img = 4;
         heros[i].nAnim = -1;
         heros[i].anim = flyAnim;
@@ -74,6 +107,7 @@ function jumpAnim(i){
         heros[i].y +=  vecteurs[heros[i].datAnim][0];
         heros[i].vx = -50 * vecteurs[heros[i].datAnim][1];
         heros[i].vy = -50 * vecteurs[heros[i].datAnim][0];
+        heros[i].z += 0.05;
     }
     heros[i].nAnim += 1;
 }
@@ -83,57 +117,60 @@ function flyAnim(i){
     else if (heros[i].vy > 0) {heros[i].vy -= 4; }
     else if (heros[i].vx < 0) {heros[i].vx += 4; }
     else if (heros[i].vy < 0) {heros[i].vy += 4; }
-    if (Math.abs(heros[i].vx) < 8 && heros[i].vx != 0) {
-        if (heros[i].z == Map.getFloor(heros[i].x,heros[i].y,heros[i].z) || heros[i].datAnim == -1){
-            heros[i].anim = nonifiant;
-            heros[i].vx = 0;
-            heros[i].vy = 0;
-            heros[i].nAnim = 0;
-            heros[i].img = 0;
-            followPath(i);
-            if (heros[i].carry[0] == 1) heros[i].img = 12;
+    if (heros[i].z <= Map.superGetFloor(heros[i].x + heros[i].vx/50,heros[i].y + heros[i].vy/50,heros[i].z)) {
+        // Ok ! On a atteri quelque part ! Il s'agit de faire vite et de se mettre sur la case la plus proche.
+        let newX = Math.round(heros[i].x + heros[i].vx/50);
+        let newY = Math.round(heros[i].y + heros[i].vy/50);
+        heros[i].vx += (heros[i].x - newX)*50;
+        heros[i].vy += (heros[i].y - newY)*50;
+        heros[i].x = newX;
+        heros[i].y = newY;
+        heros[i].anim = walkAnim;
+    }
+    else if (Math.abs(heros[i].vx) < 8 && heros[i].vx != 0) {
+        if (heros[i].vx > 0){
+            if (Map.superGetFloor(heros[i].x - 1 , heros[i].y , heros[i].z) <= heros[i].z){
+                heros[i].x -= 1;
+                heros[i].vx = 50;
+            }
         }
         else {
-            heros[i].datAnim = -1;
-            if (heros[i].vx > 0){
-                if (Map.superGetFloor(heros[i].x - 1 , heros[i].y , heros[i].z) <= heros[i].z){
-                    heros[i].x -= 1;
-                    heros[i].vx = 50;
-                }
-            }
-            else {
-                if (Map.superGetFloor(heros[i].x + 1 , heros[i].y , heros[i].z) <= heros[i].z){
-                    heros[i].x += 1;
-                    heros[i].vx = -50;
-                }
+            if (Map.superGetFloor(heros[i].x + 1 , heros[i].y , heros[i].z) <= heros[i].z){
+                heros[i].x += 1;
+                heros[i].vx = -50;
             }
         }
     }
-    if (Math.abs(heros[i].vy) < 8 && heros[i].vy != 0){
-        if (heros[i].z == Map.getFloor(heros[i].x,heros[i].y,heros[i].z) || heros[i].datAnim == -1){
-            heros[i].anim = nonifiant;
-            heros[i].vx = 0;
-            heros[i].vy = 0;
-            heros[i].nAnim = 0;
-            heros[i].img = 0;
-            followPath(i);
-            if (heros[i].carry[0] == 1) heros[i].img = 12;
+    else if (Math.abs(heros[i].vy) < 8 && heros[i].vy != 0) {
+        if (heros[i].vy > 0){
+            if (Map.superGetFloor(heros[i].x , heros[i].y - 1 , heros[i].z) <= heros[i].z){
+                heros[i].y -= 1;
+                heros[i].vy = 50;
+            }
         }
         else {
-            heros[i].datAnim = -1;
-            if (heros[i].vy > 0){
-                if (Map.superGetFloor(heros[i].x , heros[i].y - 1 , heros[i].z) <= heros[i].z){
-                    heros[i].y -= 1;
-                    heros[i].vy = 50;
-                }
-            }
-            else {
-                if (Map.superGetFloor(heros[i].x , heros[i].y + 1 , heros[i].z) <= heros[i].z){
-                    heros[i].y += 1;
-                    heros[i].vy = -50;
-                }
+            if (Map.superGetFloor(heros[i].x , heros[i].y + 1 , heros[i].z) <= heros[i].z){
+                heros[i].y += 1;
+                heros[i].vy = -50;
             }
         }
+    }
+}
+
+function damageAnim(i){
+    if (heros[i].nAnim == 50){ // Ok on est au point de départ de l'animation !
+        heros[i].g = -0.6;
+        heros[i].img = 12;
+        heros[i].nAnim = -1;
+        heros[i].anim = flyAnim;
+        heros[i].z += 0.01;
+        heros[i].x +=  vecteurs[(heros[i].sens + 2)%4][1];
+        heros[i].y +=  vecteurs[(heros[i].sens + 2)%4][0];
+        heros[i].vx = -50 * vecteurs[(heros[i].sens + 2)%4][1];
+        heros[i].vy = -50 * vecteurs[(heros[i].sens + 2)%4][0];
+        
+        heros[i].stun = 20;
+        heros[i].mortal = 60;
     }
 }
 

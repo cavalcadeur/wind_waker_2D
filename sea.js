@@ -89,7 +89,7 @@ function goToLevel(oo,go,x,y,x2,y2,scrollStore,d,n){
         imgMonstre[i].src = "images/ennemis/" + out + "/e" + i + ".png";
     }
     goto = go;
-    Map.goto(go);
+    mapState = Map.goto(go,mapState);
     if (d != undefined){
         heros[n].anim = walkAnim;
             

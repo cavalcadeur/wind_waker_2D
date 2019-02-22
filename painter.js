@@ -7,7 +7,7 @@ var Painter = function() {
     var cellY = 55;  // Profondeur.
     var cellZ = 30;
     var cellS = 10;  // Décalage.
-    var width = 2; 
+    var width = 2;
     var walls;
     var wallsVert;
     var colorsZ;
@@ -42,7 +42,7 @@ var Painter = function() {
             cellY = b;
             cellZ = c;
             cellS = d;
-	    width = e;
+            width = e;
         },
         realCoor: function(x,y,z){
             if (z == undefined) z = 1;
@@ -51,101 +51,101 @@ var Painter = function() {
         niveau: function( level , texture) {
             level.updateOutlines();
             /*
-            if (texture == undefined) texture = [];
-			editNumber = 1;
-            var rows = level.length;
-            var cols = level[0].length;
-            colorsZ = [];
-            walls = [];
-            wallsVert = [];
-            level.forEach(function( row, y ) {
-                
-                colorsZ[y] = [];
-                
-                var line = [];
-                walls.push( line );
-                var lineVert = [];
-                wallsVert.push( lineVert );
-                row.forEach(function ( z, x ) {
+             if (texture == undefined) texture = [];
+             editNumber = 1;
+             var rows = level.length;
+             var cols = level[0].length;
+             colorsZ = [];
+             walls = [];
+             wallsVert = [];
+             level.forEach(function( row, y ) {
 
-                    colorsZ[y][x] = [];
-                    
-                    colorsZ[y][x][0] = "rgb("+Math.round(colors[3][0]+z*colors[3][3])+","+Math.round(colors[3][1]+z*colors[3][4])+","+Math.round(colors[3][2]+z*colors[3][5])+")";
-                    colorsZ[y][x][1] = colors[1];
-                    colorsZ[y][x][2] = colors[2];
+             colorsZ[y] = [];
 
-                    if (out == 1){
-                        if (z < -0.2){
-                            colorsZ[y][x][0] = "rgb("+Math.round(181 - z*0)+","+Math.round(180 - z*0)+","+Math.round(98 - z*0)+")";
-                            colorsZ[y][x][1] = "rgb(128,128,101)";
-                            colorsZ[y][x][2] = "rgb(115,115,91)";
-                        }
-                    }
-                    
-                    var v = 0;
-                    if( y == 0 || level[y - 1][x] < z ) {
-                        v += 1;
-                    }
-                    if( x == cols - 1 || level[y][x + 1] < z ) {
-                        v += 2;
-                    }
-                    if( y == rows - 1 || level[y + 1][x] < z ) {
-                        v += 4;
-                    }
-                    if( x == 0 || level[y][x - 1] < z ) {
-                        v += 8;
-                    }
+             var line = [];
+             walls.push( line );
+             var lineVert = [];
+             wallsVert.push( lineVert );
+             row.forEach(function ( z, x ) {
 
-                    //v = 0;
-                    
-                    line.push( v );
+             colorsZ[y][x] = [];
 
-                    if( z < 0 ) {
-                        // C'est la mer.
-                        lineVert.push( [0,0,0] );
-                        return;
-                    }
-                    
-                    var lineA = 0;
-                    var lineB = 0;
-                    var lineC = 0;
+             colorsZ[y][x][0] = "rgb("+Math.round(colors[3][0]+z*colors[3][3])+","+Math.round(colors[3][1]+z*colors[3][4])+","+Math.round(colors[3][2]+z*colors[3][5])+")";
+             colorsZ[y][x][1] = colors[1];
+             colorsZ[y][x][2] = colors[2];
+
+             if (out == 1){
+             if (z < -0.2){
+             colorsZ[y][x][0] = "rgb("+Math.round(181 - z*0)+","+Math.round(180 - z*0)+","+Math.round(98 - z*0)+")";
+             colorsZ[y][x][1] = "rgb(128,128,101)";
+             colorsZ[y][x][2] = "rgb(115,115,91)";
+             }
+             }
+
+             var v = 0;
+             if( y == 0 || level[y - 1][x] < z ) {
+             v += 1;
+             }
+             if( x == cols - 1 || level[y][x + 1] < z ) {
+             v += 2;
+             }
+             if( y == rows - 1 || level[y + 1][x] < z ) {
+             v += 4;
+             }
+             if( x == 0 || level[y][x - 1] < z ) {
+             v += 8;
+             }
+
+             //v = 0;
+
+             line.push( v );
+
+             if( z < 0 ) {
+             // C'est la mer.
+             lineVert.push( [0,0,0] );
+             return;
+             }
+
+             var lineA = 0;
+             var lineB = 0;
+             var lineC = 0;
 
              if( level[y][x - 1] < z ) {
              if (level[y][x-1] < -1) lineA = Math.min(z + 1,z - level[y+1][x]);
              else lineA = Math.min(z - level[y][x - 1],z - level[y+1][x]);
              }
-                    lineC = y == 0 ? z + 1 : 0;
-                    if( y > 0 && level[y - 1][x] < z ) {
-                        if (level[y-1][x] < -1) lineC = z + 1;
-                        else lineC = z - level[y-1][x];
-                    }
-                    if( x < cols - 1 ) {
-                        lineC = Math.min( lineC, Math.max( 0, z - level[y][x + 1] ) );
-                    }
-                    lineB = z + 1;
-                    if( x < cols - 1 && level[y][x + 1] <= z ) {
-                        if (level[y][x+1] < -1) lineB = z + 1;
-                        else lineB = z - level[y][x + 1];
-                    }
-                    else if(x < cols - 1 && level[y][x + 1] >= z) lineB = 0;
-                    if( y < rows - 1 ) {
-                        lineB = Math.min( lineB, z - level[y + 1][x] );
-                    }
+             lineC = y == 0 ? z + 1 : 0;
+             if( y > 0 && level[y - 1][x] < z ) {
+             if (level[y-1][x] < -1) lineC = z + 1;
+             else lineC = z - level[y-1][x];
+             }
+             if( x < cols - 1 ) {
+             lineC = Math.min( lineC, Math.max( 0, z - level[y][x + 1] ) );
+             }
+             lineB = z + 1;
+             if( x < cols - 1 && level[y][x + 1] <= z ) {
+             if (level[y][x+1] < -1) lineB = z + 1;
+             else lineB = z - level[y][x + 1];
+             }
+             else if(x < cols - 1 && level[y][x + 1] >= z) lineB = 0;
+             if( y < rows - 1 ) {
+             lineB = Math.min( lineB, z - level[y + 1][x] );
+             }
 
-                    //lineA = 0;
-                    //lineB = 0;
-                    //lineC = 0;
-                    
-                    lineVert.push( [lineA, lineB, lineC] );
-                     
-                });
-            });
+             //lineA = 0;
+             //lineB = 0;
+             //lineC = 0;
 
-            texture.forEach(
-                function(e,i){
-                    colorsZ[e[0]][e[1]][0] = e[2];
-                }
-            );
+             lineVert.push( [lineA, lineB, lineC] );
+
+             });
+             });
+
+             texture.forEach(
+             function(e,i){
+             colorsZ[e[0]][e[1]][0] = e[2];
+             }
+             );
              */
 
             //console.info("[painter] wallsVert=...", wallsVert);
@@ -173,7 +173,7 @@ var Painter = function() {
         centerScroll: function ( x, y , z , W , H) {
             scrollX = Math.floor(W/2 - x*cellX + y*cellS);
             scrollY = Math.floor(H/2 - y*cellY + z*cellZ);
-            
+
             this.getScrollCase();
         },
 
@@ -190,10 +190,10 @@ var Painter = function() {
             scrollX += vscr * dscrX;
             scrollY += vscr * dscrY;
             this.getScrollCase();
-            
+
             backg.pushWave(vscr * dscrY,vscr * dscrX,W,H);
-         },
-        
+        },
+
         scrollYPlus: function(a) {
             scrollY += a;
         },
@@ -220,7 +220,7 @@ var Painter = function() {
         },
 
         drawQuake: function( n ) {
-	    scrollX += Math.sin(n)*20;
+            scrollX += Math.sin(n)*20;
         },
 
         drawChain: function(ctx,x,y,x2,y2,z) {
@@ -276,7 +276,7 @@ var Painter = function() {
             ctx.scale(s,1);
             ctx.drawImage(img,-img.width/2,-img.height/2);
             ctx.restore();
-        },       
+        },
         imgScaleTot: function( ctx, x, y, z, s, img ) {
             if( !img ) return;
 
@@ -297,21 +297,21 @@ var Painter = function() {
 
             ctx.save();
             ctx.translate(X+12,Y);
-	    	ctx.rotate(r);
+            ctx.rotate(r);
             ctx.scale(s,1);
             ctx.drawImage(img,-img.width/2,-img.height/2);
             ctx.restore();
         },
         imgFullControl: function( ctx, x, y, z, s, r, img ,ss) {
             if( !img ) return;
-			//if (ss == undefined) ss = s;
+            //if (ss == undefined) ss = s;
 
             var X = toX( x, y, z ) + cellS / 2 + (cellX) / 2;
             var Y = toY( x, y, z ) - img.height/2 - cellY / 2;
 
             ctx.save();
             ctx.translate(X,Y);
-	    	ctx.rotate(r);
+            ctx.rotate(r);
             ctx.scale(s,s);
             ctx.drawImage(img,-img.width/2,-img.height/2);
             ctx.restore();
@@ -325,19 +325,19 @@ var Painter = function() {
 
             ctx.save();
             ctx.translate(X,Y);
-	    ctx.rotate(r);
+            ctx.rotate(r);
             ctx.scale(s,sy);
             ctx.drawImage(img,-img.width/2,-img.height/2);
             ctx.restore();
         },
 
         cell: function( ctx, x, y, z ,n , outline) {
-     
+
             //-----------------------------------------------------------------
 
             //counter += 0.001;
             //LSD = Math.sin(counter/10)*5;
-            
+
             if( z > -1 ) {
                 var X = toX( x, y, z );
                 var Y = toY( x, y, z );
@@ -345,7 +345,7 @@ var Painter = function() {
                 ctx.fillStyle = colors[1];
                 //ctx.createPattern(imgPat,"repeat");
                 ctx.fillRect( X, Y, cellX, cellZ * (z + 1) );
-                
+
                 // Partie latérale (verticale)
                 ctx.fillStyle = colors[2];
                 ctx.beginPath();
@@ -354,12 +354,12 @@ var Painter = function() {
                 ctx.lineTo( X + cellX + cellS, Y - cellY + (z + 1) * cellZ);
                 ctx.lineTo( X + cellX, Y + (z + 1) * cellZ );
                 ctx.closePath();
-                ctx.fill();			
+                ctx.fill();
 
                 // Partie horizontale.
                 //ctx.fillStyle = "rgb("+Math.round(colors[3][0]+z*colors[3][3])+","+Math.round(colors[3][1]+z*colors[3][4])+","+Math.round(colors[3][2]+z*colors[3][5])+")";
                 ctx.fillStyle = outline[2];
-		if (n == 1) ctx.fillStyle = "rgb(255,255,255)";
+                if (n == 1) ctx.fillStyle = "rgb(255,255,255)";
                 ctx.beginPath();
                 ctx.moveTo( X, Y );
                 ctx.lineTo( X + cellX + 1, Y );
@@ -367,14 +367,14 @@ var Painter = function() {
                 ctx.lineTo( X + cellS, Y - cellY );
                 ctx.closePath();
                 ctx.fill();
-				
-		if (n == 1) {
+
+                if (n == 1) {
                     return;
                 }
 
                 ctx.strokeStyle = "#000";
                 ctx.lineWidth = width;
-                
+
                 // Tracer les lignes des plateaux.
                 var wall = outline[0];
                 if( wall & 1 ) {
@@ -402,7 +402,7 @@ var Painter = function() {
                     ctx.stroke();
                 }
                 // Tracer les lignes verticales.
-                
+
                 wall = outline[1];
                 if( wall[0] > 0 ) {
                     ctx.beginPath();
@@ -422,7 +422,7 @@ var Painter = function() {
                     ctx.lineTo( X + cellX + cellS, Y + cellZ * wall[2] - cellY);
                     ctx.stroke();
                 }
-                 
+
             }
         },
 
@@ -433,11 +433,11 @@ var Painter = function() {
         drawVoisinG: function(calc,x,y,ctx,niv){
             ctx.drawImage(calc,toX(-niv[0].length,niv.length-1,0) - 500,toY(0,-1,0)-width/2 - 500);
         },
-        
+
         case: function(level,x,y){
             // Cette fonction est à revoir elle ne peut pas fonctionner de cette façon il va falloir trouver une astuce ma foi fort sympathique
             // Voici l'astuce. On ne peut pas parcourir toutes les cases mais on va parcourir uniquement celle qui sont visibles grâce à ce formidable scrollCaseX et scrollCaseY
-            
+
             var result = ["ah","ah"];
             for (var Y = scrollCaseY + nCasesY - 1;Y >= scrollCaseY;Y -= 1){
                 for (var X = scrollCaseX;X < scrollCaseX + nCasesX;X++){
@@ -448,10 +448,10 @@ var Painter = function() {
                     }
                 }
             }
-            
+
             return ["ah","ah"];
         },
-        
+
         // Pas sûr de l'utilité de ces deux fonctions mais elles ne peuvent pas fonctionner avec le système d'arbre
         getRealWidth(niv){
             return (niv[0].length * cellX + niv.length * cellS);
@@ -476,7 +476,7 @@ var Painter = function() {
             );
             return result;
         },
-        
+
         scrolling: function(){
             //vscr = 0;
             var x = toX(heros[0].x+heros[0].vx/50,heros[0].y+heros[0].vy/50,heros[0].z);
@@ -549,6 +549,48 @@ var Painter = function() {
             var X = toX(x+0.5,y+0.5,z+0.5);
             var Y = toY(x+0.5,y+0.5,z+0.5);
             ctx.fillText(texte,X,Y);
+        },
+
+        // DLC part
+
+        cellContourLess: function( ctx, x, y, z ,n , nivel) {
+
+            //-----------------------------------------------------------------
+
+            if( typeof nivel === 'undefined' ) nivel = niveau;
+            if( z > -1 ) {
+                var X = toX( x, y, z );
+                var Y = toY( x, y, z );
+                // Partie frontale (verticale)
+                if  (y == nivel.length - 1 || z > nivel[y+1][x]){
+                    ctx.fillStyle = colorSet[out][0];
+                    ctx.fillRect( X, Y, cellX, cellZ * (z + 1) );
+                }
+                // Partie latérale (verticale)
+                if  (x == nivel[y].length - 1 || z > nivel[y][x+1]){
+                    ctx.fillStyle = colorSet[out][1];
+                    ctx.beginPath();
+                    ctx.moveTo( X + cellX, Y );
+                    ctx.lineTo( X + cellX + cellS, Y - cellY );
+                    ctx.lineTo( X + cellX + cellS, Y - cellY + (z + 1) * cellZ);
+                    ctx.lineTo( X + cellX, Y + (z + 1) * cellZ );
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
+                // Partie horizontale.
+                ctx.fillStyle = "rgb("+(colorSet[out][2][0]+z*colorSet[out][2][3])+","+(colorSet[out][2][1]+z*colorSet[out][2][4])+","+(colorSet[out][2][2]+z*colorSet[out][2][5])+")";
+                if (n == 1) ctx.fillStyle = "rgb(255,255,255)";
+                ctx.beginPath();
+                ctx.moveTo( X, Y );
+                ctx.lineTo( X + cellX + 1, Y );
+                ctx.lineTo( X + cellX + 1 + cellS, Y - cellY );
+                ctx.lineTo( X + cellS, Y - cellY );
+                ctx.closePath();
+                ctx.fill();
+
+                if (n == 1) return;
+            }
         }
     };
 }();

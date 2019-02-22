@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>The Wind Waker 2D</title>
+        <title>Cavalcade</title>
         <link rel="shortcut icon" href="images/icon.png" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
@@ -11,12 +11,14 @@
 
         <script src="ennemis/cochons.js"></script>
         <script src="ennemis/chuchus.js"></script>
+		<script src="ennemis/gardeneer.js"></script>
+		<script src="ennemis/gotelem.js"></script>
         <script src="ennemis/general.js"></script>
 
         <script src="action.js"></script>
+		<script src="attack.js"></script>
         <script src="pathFinder.js"></script>
         <script src="colors.js"></script>
-        <script src="combat.js"></script>
         <script src="inventaire.js"></script>
         <script src="alert.js"></script>
         <script src="gamePad.js"></script>
@@ -53,6 +55,7 @@
     </head>
     <body onload="start()">
         <canvas id="canvas" width="1000" height="800"></canvas>
+		<input id="input" type="file"/>
         <div id="R"></div>
 
         <div id="alert">lolilol</div>

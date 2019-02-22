@@ -2,3 +2,7 @@
 - Le path finding a des problèmes de temps en temps
 - La partie goToLevel doit être vérifiée et retravaillée.
 - La section combat est vide. Il faut réécrire le système d'attaque.
+- Dans le fichier Attack : la fonction d'action de l'épée est un peu ambigüe dans son utilisation de Map. Peut-être qu'il faudrait plutôt lui passer une map en argument.
+- Les ennemis ne survivent absolument pas à la sauvegarde.
+- Mieux gérer les inputs pour permettre le plein écran. Ne pas manger les touches en somme.
+

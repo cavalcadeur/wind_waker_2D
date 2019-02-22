@@ -115,10 +115,10 @@ function action(t){
 
             }
             else if (h.grap == 0){
-                if ((h.z > Map.getFloor(h.x,h.y,h.z) )) h.g += 0.05;
+                if ((h.z > Map.superGetFloor(h.x + h.vx/50,h.y + h.vy/50,h.z) )) h.g += 0.05;
                 else {
                     h.g = 0;
-                    h.z = Map.getFloor(h.x,h.y,h.z);
+                    h.z = Map.superGetFloor(h.x + h.vx/50,h.y + h.vy/50,h.z);
                     if (h.z <= -1){
                         fall(h,n);
                     }
@@ -173,6 +173,7 @@ function move(d,n,gg){
     if (heros[n].stun > 0) return;
     if (heros[n].sens != d){
         heros[n].sens = d;
+        heros[n].img = 0;
         chooseAnimObject(n);
         heros[n].delay = 6;
         if (n == 0){
@@ -273,7 +274,14 @@ function move(d,n,gg){
         heros[n].vx += -50 * vecteurs[d][1];
         heros[n].vy += -50 * vecteurs[d][0];
     }
-    nPas += 1;
+    // On avance d'un pas. Si il s'agit du joueur 1 qui avance, tous les pas, on place un nouveau spawnPoint sous ses pieds.
+    if (n == 0) {
+        nPas += 1;
+        if (Map.getAlti(heros[0].x,heros[0].y) > -1){
+            respawnPoint[0] = heros[0].x;
+            respawnPoint[1] = heros[0].y;
+        }
+    }
     if (heros[n].etat == 1 && heros[n].g == 0) {heros[n].g = -0.20; heros[n].z += 0.01;}
 }
 

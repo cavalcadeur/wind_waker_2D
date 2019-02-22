@@ -33,6 +33,14 @@ function drawQuakePP(e){
     Painter.drawQuake(e.n);
 }
 
+function drawCutGrass(e,ctxa){
+    if (e.lim - e.n < 10) ctxa.globalAlpha = (e.lim - e.n)/10; 
+    for (let i = 0;i < e.liste.length; i++){
+        Painter.img( ctxa, e.x + e.liste[i][0], e.y, e.liste[i][1] + e.alti, imgDebris[e.name + i]);
+    }
+    ctx.globalAlpha = 1;
+}
+
 function drawDebris(e){
     Painter.img( ctx, e.x - e.n/25, e.y, e.alti, imgDebris[e.name + "0"] );
     Painter.img( ctx, e.x  - e.n/20, e.y, e.alti, imgDebris[e.name + "1"] );
@@ -42,6 +50,29 @@ function drawDebris(e){
 }
 
 function drawFumee(e){
+    if (e.n < 0) return;
+    else if (e.n < e.lim/3){
+        Painter.imgFullControl( ctx, e.x,e.y,e.alti,3*e.n/e.lim,1-3*e.n/e.lim,imgDebris[e.name]);
+    }
+    else if (e.n < 2*e.lim/3){
+        //if (n > 15)ctx.globalAlpha = 1 - (n-15)/5;
+        for (var i = 0;i < 8;i ++){
+            Painter.img( ctx, e.x + Math.cos((Math.PI/4)*i)*(e.n-e.lim/3)*0.02,e.y + Math.sin((Math.PI/4)*i)*(e.n-e.lim/3)*0.02,e.alti,imgDebris[e.name]);
+            Painter.img( ctx, e.x + Math.cos((Math.PI/4)*i)*(e.n-e.lim/3)*0.06,e.y + Math.sin((Math.PI/4)*i)*(e.n-e.lim/3)*0.06,e.alti,imgDebris[e.name]);
+        }
+        //ctx.globalAlpha = 1;
+    }
+    else if (e.n < e.lim){
+        ctx.globalAlpha = 1 - (e.n-2*e.lim/3)/(e.lim/3);
+        for (var i = 0;i < 8;i ++){
+            Painter.img( ctx, e.x + Math.cos((Math.PI/4)*i)*(e.n-e.lim/3)*0.02,e.y + Math.sin((Math.PI/4)*i)*(e.n-e.lim/3)*0.02,e.alti,imgDebris[e.name]);
+            Painter.img( ctx, e.x + Math.cos((Math.PI/4)*i)*(e.n-e.lim/3)*0.06,e.y + Math.sin((Math.PI/4)*i)*(e.n-e.lim/3)*0.06,e.alti,imgDebris[e.name]);
+        }
+        ctx.globalAlpha = 1;
+    }
+}
+
+/*function drawFumee(e){
     if (e.n < 0) return;
     else if (e.n < 8){
         Painter.imgFullControl( ctx, e.x,e.y,e.alti,e.n/8,1-e.n/8,imgDebris[e.name]);
@@ -62,7 +93,7 @@ function drawFumee(e){
         }
         ctx.globalAlpha = 1;
     }
-}
+}*/
 
 function drawFire(type,n,x,y,alti){
     Painter.img( ctx, x, y, alti,imgDebris[type+(Math.round(n)%4)]);

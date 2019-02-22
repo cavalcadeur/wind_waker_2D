@@ -8,7 +8,7 @@ var ctx,canvas;
 var X = 0;
 var Y = 0;
 var keys = [];
-var heros = [{"x":0,"y":8,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,"rubis":0,"objet":0,"invent":["blank"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"prim":"pencil","imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":10,"touche":[38,39,40,37,16,17,32],"scrollSpeed":1,anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]},{"x":0,"y":9,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,"rubis":0,"objet":0,"invent":["sword"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":0,"touche":[101,99,98,97,13,96],anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]}];
+var heros = [{"x":0,"y":8,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:2,"rubis":0,"objet":0,"invent":["sword","sword","pencil","pencil","pencil"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"prim":"pencil","imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":10,"touche":[38,39,40,37,16,17,32],"scrollSpeed":1,anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]},{"x":2,"y":9,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:3,"rubis":0,"objet":0,"invent":["sword","sword","pencil","sword"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":0,"touche":[101,99,98,97,13,96],anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]}];
 var questObj = {"carteMaritime":0,"boussole":0,wear:0};
 var objInvent = [];
 var seaLimit = [1200,900];
@@ -273,7 +273,7 @@ function start(){
     actx.loop = true;
     ctx.imageSmoothingEnabled = true;
     Map.goOut(1);
-    Map.goto("ocean");
+    mapState = Map.goto("ocean",mapState);
     goto = "ocean";
     out = 1;
     
@@ -449,32 +449,5 @@ function animation(){
 
 function hitEnnemis(n,degat,sens){
 
-}
-
-function hitHeros(n,degat,sens){
-    if (heros[n].mortal > 0) return;
-    if (degat == -1) return;
-    heros[n].grap = 0;
-    hookShots.splice(heros[n].nGrap,1);
-    if (heros[(n+1)%2].nGrap > heros[n].nGrap) heros[(n+1)%2].nGrap -= 1;
-    heros[n].nGrap = -1;
-    heros[n].vx = 0;
-    heros[n].vy = 0;
-    if ((heros[n].y + vecteurs[sens][0]) < niveau.length && heros[n].y + vecteurs[sens][0] >= 0){
-        if ((heros[n].x + vecteurs[sens][1]) < niveau[0].length && heros[n].x + vecteurs[sens][1] >= 0){
-            if (niveau[heros[n].y][heros[n].x] >= niveau[heros[n].y + vecteurs[sens][0]][heros[n].x + vecteurs[sens][1]] && (heros[n].x + vecteurs[sens][1]) < niveau[heros[n].y + vecteurs[sens][0]].length){
-                if (isSolid(heros[n].x + vecteurs[sens][1],heros[n].y + vecteurs[sens][0]) == false){
-                    heros[n].x += vecteurs[sens][1];
-                    heros[n].y += vecteurs[sens][0];
-                }
-            }
-        }
-    }
-    heros[n].vie -= degat;
-    heros[n].stun = 20;
-    heros[n].mortal = 60;
-    //if (heros[n].vie <= 0){
-    //cinematicos = 10;
-    //}
 }
 

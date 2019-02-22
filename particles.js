@@ -44,10 +44,21 @@ function deComposeParticle(e){
 }
 
 function defineParticles(type,x,y,z,g,n,lim,name,carry,sens,objType){
-    if (type == "sword"){
+    if (type == "attack"){
+        return({type:"attack",x:x,y:y,alti:z,damage:g,n:n,lim:lim,shape:name,team:carry,sens:sens,draw:attDrawFuncs[name],act:attActFuncs[name]}); // Voir le fichier attack.js pour les détails.
+    }
+    else if (type == "sword"){
         return({type:"sword",x:x,y:y,alti:z,g:g,n:n,lim:lim,draw:drawSword,act:limAct,sens:sens});
         //particles[particles.length-1].draw = drawSword;
     }
+    else if (type == "cutGrass"){
+        return({n:n,type:"cutGrass",x:x,y:y,g:g,alti:z,lim:lim,name:name,draw:drawCutGrass,act:limActLeaf,liste:[[0,0],[0,0],[0,0],[0,0],[0,0]]});
+    }
+    /*
+    else if (type == "fallingGrass"){
+        return({n:n,type:"cutGrass",x:x,y:y,g:-0.2,alti:z,lim:lim,name:name,draw:drawCutGrass,act:limActLeaf,liste:[[-0.07,0],[-0.07,0],[-0.06,0],[0,0],[0.1,0]]});
+    }
+     */
     else if (type == "flower"){
         return({n:n,type:"flower",x:x,y:y,g:g,alti:z,lim:lim,draw:drawFlower,act:limAct});
         //particles[particles.length-1].draw = drawSword;
@@ -85,7 +96,7 @@ function defineParticles(type,x,y,z,g,n,lim,name,carry,sens,objType){
         return({n:n,type:"titre",x:x,y:y,alti:z,g:g,lim:lim,act:limActTitre,draw:drawTitre,name:name});
     }
     else if (type == "none"){
-        return({act:destroy,draw:drawNone});
+        return({act:destroy,draw:null});
     }
     else if (type == "eole"){
         return({n:n,type:"eole",x:x,y:y,alti:z,g:g,lim:lim,act:limActEndless,draw:drawEole});
@@ -187,6 +198,33 @@ function limActEndless(e,i){
 function limActG(e,i){
     e.alti += e.g/50;
     e.g -= 1;
+    e.n += 1;
+    if (e.n >= e.lim) suppParticles(i);
+}
+
+function limActLeaf(e,i){
+    // Partie mouvement
+    e.alti += e.g/10;
+    e.g -= 0.5;
+    if (e.g <= -0.2) {
+        for (let j = 0;j < e.liste.length; j++){
+            e.liste[j][0] += Math.sin(e.n/10 + j)/130;
+            /*
+            if (j < 3){
+                e.liste[j][2] -= (3 - j)/8;
+            }
+            else {
+                e.liste[j][2] += (j - 2.5)/8;
+            }
+             */
+        }
+        e.g = -0.2;
+    }
+    else{
+        e.liste[0][0] -= 0.01; e.liste[1][0] -= 0.002; e.liste[2][0] -= 0.001; e.liste[4][0] += 0.01; 
+    }
+    
+    // Partie longévité
     e.n += 1;
     if (e.n >= e.lim) suppParticles(i);
 }

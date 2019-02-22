@@ -53,8 +53,20 @@ var Map = function(){
             out = n;
         },
 
+        where: function(){
+            return whereAmI;
+        },
+
         updateOutlines: function(){
 
+        },
+
+        stringToState: function(mapS){
+         
+            this.purifie();
+            mapS[whereAmI] = this.getString();
+
+            return mapS;
         },
         
         updateOutlinesCase: function(x,y,r){
@@ -125,23 +137,32 @@ var Map = function(){
 
         },
 
-        goto: function(where){
+        goto: function(where,mapS){
             // Fonction qui setup la classe pour un lieu en particulier
+            
+
             whereAmI = where;
-            // On va chercher le fichier json qui nous interesse
-            var requestURL = "data/maps/" + out + "/" + where + ".json";
-            var request = new XMLHttpRequest();
-            request.open("GET",requestURL);
-            request.responseType = 'json';
-            request.send();
-            var that = this;
-            request.onload = function(){
-                console.log("==================================================");
-                currentData = request.response;
-                // les données sont arrivées, alors là ça va se compliquer.
-                // On va créer notre arborescence à partir de ça.
-                fillTree(currentData);
-            };
+            
+            if (mapS[where] == undefined){
+                // On va chercher le fichier json qui nous interesse
+                var requestURL = "data/maps/" + out + "/" + where + ".json";
+                var request = new XMLHttpRequest();
+                request.open("GET",requestURL);
+                request.responseType = 'json';
+                request.send();
+                var that = this;
+                request.onload = function(){
+                    currentData = request.response;
+                    // les données sont arrivées, alors là ça va se compliquer.
+                    // On va créer notre arborescence à partir de ça.
+                    fillTree(currentData);
+                };
+            }
+            else{
+                // On remarque que les données sont déjà dans mapState donc on les récupère là.
+                fillTree(JSON.parse(mapS[where]));
+            }
+            return mapS;
         },
         
         load: function(){
@@ -565,6 +586,7 @@ var mapNode = function(){
             
             if (y == 0 && x != 0){ // On va supposer quand même que x != 0 ça me semble raisonnable
                 var extremes = [children[(1+x)/2].getExtreme(xx,yy),children[(1+x)/2 + 2].getExtreme(xx,yy)];
+
             }
             else if (x == 0 && y != 0){ // On va supposer quand même que y != 0 ça me semble raisonnable
                 var extremes = [children[(1+y)].getExtreme(xx,yy),children[(1+y) + 1].getExtreme(xx,yy)];

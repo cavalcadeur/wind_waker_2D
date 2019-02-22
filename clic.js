@@ -26,7 +26,7 @@ function GPS(x,y){
 function clicPlayerTwo(x,y,heros){
     x = Math.floor(x-scrollX);
     y = Math.floor(y-scrollY);
-    var coor = Painter.case(niveau,x,y);
+    var coor = Painter.case(Map,x,y);
     x = coor[1];
     y = coor[0];
     var z = Map.getFloor(x,y,heros[1].z);

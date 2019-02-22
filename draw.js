@@ -9,6 +9,7 @@ function drawRoom(kk,ctxa,map){
         //Painter.line( ctx, y,0);
         //e.forEach(
         //function(f,x){
+        //if (y == scrollCaseY + nCasesY - 1) ctx.globalAlpha = 0.5;
         for(var x = scrollCaseX; x < scrollCaseX + nCasesX ;x++){
             var cell = map.getCell(x,y);
             var f = cell[1];
@@ -75,6 +76,8 @@ function drawRoom(kk,ctxa,map){
         );
     }
 
+    //ctx.globalAlpha = 1;
+    
     if (ennemyRefresh <= 0){
         ennemyRefresh = ennemyRefreshLim;
     }
@@ -136,37 +139,35 @@ function draw() {
             Painter.cell( ctx, casePencil[1], casePencil[0], ZZZ ,1 , []);  // Celui ci sert pour dessiner le curseur lors de l'edition
             ctx.globalAlpha = 1;
         }
-        if (mouse[1] > 150 && mouse[1] < W - 150){
-            if (mouse[0] < 25 && mouse[0] > 0) {
-                scrollEditSpeed[1] += scrollEditSpeed[2];
-            }
-            else if (mouse[0] > H - 25){
-                scrollEditSpeed[1] -= scrollEditSpeed[2];
-            }
-            else if (scrollEditSpeed[1] != 0){
-                if (scrollEditSpeed[1] > 0) scrollEditSpeed[1] -= scrollEditSpeed[2];
-                if (scrollEditSpeed[1] < 0) scrollEditSpeed[1] += scrollEditSpeed[2];
-                if (Math.abs(scrollEditSpeed[1]) < scrollEditSpeed[2]) scrollEditSpeed[1] = 0;
-            }
-            scrollEditSpeed[1] = Math.min(scrollEditSpeed[3],scrollEditSpeed[1]);
-            scrollEditSpeed[1] = Math.max(-1 * scrollEditSpeed[3],scrollEditSpeed[1]);
-
-            if (mouse[1] < 175) {
-                scrollEditSpeed[0] += scrollEditSpeed[2];
-            }
-            else if (mouse[1] > W - 175){
-                scrollEditSpeed[0] -= scrollEditSpeed[2];
-            }
-            else if (scrollEditSpeed[0] != 0){
-                if (scrollEditSpeed[0] > 0) scrollEditSpeed[0] -= scrollEditSpeed[2];
-                if (scrollEditSpeed[0] < 0) scrollEditSpeed[0] += scrollEditSpeed[2];
-                if (Math.abs(scrollEditSpeed[0]) < scrollEditSpeed[2]) scrollEditSpeed[0] = 0;
-            }
-            scrollEditSpeed[0] = Math.min(scrollEditSpeed[3],scrollEditSpeed[0]);
-            scrollEditSpeed[0] = Math.max(-1 * scrollEditSpeed[3],scrollEditSpeed[0]);
-            
-            Painter.scrollPlus(scrollEditSpeed[0],scrollEditSpeed[1],W,H);
+        if (mouse[0] < 25 && mouse[0] > 0) {
+            scrollEditSpeed[1] += scrollEditSpeed[2];
         }
+        else if (mouse[0] > H - 25){
+            scrollEditSpeed[1] -= scrollEditSpeed[2];
+        }
+        else if (scrollEditSpeed[1] != 0){
+            if (scrollEditSpeed[1] > 0) scrollEditSpeed[1] -= scrollEditSpeed[2];
+            if (scrollEditSpeed[1] < 0) scrollEditSpeed[1] += scrollEditSpeed[2];
+            if (Math.abs(scrollEditSpeed[1]) < scrollEditSpeed[2]) scrollEditSpeed[1] = 0;
+        }
+        scrollEditSpeed[1] = Math.min(scrollEditSpeed[3],scrollEditSpeed[1]);
+        scrollEditSpeed[1] = Math.max(-1 * scrollEditSpeed[3],scrollEditSpeed[1]);
+        
+        if (mouse[1] < 25) {
+            scrollEditSpeed[0] += scrollEditSpeed[2];
+        }
+        else if (mouse[1] > W - 25){
+            scrollEditSpeed[0] -= scrollEditSpeed[2];
+        }
+        else if (scrollEditSpeed[0] != 0){
+            if (scrollEditSpeed[0] > 0) scrollEditSpeed[0] -= scrollEditSpeed[2];
+            if (scrollEditSpeed[0] < 0) scrollEditSpeed[0] += scrollEditSpeed[2];
+            if (Math.abs(scrollEditSpeed[0]) < scrollEditSpeed[2]) scrollEditSpeed[0] = 0;
+        }
+        scrollEditSpeed[0] = Math.min(scrollEditSpeed[3],scrollEditSpeed[0]);
+        scrollEditSpeed[0] = Math.max(-1 * scrollEditSpeed[3],scrollEditSpeed[0]);
+        
+        Painter.scrollPlus(scrollEditSpeed[0],scrollEditSpeed[1],W,H);
     }
     else if (edition == 0) Painter.scrollCenter(heros[0].x,heros[0].y,heros[0].z,W,H);
     drawInterface();

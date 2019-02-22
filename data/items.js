@@ -9,7 +9,7 @@ function attack(n,x){
             drawInterface = AInterface;
             casePencil = ["ah","ah"];
             Map.purifie();
-            console.log(Map.getString());
+            //console.log(Map.getString());
         }
         return;
     }
@@ -21,12 +21,14 @@ function attack(n,x){
         }
         return;
     }
+    /*
     if (heros[n].carry[0] != 0){
         heros[n].carry[0] = 0;
-        ennemis[heros[n].carry[1]].throw(heros[n].sens);
+        ennemis[heros[n].carry[1]].throw(heros[n].sens);  // Ce morceau sert pour jetter des objets. La fonction saisi et lancée d'objet est absente de Cavalcade.
         heros[n].img = 0;
         return;
     }
+     */
     if (x == 1) {
         var use = heros[0].prim;
     }
@@ -35,6 +37,7 @@ function attack(n,x){
     var grassContent = ["","","","rubisVert","rubisVert","rubisBleu"];
     var truc = Map.getObject(heros[n].x + vecteurs[heros[n].sens][1],heros[n].y + vecteurs[heros[n].sens][0],0);
     var continu = true;
+    /*
     ennemis.forEach(
         function (e,ii){
             if (e.isThere(heros[n].x + vecteurs[heros[n].sens][1]*0.5,heros[n].y + vecteurs[heros[n].sens][0]*0.5,heros[n].z) && continu){
@@ -42,14 +45,15 @@ function attack(n,x){
                 heros[n].carry[1] = ii;
                 e.carried(n);
                 heros[n].img = 12;
-                continu = false;
+                continu = false;             // Partie pour saisir des objets. Cette fonctionnalité n'a rien à faire dans Cavalcade.
             }
         }
     );
     if (heros[n].carry[0] != 0) return;
+     */
     var XX = heros[n].x + vecteurs[heros[n].sens][1];
     var YY = heros[n].y + vecteurs[heros[n].sens][0];
-    if ((truc == "coffre0" || truc == "porte0" || truc == "pot" || truc == "PNJ" || truc == "checkPoint" || truc == "unCheckPoint") &&
+    if ((truc == "coffre0" || truc == "porte0" || truc == "pot" || truc == "PNJ" || truc == "checkPoint") &&
         Math.abs(Map.getAlti(XX,YY) - Map.getAlti(heros[n].x,heros[n].y)) < 1){
         
         if (truc == "coffre0"){
@@ -91,9 +95,6 @@ function attack(n,x){
         else if (truc == "checkPoint"){
             save();
         }
-        else if (truc == "unCheckPoint"){
-            unSave();
-        }
     }
     else if (Map.getObject(XX,YY,1) == "PNJ"){
         var powerRanger = Map.getObj(XX,YY);
@@ -104,7 +105,9 @@ function attack(n,x){
     else if (heros[n].etat == 0){
         if (use == "sword"){
             heros[n].wear = 1;
-            chooseAnimObject(n);
+            heros[n].nAnim = 5;
+            heros[n].anim = swordAttackAnim;
+            addParticles("attack",heros[n].x + vecteurs[heros[n].sens][1],heros[n].y + vecteurs[heros[n].sens][0],heros[n].z,1,0,3,"sword",2,heros[n].sens);
         }
         else if (use == "boomerang"){
             boomerang.push({"x":heros[n].x,"y":heros[n].y,"vx":0,"vy":0,"sx":heros[n].x,"sy":heros[n].y,"r":0,"alti":Map.getAlti(heros[n].x,heros[n].y),"sens":heros[n].sens,"endu":10,"content":[]});

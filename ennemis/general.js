@@ -7,6 +7,12 @@ function findEnnemy(nom,id,x,y,m){
     if (nom == "cochon"){
         ennemis[id] = new Cochon();
     }
+    else if (nom == "gardeneer"){
+        ennemis[id] = new Gardeneer();
+    }
+    else if (nom == "gotelem"){
+        ennemis[id] = new Gotelem();
+    }
     else if (nom == "chuchu"){
         ennemis[id] = new Chuchu();
     }

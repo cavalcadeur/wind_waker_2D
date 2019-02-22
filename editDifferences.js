@@ -100,7 +100,7 @@ function drawFleche(x,y,s){
 
 function clickEdit(x,y,b){
     if (x < 150){
-        if (y > H-70) exportFileAsFuck();
+        if (y > H-70) save();
         else if (y < 400){
             editNs[1] = Math.floor(y / 80)*2 + Math.floor(x/75) + editNs[0]*10;
             editNs[2] = 0;
