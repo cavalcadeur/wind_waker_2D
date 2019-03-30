@@ -104,20 +104,14 @@ function attack(n,x){
     }
     else if (heros[n].etat == 0){
         if (use == "sword"){
-            heros[n].wear = 1;
-            heros[n].nAnim = 5;
-            heros[n].anim = swordAttackAnim;
-            addParticles("attack",heros[n].x + vecteurs[heros[n].sens][1],heros[n].y + vecteurs[heros[n].sens][0],heros[n].z,1,0,3,"sword",2,heros[n].sens);
-        }
-        else if (use == "boomerang"){
-            boomerang.push({"x":heros[n].x,"y":heros[n].y,"vx":0,"vy":0,"sx":heros[n].x,"sy":heros[n].y,"r":0,"alti":Map.getAlti(heros[n].x,heros[n].y),"sens":heros[n].sens,"endu":10,"content":[]});
-            if (x == 1) heros[n].prim = "blank";
-            else{
-                if (heros[n].invent.length == 1) heros[n].invent[0] = "blank";
-                else {
-                    heros[n].invent.splice(heros[n].objet,1);
-                }
-                if (heros[n].objet >= heros[n].invent.length) heros[n].objet -= 1;
+            if (heros[n].nAnim == 0){
+                heros[n].wear = 1;
+                heros[n].nAnim = 10;
+                heros[n].anim = swordAttackAnim;
+                addParticles("attack",heros[n].x + heros[n].vx/50 + vecteurs[heros[n].sens][1],heros[n].y + heros[n].vy/50 + vecteurs[heros[n].sens][0],heros[n].z+0.8,1,0,5,"sword",0,heros[n].sens);
+            }
+            else if (heros[n].vx != 0 || heros[n].vy != 0){
+                heros[n].anim = swordBoostAnim;
             }
         }
         else if (use == "flowerRod"){
@@ -141,149 +135,6 @@ function attack(n,x){
             editM = 0;
             if (edition == 0)edition = 1;
         }
-        else if (use == "pot"){
-            addParticles("object",heros[n].x+0.5,heros[n].y+0.5,heros[n].z+0.9,15,0.1*vecteurs[heros[n].sens][1],0.1*vecteurs[heros[n].sens][0],"pot",[""],"break");
-            if (x == 1) heros[0].prim = "blank";
-            else{
-                heros[n].invent.splice(heros[n].objet,1);
-                if (heros[n].objet == heros[n].invent.length) heros[n].objet -= 1;
-                if (heros[n].invent.length == 0) heros[n].invent[0] = "blank";
-            }
-        }
-        else if (use == "parachale"){
-            if (heros[n].grap == 0 && heros[n].z != Map.getAlti(heros[n].x,heros[n].y)){
-                heros[n].plane = 1;
-                heros[n].imgUp = 2;
-                heros[n].imgN = 0;
-                heros[n].z = Math.ceil(heros[n].z);
-            }
-        }
-        else if (use == "seeds"){
-            if (heros[0].seedCount == 0) return;
-            else if (out == 7){
-                var machin = Map.getObject(XX,YY);
-                if (machin[0] == "spe0"){
-                    addParticles("flower",XX,YY,Map.getAlti(XX,YY),0,0,40);
-                    heros[0].seedCount -= 1;
-                    Map.setObject(XX,YY,["spe1",0,nPas],true);
-                }
-            }
-        }
-        else if (use == "maskWind"){
-            cinematicos = 4;
-            heros[n].etat = 1;
-            imgCinema[0] = n;
-            imgCinema[1] = "maskWind";
-            imgCinema[2] = "hWind";
-        }
-        else if (use == "lettre"){
-            /*
-            var to = "martin@memora.tolokoban.org";
-            var subject = "Niveau Maker's Pencil " + goto + " out="+out;
-            var nnn = niveau;
-            var ooo = objNiveau;
-            var eee = ennemis;
-            var to = "martin@memora.tolokoban.org";
-            var subject = "Niveau Maker's Pencil out=" + out + " part A";
-            var body = JSON.stringify(nnn);
-
-            var link = document.createElement('a');
-            link.setAttribute(
-                'href',
-                'mailto:' + to
-                    + "?subject=" + encodeURI(subject)
-                    + "&body=" + encodeURI(body)
-            );
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            subject = "Niveau Maker's Pencil out=" + out + " part B";
-            body = JSON.stringify(ooo);
-
-            link = document.createElement('a');
-            link.setAttribute(
-                'href',
-                'mailto:' + to
-                    + "?subject=" + encodeURI(subject)
-                    + "&body=" + encodeURI(body)
-            );
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            subject = "Niveau Maker's Pencil out=" + out + " part C";
-            body = JSON.stringify(eee);
-
-            link = document.createElement('a');
-            link.setAttribute(
-                'href',
-                'mailto:' + to
-                    + "?subject=" + encodeURI(subject)
-                    + "&body=" + encodeURI(body)
-            );
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            markedLevels.forEach(
-                function (ee){
-                    if (ee[0] != goto){
-                        if (ee[1] == 1){
-                            var llevel = iles[ee[0]];
-                        }
-                        else {
-                            var llevel = interieurs[ee[0]];
-                        }
-                        var nnn = llevel.alti;
-                        var ooo = llevel.obj;
-                        var eee = llevel.ennemis;
-                        var to = "martin@memora.tolokoban.org";
-                        var subject = "Niveau Maker's Pencil " + ee[0] + " out=" + ee[1] + " part A";
-                        var body = JSON.stringify(nnn);
-
-                        var link = document.createElement('a');
-                        link.setAttribute(
-                            'href',
-                            'mailto:' + to
-                                + "?subject=" + encodeURI(subject)
-                                + "&body=" + encodeURI(body)
-                        );
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-
-                        subject = "Niveau Maker's Pencil " + ee[0] + " out=" + ee[1] + " part B";
-                        body = JSON.stringify(ooo);
-
-                        link = document.createElement('a');
-                        link.setAttribute(
-                            'href',
-                            'mailto:' + to
-                                + "?subject=" + encodeURI(subject)
-                                + "&body=" + encodeURI(body)
-                        );
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-
-                        subject = "Niveau Maker's Pencil " + ee[0] + " out=" + ee[1] + " part C";
-                        body = JSON.stringify(eee);
-
-                        link = document.createElement('a');
-                        link.setAttribute(
-                            'href',
-                            'mailto:' + to
-                                + "?subject=" + encodeURI(subject)
-                                + "&body=" + encodeURI(body)
-                        );
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    }
-                }
-            );
-             */
-        }
     }
 }
 
@@ -298,16 +149,13 @@ function donnerHeros(obj,n){
     if (obj == "rubisVert") heros[n].rubis += 1;
     else if (obj == "rubisBleu") heros[n].rubis += 5;
     else if (obj == "rubisRouge") heros[n].rubis += 20;
-    else if (obj == "sword" || obj == "hookShot" || obj == "boomerang" || obj == "pencil" || obj == "lettre" || obj == "boat" || obj == "pot" || obj == "parachale" || obj == "baton" || obj == "maskWind" || obj == "flowerRod" || obj == "seeds"){
+    else if (obj == "sword" || obj == "pencil"  || obj == "flowerRod"){
         quests.armes[obj] = 1;
         addObj(obj,n);
     }
     else if (obj == "cle0") {heros[n].cles += 1;}
     else if (obj == "cle1") {heros[n].cles += 5;}
     else if (obj == "fragment") {if (heros[n].vieTotale<20){heros[n].vieTotale += 1;}heros[n].vie = heros[n].vieTotale;}
-    else if (obj == "rubisRouge") heros[n].rubis += 10000;
-    else if (obj == "aiguille") quests.boussole += 2;
-    else if (obj == "vitre") quests.boussole += 3;
 }
 
 function addObj(type,n){

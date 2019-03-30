@@ -25,13 +25,14 @@ let Gotelem = function(){
     let champsVision = [];
     let objectif = [0,0,0];
     let degat = 0.5;
-    let pv = 4;
-    let flyMode = 3;
+    let pv = 3;
+    let flyMode = 5;
     let animCount = 0;
     let att = 0.5;
     let onHeros = [0,0];
     let mortal = true;
     let goal = [0,0];
+    let rockettable = false;
 
     // Un ennemi un peu particulier puisqu'il peut se trouver en deux endroits à la fois. La tête se détache parfois. S'il n'est possible d'infliger des dégâts qu'à la tête, les deux parties sont offensives et infligent des dégâts en cas de contact.
     // Si la tête est sur le corps, elle prends des dégâts de façon normale. Mais si elle en est détachée alors c'est une mort instantannée.
@@ -98,8 +99,7 @@ let Gotelem = function(){
                 attir[i] = Math.abs(x - (heros[closer].x+0.5) + vecteurs[i][1]) + Math.abs(y - (heros[closer].y+0.5) + vecteurs[i][0]);
                 alti = Map.superGetFloor(Math.floor(x) + vecteurs[i][1],Math.floor(y) + vecteurs[i][0],z);
                 attir[i] += Math.abs(alti - z);
-                if (alti <= -1 || alti >= z + 2) attir[i] += 666;
-                
+                if (alti <= -1 || alti >= z + 2) attir[i] += 666;                
             }
             attir[4] = distance + 3;
             let choice = 0;
@@ -109,15 +109,36 @@ let Gotelem = function(){
             sens = choice;
             if (sens == 4) {goal = [x,y]; sens = 2;}
             else goal = [x + vecteurs[sens][1],y + vecteurs[sens][0]];
-            z += 0.01; zBody += 0.01; g = 0.7; gBody = 0.7;
-            this.doing = jumping;
+            z += 0.01; g = 0.9; 
+            if ((distance >= 1.5 && distance <= 2.5 && rnd(2) == 1) || (distance <= 1.5 && rnd(10) == 1)){
+                if (sens == 4) {goal = [x,y]; sens = 2;}
+                else goal = [goal[0] + vecteurs[sens][1],goal[1] + vecteurs[sens][0]];
+                this.doing = telegraphing;
+                n = 40;
+            }
+            else {
+                 zBody += 0.01; gBody = 0.9;
+                this.doing = jumping;
+            }
         }
     }
 
+    function telegraphing(){
+        if (n > 0){
+            n -= 1;
+            r += Math.PI/20;
+        }
+        else {
+            r = 0;
+            g -= 0.2;
+            this.doing = throwing;
+        }
+    }
+    
     function jumping(){
-        if (Math.abs(goal[0] - x) > 0.05 || Math.abs(goal[1] - y) > 0.05){
-            x += vecteurs[sens][1] * 0.1; xBody += vecteurs[sens][1] * 0.1;
-            y += vecteurs[sens][0] * 0.1; yBody += vecteurs[sens][0] * 0.1;
+        if (Math.abs(goal[0] - x) > 0.025 || Math.abs(goal[1] - y) > 0.025){
+            x += vecteurs[sens][1] * 0.05; xBody += vecteurs[sens][1] * 0.05;
+            y += vecteurs[sens][0] * 0.05; yBody += vecteurs[sens][0] * 0.05;
         }
         else if (posay){
             this.doing = waiting;
@@ -125,16 +146,51 @@ let Gotelem = function(){
         }
     }
 
+    function throwing(){
+        if (Math.abs(goal[0] - x) > 0.05 || Math.abs(goal[1] - y) > 0.05){
+            if (posay) g = 0.5;
+            x += vecteurs[sens][1] * 0.07;
+            y += vecteurs[sens][0] * 0.07;
+        }
+        else if (posay){
+            if (goal[0] == xBody && goal[1] == yBody){
+                this.doing = waiting;
+                x = xBody;
+                y = yBody;
+                n = (pv-1)*15 + 20;
+            }
+            else{
+                this.doing = splitting;
+                n = 5;
+            }
+        }
+    }
+    
     function waiting(){
         n -= 1;
         if (n <= 0) this.doing = standing;
+    }
+
+    function splitting(){
+        n -= 1;
+        if (n <= 0) { // La tête retourne à sa place.
+            goal[0] = xBody;
+            goal[1] = yBody;
+            for (let i = 0; i < 4; i ++){
+                if (Math.abs(x + 2*vecteurs[i][1] - xBody) + Math.abs(y + 2*vecteurs[i][0] - yBody) < 0.5) sens = i;
+            }
+            z += 0.01; g = 0.8;
+            this.doing = throwing;;
+        }
     }
     
     function dying(){
         mortal = false;
         r += Math.PI/9;
         if (z <= zBody){
+            rockettable = false;
             if (pv <= 0) {
+                mortal = false;
                 mort = 0;
                 addParticles("fumeeM",Math.floor(x),Math.floor(y),z+0.9,0,0,25);
                 addParticles("exploM",Math.floor(x),Math.floor(y),z+0.9,0,0,80);
@@ -153,64 +209,11 @@ let Gotelem = function(){
         
     }
 
-    function damageFly(){
-
+    function rocketing(){
+        mortal = false;
+        rockettable = true;
         x += vecteurs[sens][1] / 25 * flyMode;
         y += vecteurs[sens][0] / 25 * flyMode;
-        if (n <= 0) {
-            //img = 13;
-            x = heros[onHeros[1]].x+0.5 + heros[onHeros[1]].vx/50;
-            y = heros[onHeros[1]].y+0.5 + heros[onHeros[1]].vy/50;
-            z = heros[onHeros[1]].z + 2.9;
-            z += 0.2;
-            g = 1;
-            n = 0;
-        }
-
-        else if (g == 0 && Map.getFloor(Math.floor(x),Math.floor(y),z) <= z){
-
-            n = -1;
-            r = 0;
-            if (Map.getFloor(Math.floor(x),Math.floor(y),z) <= -1){
-                mort = 0;
-                if (out == 1 || out == 3){
-                    addParticles("rond",Math.floor(x),Math.floor(y),-1,0,0,30,0.3);
-                    addParticles("eclabousse",Math.floor(x),Math.floor(y),-1,15,0,30,0);
-                }
-                else if (out == 2){
-                    addParticles("rondB",Math.floor(x),Math.floor(y),-1,0,0,30,0.3);
-                    addParticles("eclabousseB",Math.floor(x),Math.floor(y),-1,15,0,30,0);
-                }
-                this.act = nada;
-                this.display = nada;
-                this.doing = nada;
-                this.isThere = nadaR;
-                return;
-            }
-            else if (pv <= 0){
-                mort = 0;
-                addParticles("fumeeM",Math.floor(x),Math.floor(y),z,0,0,40);
-                addParticles("exploM",Math.floor(x),Math.floor(y),z,0,0,80);
-                this.act = nada;
-                this.display = nada;
-                this.doing = nada;
-                this.isThere = nadaR;
-                return;
-            }
-            let direc = accessible();
-            if (direc.length == 0){
-                this.doing = standing;
-            }
-            else{
-                sens = direc[rnd(direc.length)];
-                if (sens == 1) scale = -1;
-                else if (sens == 3) scale = 1;
-            }
-
-            r = -0.2;
-            this.doing = walking;
-        }
-        n += 1;
         r += 0.2;
     }
 
@@ -273,6 +276,18 @@ let Gotelem = function(){
         return result;
     }
 
+    function findSens(XX,YY){
+        if (Math.abs(XX) > Math.abs(YY)){
+            if (XX > 0) return 1;
+            else if (XX  < 0) return 3;
+        }
+        else if (Math.abs(YY) > Math.abs(XX)) {
+            if (YY > 0) return 2;
+            else if (YY < 0) return 0;
+        }
+        return 4;
+    }
+
     function nada(){
 
     }
@@ -285,6 +300,14 @@ let Gotelem = function(){
         this.display = nada;
         this.doing = nada;
         this.isThere = nadaR;
+    }
+
+    function explodeOnContact(){
+        if (z + 1.2 <= Map.getFloor(Math.floor(x),Math.floor(y))){
+            addParticles("fumeeM",Math.floor(x),Math.floor(y),z+0.9,0,0,25);
+            addParticles("exploM",Math.floor(x),Math.floor(y),z+0.9,0,0,80);
+            meurs();
+        }
     }
 
     return {
@@ -312,16 +335,23 @@ let Gotelem = function(){
         },
         act: function(){
             posay = false;
-            if (z > Map.getFloor(Math.floor(x),Math.floor(y),z)){
+            let margin = 1.2;
+            if (x == xBody && y == yBody) margin = 0;
+            if (z + margin > Map.getFloor(Math.floor(x),Math.floor(y),z)){
                 g -= 0.1;
                 z += g/2;
             }
             else{
                 posay = true;
                 g = 0;
-                z = Map.getFloor(Math.floor(x),Math.floor(y),z);
+                z = Map.getFloor(Math.floor(x),Math.floor(y),z) - margin;
             }
-            damageSpot(Math.floor(x),Math.floor(y),z,0.8,att,1,sens);
+            if (x == xBody && y == yBody){
+                damageSpot(Math.floor(x),Math.floor(y),z,0.8,att,1,sens);
+            }
+            else{
+                damageSpot(Math.floor(x),Math.floor(y),z,0.8,att,1,findSens(x - xBody,y - yBody));
+            }
             
             posayBody = false;
             if (zBody > Map.getFloor(Math.floor(xBody),Math.floor(yBody),zBody)){
@@ -334,7 +364,7 @@ let Gotelem = function(){
                 zBody = Map.getFloor(Math.floor(xBody),Math.floor(yBody),zBody);
             }
 
-            if (zBody <= -1){
+            if (zBody <= -1 && rockettable == false){
                 addParticles("rond",Math.floor(xBody),Math.floor(yBody),-1,0,0,30,0.3);
                 addParticles("eclabousse",Math.floor(xBody),Math.floor(yBody),-1,15,0,30,0);
                 mort = 0;
@@ -342,10 +372,7 @@ let Gotelem = function(){
                     addParticles("fumeeM",Math.floor(x),Math.floor(y),z+0.9,0,0,25);
                     addParticles("exploM",Math.floor(x),Math.floor(y),z+0.9,0,0,80);
                 }
-                this.act = nada;
-                this.display = nada;
-                this.doing = nada;
-                this.isThere = nadaR;
+                meurs();
             }
         },
         display: function(){
@@ -356,7 +383,7 @@ let Gotelem = function(){
 
         },
         giveY(){
-            return Math.floor(y);
+            return Math.max(Math.floor(y),Math.floor(yBody));
         },
         giveX(){
             return Math.floor(x);
@@ -372,28 +399,39 @@ let Gotelem = function(){
             else return false;
         },
         damage(degat,sensD){
-            this.doing = dying;
-            mortal = false;
-            n = 0;
-            sens = sensD;
-            pv -= degat;
-            scale = 1;
-            g = 0.9;
-            z += 0.01;
-            flyMode = 1;
-            addParticles("hitA",Math.floor(x),Math.floor(y),z+1.9,0,0,10);
-            if (Map.getFloor(Math.floor(x) + vecteurs[sens][1],Math.floor(y) + vecteurs[sens][0],z) > z) flyMode = 0;
+            if (x == xBody && y == yBody && rockettable == false){
+                this.doing = dying;
+                console.log(rockettable);
+                mortal = false;
+                n = 0;
+                sens = sensD;
+                pv -= degat;
+                scale = 1;
+                g = 0.9;
+                z += 0.01;
+                flyMode = 1;
+                addParticles("hitA",Math.floor(x),Math.floor(y),z+1.9,0,0,10);
+                if (Map.getFloor(Math.floor(x) + vecteurs[sens][1],Math.floor(y) + vecteurs[sens][0],z) > z) flyMode = 0;
+            }
+            else{
+                this.doing = rocketing;
+                this.act = explodeOnContact;
+                sens = sensD;
+                xBody -= 60000;
+                yBody -= 60000;
+            }
         },
         touchDamage(xx,yy,zz,n){
         },
         hit(xx,yy,zz,radius,damage,sensN){
-            if (mortal && Math.abs(x - xx) <= radius && Math.abs(y - yy) <= radius && (z+0.3)  <= radius + zz && (z+0.3) + taille >= zz - radius){
+            if ((mortal || rockettable) && Math.abs(x - xx) <= radius && Math.abs(y - yy) <= radius && (z+0.3)  <= radius + zz && (z+0.3) + taille >= zz - radius){
                 if (sensN == undefined){
                     sensN = 0;
                     if (xx < x) sensN = 1;
                     else if (yy < y) sensN = 2;
                     else if (xx > x) sensN = 3;
                 }
+                if (mortal == false) damage = 0;
                 this.damage(damage,sensN);
             }
         }

@@ -1,23 +1,30 @@
 // Le fichier save sert à enregistrer la partie et aussi à la charger.
 // Il contient les fonctions save() unSave() et loadGame()
+// Il contient les fonctions auxiliaires rangeEnnemies() et remetsEnnemies()
 
 var mapState = {};
 
 function save(){
+    
+    rangeEnnemies();
+    
     mapState = Map.stringToState(mapState);
+
+    remetsEnnemies();
     
     var result = {"heros":JSON.stringify(heros),"map":JSON.stringify(mapState),"where":Map.where(),"out":out};
     
     result = JSON.stringify(result);
 
     var nowadays = new Date(Date.now());
-    nowadays = nowadays.getDate() + "-" +
-        nowadays.getMonth() + "-" +
+    nowadays =
         nowadays.getFullYear() + "-" +
+        nowadays.getMonth() + "-" +
+        nowadays.getDate() + "-" +
         nowadays.getHours() + "-" +
         nowadays.getMinutes();
      
-    SaveAs(new Blob([result]),"Wind_Waker_2D_" + nowadays + ".txt");
+    SaveAs(new Blob([result]),"Cavalcade_" + nowadays + ".txt");
 }
 
 function unSave(){
@@ -52,4 +59,28 @@ function loadGame(){
             imgCinema[1] = "go";
         };
     });
+}
+
+function rangeEnnemies(){
+    for(var i = ennemis.length-1;i >= 0;i-=1){
+        var ranger = ennemis[i].takeBack();
+        Map.addEnnemy(ranger);
+        ennemis.splice(i,1);
+    }
+}
+
+function remetsEnnemies(){
+    for(var y = scrollCaseY;y < scrollCaseY + nCasesY;y++){
+        for(var x = scrollCaseX; x < scrollCaseX + nCasesX ;x++){
+            let cell = Map.getCell(x,y);
+            if (cell[3].length > 0){
+                cell[3].forEach(
+                    function (e,i){
+                        findEnnemy(e[2],ennemis.length,e[0],e[1],e[3]);
+                    }
+                );
+                Map.clearEnnemy(x,y);
+            }
+        }
+    }
 }

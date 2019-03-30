@@ -3,94 +3,95 @@
 // Le fichier start s'occupe d'initialiser le jeu et rien d'autre
 // Il contient donc toutes les déclarations de variables ainsi que la fonction start(), resize(), rnd(), animation(), precharge() et charge()
 
-var W,H;
-var ctx,canvas;
-var X = 0;
-var Y = 0;
-var keys = [];
-var heros = [{"x":0,"y":8,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:2,"rubis":0,"objet":0,"invent":["sword","sword","pencil","pencil","pencil"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"prim":"pencil","imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":10,"touche":[38,39,40,37,16,17,32],"scrollSpeed":1,anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]},{"x":2,"y":9,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:3,"rubis":0,"objet":0,"invent":["sword","sword","pencil","sword"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":0,"touche":[101,99,98,97,13,96],anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]}];
-var questObj = {"carteMaritime":0,"boussole":0,wear:0};
-var objInvent = [];
-var seaLimit = [1200,900];
-var ennemis = [];
-var boomerang = [];
-var editPlate = 0;
-var pressurePlate = [];
-var useless = ["blank",""];
-var pots = [];
-var out = 4;
-var colorSet;
-var niveau = [];
-var quests;
-var alerting = 0;
-var objNiveau = [[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]]];
-var textured;
-var imgHeros;
-var imgDebris = {};
-var imgElement = {};
-var imgMenu = {};
-var imgArme = {};
-var imgMonstre = {};
-var imgPersoN = {};
-var particles = [];
-var imgBoat = new Image();
+let W,H;
+let ctx,canvas;
+let X = 0;
+let Y = 0;
+let keys = [];
+let heros = [{"x":0,"y":8,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:2,"rubis":0,"objet":0,"invent":["sword","sword","pencil","pencil","pencil"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"prim":"pencil","imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":10,"touche":[38,39,40,37,16,17,32],"scrollSpeed":1,anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]},{"x":2,"y":9,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:3,"rubis":0,"objet":0,"invent":["sword","sword","pencil","sword"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":0,"touche":[101,99,98,97,13,96],anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]}];
+let questObj = {"carteMaritime":0,"boussole":0,wear:0};
+let parameters = {mouseScrollPencil:false};
+let objInvent = [];
+let seaLimit = [1200,900];
+let ennemis = [];
+let boomerang = [];
+let editPlate = 0;
+let pressurePlate = [];
+let useless = ["blank",""];
+let pots = [];
+let out = 4;
+let colorSet;
+let niveau = [];
+let quests;
+let alerting = 0;
+let objNiveau = [[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]],[[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""],[""]]];
+let textured;
+let imgHeros;
+let imgDebris = {};
+let imgElement = {};
+let imgMenu = {};
+let imgArme = {};
+let imgMonstre = {};
+let imgPersoN = {};
+let particles = [];
+let imgBoat = new Image();
 imgBoat.src = "images/heros/boat.png";
-var figer = 0;
-var edition = 0;
-var scrollX = 0;
-var scrollY = 0;
-var teleport = [0,0];
-var vecteurs = [[-1,0],[0,1],[1,0],[0,-1]];
-var imgArbre;
-var nDalle = 0;
-var nSpeImg = 10;
-var imgEnnemi = [];
-var mouse = [0,0];
-var editObject;
-var editHand = [];
-var editnumber = 1;
-var editArray;
-var onSea = 0;
-var waves = [];
-var goto = "";
-var boatPosition = [200,100];
-var onSeaIsland = [];
-var casePencil = [0,0];
-var editM = 0;
-var hookShots = [];
-var objetMort = 0;
-var savedMap,savedHouseMap;
-var respawnPoint = [0,8];
-var markedLevels = [["betaJump",1]];
-var islandData = {};
-var fondfond = new Image();
-var fondInvent = new Image();
+let figer = 0;
+let edition = 0;
+let scrollX = 0;
+let scrollY = 0;
+let teleport = [0,0];
+let vecteurs = [[-1,0],[0,1],[1,0],[0,-1]];
+let imgArbre;
+let nDalle = 0;
+let nSpeImg = 10;
+let imgEnnemi = [];
+let mouse = [0,0];
+let editObject;
+let editHand = [];
+let editnumber = 1;
+let editArray;
+let onSea = 0;
+let waves = [];
+let goto = "";
+let boatPosition = [200,100];
+let onSeaIsland = [];
+let casePencil = [0,0];
+let editM = 0;
+let hookShots = [];
+let objetMort = 0;
+let savedMap,savedHouseMap;
+let respawnPoint = [0,8];
+let markedLevels = [["betaJump",1]];
+let islandData = {};
+let fondfond = new Image();
+let fondInvent = new Image();
 fondInvent.src = "images/menu4.png";
-var imgCinema = [new Image,new Image,[]];
-var cinematicos = 0;
-var sideEdit = ["monsters","spe","sky","fireTemple","inDoor","herbe0","outDoor","special","gear","loot"];
-var sideSelect = -1;
-var workFloor;
-var backg;
-var backDraw;
-var nPas = 0;
-var rigolote = [-1,-1];
-var gamePads;
-var gameKey = [];
-var sensDuBateau = 1;
-var colors = [];
-var touchCount = 0;
-var editNs = [0,3,0,0];
-var imgPat;
-var chargImage = {};
-var canvImg = [];
-var nCasesX = 0;
-var nCasesY = 0;
-var scrollCaseX = 0;
-var scrollCaseY = 0;
-var scrollEditSpeed = [0,0,0.2,20]; // [vitesseX,vitesseY,acceleration,max]
-var ennemyRefresh = 0;
-var ennemyRefreshLim = 60;
+let imgCinema = [new Image,new Image,[]];
+let cinematicos = 0;
+let sideEdit = ["monsters","spe","sky","fireTemple","inDoor","herbe0","outDoor","special","gear","loot"];
+let sideSelect = -1;
+let workFloor;
+let backg;
+let backDraw;
+let nPas = 0;
+let rigolote = [-1,-1];
+let gamePads;
+let gameKey = [];
+let sensDuBateau = 1;
+let colors = [];
+let touchCount = 0;
+let editNs = [0,3,0,0];
+let imgPat;
+let chargImage = {};
+let canvImg = [];
+let nCasesX = 0;
+let nCasesY = 0;
+let scrollCaseX = 0;
+let scrollCaseY = 0;
+let scrollEditSpeed = [0,0,1,20]; // [vitesseX,vitesseY,acceleration,max]
+let ennemyRefresh = 0;
+let ennemyRefreshLim = 60;
 
 // programme
 
@@ -105,7 +106,7 @@ function resize(){
     H = window.innerHeight;
     canvas.setAttribute("width",W);
     canvas.setAttribute("height",H);
-    var listeBidon = Painter.getnCases(W,H);
+    let listeBidon = Painter.getnCases(W,H);
     nCasesX = listeBidon[0];
     nCasesY = listeBidon[1];
 }
@@ -128,13 +129,13 @@ function precharge(){
 
 function charge(){
     // S'occupe de charger les images qui seront en cache en permanence quand cette fonction à finit, elle appelle animation() En général on appelle cette fonction qu'au tout début du jeu parce que toutes les images que l'on charge vont servir durant toute la durée d'une session de jeu. Le chargement des images spécifiques est fait ailleurs.
-    var coeur = chargImage.coeur;
-    var debris = chargImage.debris;
-    var imgInterface = chargImage.interface;
-    var imgRubis = chargImage.rubis;
-    var imgPNJ = chargImage.PNJ;
-    var armes = chargImage.truc;
-    var chargement = imgRubis.length + imgHeros.length + imgArbre.length + imgInterface.length + armes.length + imgInterface.length + debris.length + coeur.length + imgPNJ.length + nDalle + nSpeImg;
+    let coeur = chargImage.coeur;
+    let debris = chargImage.debris;
+    let imgInterface = chargImage.interface;
+    let imgRubis = chargImage.rubis;
+    let imgPNJ = chargImage.PNJ;
+    let armes = chargImage.truc;
+    let chargement = imgRubis.length + imgHeros.length + imgArbre.length + imgInterface.length + armes.length + imgInterface.length + debris.length + coeur.length + imgPNJ.length + nDalle + nSpeImg;
     //imgPat = new Image();
     //imgPat.src = "images/pattern/falaise.png";
     //imgPat = ctx.createPattern(imgPat,"repeat");
@@ -149,7 +150,7 @@ function charge(){
             };
         }
     );
-    for(var i = 0;i<nDalle;i++){
+    for(let i = 0;i<nDalle;i++){
         imgElement["dalle"+i] = new Image();
         imgElement["dalle"+i].src = "images/elements/dalles/dalle" + i + ".png";
         imgElement["dalle"+i].onload = function(){
@@ -159,7 +160,7 @@ function charge(){
 
     }
 
-    for(var i = 0;i<nSpeImg;i++){
+    for(let i = 0;i<nSpeImg;i++){
         imgElement["spe"+i] = new Image();
         imgElement["spe"+i].src = "images/elements/spe/1/spe" + i + ".png";
         imgElement["spe"+i].onload = function(){
@@ -239,7 +240,7 @@ function charge(){
             };
         }
     );
-    for (var i = 0;i<70;i++){
+    for (let i = 0;i<70;i++){
         imgMonstre[i] = new Image();
     }
     imgPNJ.forEach(
@@ -253,7 +254,7 @@ function charge(){
         }
     );
     // On setup aussi les touches utiles pour une raison quelquoncque. (Ca s'écrit bien comme ça quelquoncque ?)
-    var bje = [38,39,40,37,101,99,98,97];
+    let bje = [38,39,40,37,101,99,98,97];
     bje.forEach(
         function(e){
             keys[e] = 0;
@@ -285,9 +286,9 @@ function start(){
     //                           evt.stopPropagation();
     //                        evt.preventDefault();
     //                          //evt = evt.changedTouches[0];
-    //                        var rect = canvas.getBoundingClientRect();
-    //                       var x = evt.pageX - rect.left;
-    //                       var y = evt.pageY - rect.top;
+    //                        let rect = canvas.getBoundingClientRect();
+    //                       let x = evt.pageX - rect.left;
+    //                       let y = evt.pageY - rect.top;
     //                       click(x, y);
     //                  });
     document.addEventListener(
@@ -295,9 +296,9 @@ function start(){
         function (event){
             event.preventDefault();
             event.stopPropagation();
-            var rect = canvas.getBoundingClientRect();
-            var x = event.clientX;
-            var y = event.clientY;
+            let rect = canvas.getBoundingClientRect();
+            let x = event.clientX;
+            let y = event.clientY;
             if (onSea == 6){
                 clickHelp();
             }
@@ -318,12 +319,6 @@ function start(){
             if (onSea == 0){
                 clickEdit(x,y,event.button);
             }
-        }
-    );
-    document.addEventListener(
-        "resize",
-        function (event){
-            resize();
         }
     );
     document.addEventListener(
@@ -363,6 +358,7 @@ function start(){
         function (event){
             event.preventDefault();
             event.stopPropagation();
+            resize();
             keyUp(event.keyCode);
         }
     );
@@ -406,13 +402,13 @@ function animation(){
         if (out == 4) alert("Utilisez les flèches pour vous déplacer et la barre espace pour interagir avec la case en face de vous ou faire disparaître ce message. Allez parler au visage du developpeur pour plus d'infos.");
         ctx.globalAlpha = 1;
 
-        //var FPS = {
+        //let FPS = {
           //  lastTime: 0,
             //nbFrames: 0,
             //fps: document.getElementById('FPS')
         //};
         
-        var f = function(t) {
+        let f = function(t) {
             // Calcul des FPS.
             /*
             if( FPS.lastTime === 0 ) {
@@ -429,7 +425,7 @@ function animation(){
              */
             
             try {
-                //var loops = 1;
+                //let loops = 1;
                 //while( loops --> 0 ) {
                 if (onSea == 0) {action(t); draw();gamePadF();}
                 else if (onSea == 1){sail(t);gamePadF();}

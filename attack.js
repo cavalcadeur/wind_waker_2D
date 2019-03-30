@@ -5,8 +5,10 @@
 
 let attDrawFuncs = {
     sword: function(kgb,ctxa){
-        Painter.imgEnnemy(ctxa,kgb.x+0.5,kgb.y+0.5,kgb.alti,1,0,imgDebris["sword" + kgb.sens]);
-
+        if (kgb.n == 0) return;
+        if (kgb.n >= kgb.lim/2) ctxa.globalAlpha = 0.5;
+        Painter.imgEnnemy(ctxa,kgb.x+0.5,kgb.y+0.5,kgb.alti-0.8,1,0,imgDebris["sword" + kgb.sens]);
+        ctxa.globalAlpha = 1;
     }
 };
 
@@ -14,13 +16,19 @@ let attActFuncs = {
     sword: function(kgb,i){
         // Partie interaction avec le décor qui a lieu uniquement lors de la première frame.
         if (kgb.n == 0){
-            let altti = Map.getAlti(Math.round(kgb.x),Math.round(kgb.y));
-            if (kgb.alti >= altti - 0.2 && kgb.alti <= Map.superGetFloor(kgb.x,kgb.y,kgb.alti) + 0.2){
+            let altti = Map.getFloor(Math.round(kgb.x),Math.round(kgb.y));
+            //if (kgb.alti >= altti - 0.2 && kgb.alti <= Map.superGetFloor(kgb.x,kgb.y,kgb.alti) + 0.2){
+            if (kgb.alti >= altti){
                 let touche = Map.getObject(Math.round(kgb.x),Math.round(kgb.y),0);
                 if (touche == "herbe0" || touche == "herbe1") {
                     Map.suppressObject(Math.round(kgb.x),Math.round(kgb.y),0);
                     addParticles("cutGrass",Math.round(kgb.x),Math.round(kgb.y),altti,3,0,60,"herbe");
                 }
+            }
+            else{
+                kgb.n = kgb.lim;
+                suppParticles(i);
+                return;
             }
         }
 
@@ -30,10 +38,6 @@ let attActFuncs = {
         // Partie mouvement et longévité de la particule.
         if (kgb.n >= 0){
             kgb.n += 1;
-            if (kgb.sens == 0) kgb.y -= 0.05;
-            else if (kgb.sens == 1) kgb.x += 0.05;
-            else if (kgb.sens == 2) kgb.y += 0.05;
-            else if (kgb.sens == 3) kgb.x -= 0.05;
             if (kgb.n >= kgb.lim) suppParticles(i);
         }
     }

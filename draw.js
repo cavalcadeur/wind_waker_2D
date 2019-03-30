@@ -11,9 +11,9 @@ function drawRoom(kk,ctxa,map){
         //function(f,x){
         //if (y == scrollCaseY + nCasesY - 1) ctx.globalAlpha = 0.5;
         for(var x = scrollCaseX; x < scrollCaseX + nCasesX ;x++){
-            var cell = map.getCell(x,y);
-            var f = cell[1];
-            var outline = cell[4];
+            let cell = map.getCell(x,y); 
+            let f = cell[1];
+            let outline = cell[4];
             /*
             if (outline[2] == undefined){        // A n'activer qu'en cas de besoin
                 map.updateOutlinesCase(x,y,0);  //  Cela sert à remettre d'aplomb des données qui seraient partielles
@@ -23,6 +23,29 @@ function drawRoom(kk,ctxa,map){
 
             drawObj(x,y,f,map.getObject(x,y,true),ctxa);
 
+            if (kk == 1){
+                heros.forEach(
+                    function(h,n){
+                        if (y == Math.round(h.y + h.vy/50) && x == Math.ceil(h.x + h.vx/50)) drawHeros(n);
+                        //if (h.vy > 0 && y == h.y + 1) drawHeros(n);
+                    }
+                );
+                
+                ennemis.forEach(
+                    function(a,m){
+                        if (a.giveY() == y && a.giveX() == x) drawEnnemi(m);
+                    }
+                );
+                /*
+                pots.forEach(
+                    function(g,i){
+                        if (y == Math.round(g.y + g.n*((g.oy - g.y)/32))) drawPot(g,i);
+                    }
+                );
+                 */
+                
+            }
+            
             if (ennemyRefresh <= 0){
                 if (cell[2].length > 0){
                     cell[2].forEach(
@@ -39,33 +62,13 @@ function drawRoom(kk,ctxa,map){
                             findEnnemy(e[2],ennemis.length,e[0],e[1],e[3]);
                         }
                     );
-                    console.log(ennemis);
+                    //console.log(ennemis);
                     map.clearEnnemy(x,y);
                 }
 
             }
         }
         
-        if (kk == 1){
-            heros.forEach(
-                function(h,n){
-                    if (y == h.y) drawHeros(n);
-                    if (h.vy > 0 && y == h.y + 1) drawHeros(n);
-                }
-            );
-
-            ennemis.forEach(
-                function(a,m){
-                    if (a.giveY() == y) drawEnnemi(m);
-                }
-            );
-            pots.forEach(
-                function(g,i){
-                    if (y == Math.round(g.y + g.n*((g.oy - g.y)/32))) drawPot(g,i);
-                }
-            );
-            
-        }
         particles.forEach(
             function(kgb,iii){
                 if (y == Math.ceil(kgb.y)){
@@ -139,10 +142,10 @@ function draw() {
             Painter.cell( ctx, casePencil[1], casePencil[0], ZZZ ,1 , []);  // Celui ci sert pour dessiner le curseur lors de l'edition
             ctx.globalAlpha = 1;
         }
-        if (mouse[0] < 25 && mouse[0] > 0) {
+        if ((mouse[0] < 25 && mouse[0] > 0 && parameters.mouseScrollPencil) || 1 == keys[heros[0].touche[0]]) {
             scrollEditSpeed[1] += scrollEditSpeed[2];
         }
-        else if (mouse[0] > H - 25){
+        else if ((mouse[0] > H - 25 && parameters.mouseScrollPencil) || 1 == keys[heros[0].touche[2]]){
             scrollEditSpeed[1] -= scrollEditSpeed[2];
         }
         else if (scrollEditSpeed[1] != 0){
@@ -153,10 +156,10 @@ function draw() {
         scrollEditSpeed[1] = Math.min(scrollEditSpeed[3],scrollEditSpeed[1]);
         scrollEditSpeed[1] = Math.max(-1 * scrollEditSpeed[3],scrollEditSpeed[1]);
         
-        if (mouse[1] < 25) {
+        if ((mouse[1] < 25 && parameters.mouseScrollPencil) || 1 == keys[heros[0].touche[3]]) {
             scrollEditSpeed[0] += scrollEditSpeed[2];
         }
-        else if (mouse[1] > W - 25){
+        else if ((mouse[1] > W - 25 && parameters.mouseScrollPencil) || 1 == keys[heros[0].touche[1]]){
             scrollEditSpeed[0] -= scrollEditSpeed[2];
         }
         else if (scrollEditSpeed[0] != 0){

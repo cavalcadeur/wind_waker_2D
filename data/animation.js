@@ -3,20 +3,10 @@ function nonifiant(){
 }
 
 function swordAttackAnim(i){
-    if (heros[i].nAnim == 5){
+    heros[i].stun = heros[i].nAnim;
+    if (heros[i].nAnim == 10){
         heros[i].img = 16;
         chooseAnimObject(i);
-
-        // Le personnage a un rush 1.2 fois plus rapide qu'une marche normale.
-        if (heros[i].vx > 0) {heros[i].vx -= 12; }
-        else if (heros[i].vy > 0) {heros[i].vy -= 12; }
-        else if (heros[i].vx < 0) {heros[i].vx += 12; }
-        else if (heros[i].vy < 0) {heros[i].vy += 12; }
-
-        //console.log(heros[i].vy);
-
-        if (Math.abs(heros[i].vx) < 12) heros[i].vx = 0;
-        if (Math.abs(heros[i].vy) < 12) heros[i].vy = 0;
     }
     else if (heros[i].nAnim == 0){
         if (heros[i].vx == 0 && heros[i].vy == 0){
@@ -34,8 +24,31 @@ function swordAttackAnim(i){
     heros[i].nAnim -= 1;    
 }
 
+function swordBoostAnim(i){
+    // Le héros attaque en cours de déplacement. Il a donc un rush en avant puis une attaque.
+    heros[i].img = 4;
+    heros[i].nAnim = 55;
+    heros[i].stun = heros[i].nAnim;
+    if (heros[i].vx > 0) {heros[i].vx -= 6; }
+    else if (heros[i].vy > 0) {heros[i].vy -= 6; }
+    else if (heros[i].vx < 0) {heros[i].vx += 6; }
+    else if (heros[i].vy < 0) {heros[i].vy += 6; }
+
+    
+    if (Math.abs(heros[i].vx) < 10) heros[i].vx = 0;
+    if (Math.abs(heros[i].vy) < 10) heros[i].vy = 0;
+
+    if (heros[i].vx == heros[i].vy && heros[i].vx == 0){
+        heros[i].wear = 1;
+        heros[i].nAnim = 10;
+        heros[i].anim = swordAttackAnim;        
+        addParticles("attack",heros[i].x + vecteurs[heros[i].sens][1],heros[i].y + heros[i].vy/50 + vecteurs[heros[i].sens][0],heros[i].z+0.8,1,0,5,"sword",0,heros[i].sens);
+    }
+}
+
 function walkAnim(i){
     if (heros[i].nAnim%5 == 0){
+        chooseAnimObject(i);
         if (heros[i].nAnim%10 == 0){
             if (heros[i].img == 4) heros[i].img = 8;
             else heros[i].img = 4;

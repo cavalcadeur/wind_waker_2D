@@ -19,7 +19,7 @@ function GPS(x,y){
     
     if (y == "ah") return;
     alert(x + " ; " + y);
-    var a = -1;
+    let a = -1;
     return a;
 }
 

@@ -35,11 +35,13 @@ function drawObj(x,y,z,obj,ctxa){
     //else if (objNiveau[y][x][0] == "house0") Painter.img( ctx, x - 0.07, y + 0.35, f, imgElement[objNiveau[y][x][0]] );
     else if (obj[0] == "PNJ") Painter.img( ctxa, x,y,z,imgPersoN[obj[1]]);
     else if (obj[0] == "passerelle0" || obj[0] == "passerelle1" || obj[0] == "passerelle2" || obj[0] == "passerelle3") Painter.img( ctxa, x,y + 0.5,z + obj[1],imgElement[obj[0]]);
+    else if (obj[0] == "house1") Painter.img( ctxa, x-0.1,y + 0.5,z,imgElement[obj[0]]);
+    else if (obj[0] == "house2") Painter.img( ctxa, x+0.1,y + 0.5,z,imgElement[obj[0]]);
     else Painter.img( ctxa, x, y, z, imgElement[obj[0]] );
 }
 
 function taille(caseT){
-    var tailles = {"palmier":9.2,"pont0":1,"pont1":1,"pont2":1,"pont3":1,"pont4":1,"pont5":1,"barriere0":2.4,"barriere1":2.4,"barriere2":2.4,"palmiton":2,"rocher":0.3,"wallI":12,"house0":4.2,"PNJ":2.5,"spe0":[0,0,0,0,0,0,3,0,2.5][out],"spe1":[0,0,0,0,0,0,0.5,0,2.2][out],"spe2":[0,0,0,0,0,0,1.01,0,2.3][out],"spe3":[0,0,0,0,0,0,1.01,0,2.3][out],"spe4":[0,0,0,0,0,0,1.01][out],"spe5":[0,0,0,0,0,0,0][out],"spe6":[0,0,0,0,0,0,0][out],"spe7":[0,0,0,0,0,0,0][out],"spe8":[0.5,0,0,0,0,0,0][out],"spe9":[0,0,0,0,0,0,0][out]};
+    var tailles = {"palmier":9.2,"house1":8,"house2":4,"pont0":1,"pont1":1,"pont2":1,"pont3":1,"pont4":1,"pont5":1,"barriere0":2.4,"barriere1":2.4,"barriere2":2.4,"palmiton":2,"rocher":0.3,"wallI":12,"house0":4.2,"PNJ":2.5,"spe0":[0,2.5,0,0,0,0,3,0,2.5][out],"spe1":[0,3.8,0,0,0,0,0.5,0,2.2][out],"spe2":[0,0,0,0,0,0,1.01,0,2.3][out],"spe3":[0,0,0,0,0,0,1.01,0,2.3][out],"spe4":[0,0,0,0,0,0,1.01][out],"spe5":[0,0,0,0,0,0,0][out],"spe6":[0,0,0,0,0,0,0][out],"spe7":[0,0,0,0,0,0,0][out],"spe8":[0.5,0,0,0,0,0,0][out],"spe9":[0,0,0,0,0,0,0][out]};
     if (tailles[caseT] == undefined) return 0;
     else return tailles[caseT];
 }
