@@ -110,7 +110,9 @@ let Gotelem = function(){
             if (sens == 4) {goal = [x,y]; sens = 2;}
             else goal = [x + vecteurs[sens][1],y + vecteurs[sens][0]];
             z += 0.01; g = 0.9; 
-            if ((distance >= 1.5 && distance <= 2.5 && rnd(2) == 1) || (distance <= 1.5 && rnd(10) == 1)){
+            if ((distance >= 1.5 && distance <= 2.5 && (Math.abs(x - (heros[closer].x+0.5)) <= 0.1 || Math.abs(y - (heros[closer].y+0.5)) <= 0.1)) || (distance <= 1.5 && rnd(10) == 1) ){
+                //console.log("HEY");
+                //console.log(x + " " + y + " " + heros[closer].x + " " + heros[closer].y);
                 if (sens == 4) {goal = [x,y]; sens = 2;}
                 else goal = [goal[0] + vecteurs[sens][1],goal[1] + vecteurs[sens][0]];
                 this.doing = telegraphing;

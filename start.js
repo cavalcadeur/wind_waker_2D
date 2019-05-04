@@ -7,8 +7,8 @@ let W,H;
 let ctx,canvas;
 let X = 0;
 let Y = 0;
-let keys = [];
-let heros = [{"x":0,"y":8,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:2,"rubis":0,"objet":0,"invent":["sword","sword","pencil","pencil","pencil"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"prim":"pencil","imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":10,"touche":[38,39,40,37,16,17,32],"scrollSpeed":1,anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]},{"x":2,"y":9,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:3,"rubis":0,"objet":0,"invent":["sword","sword","pencil","sword"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":0,"touche":[101,99,98,97,13,96],anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]}];
+let keys = {};
+let heros = [{"x":0,"y":8,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:2,"rubis":0,"objet":0,"invent":["sword"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"prim":"pencil","imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":10,"touche":["ArrowUp","ArrowRight","ArrowDown","ArrowLeft","Shift","Control"," ","a","i"],"scrollSpeed":1,anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]},{"x":2,"y":9,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:3,"rubis":0,"objet":0,"invent":["sword"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":0,"touche":["5","3","2","1","Enter","0"],anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]}];
 let questObj = {"carteMaritime":0,"boussole":0,wear:0};
 let parameters = {mouseScrollPencil:false};
 let objInvent = [];
@@ -299,6 +299,7 @@ function start(){
             let rect = canvas.getBoundingClientRect();
             let x = event.clientX;
             let y = event.clientY;
+            Map.updateGroundTotal();
             if (onSea == 6){
                 clickHelp();
             }
@@ -348,7 +349,7 @@ function start(){
         function (event){
             event.preventDefault();
             event.stopPropagation();
-            keyDown(event.keyCode);
+            keyDown(event.key);
             //if (cinematicos != 0) return;
 
         }
@@ -359,7 +360,7 @@ function start(){
             event.preventDefault();
             event.stopPropagation();
             resize();
-            keyUp(event.keyCode);
+            keyUp(event.key);
         }
     );
     window.addEventListener("gamepadconnected", function(e) {
@@ -388,6 +389,7 @@ function animation(){
     // C'est la boucle principale du jeu. Elle sert à redistribuer les rôles entre toutes les fonctions d'affichage
     if (cinematicos == 1) cIntro();
     else if (cinematicos == 2) cReveil();
+    else if (cinematicos == 11) cAutoCine();
     else if (cinematicos == 3) cShootOut();
     else if (cinematicos == 4) cMask();
     else if (cinematicos == 5) cEnlevement();

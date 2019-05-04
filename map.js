@@ -68,6 +68,10 @@ var Map = function(){
 
             return mapS;
         },
+
+        updateGroundTotal: function(){
+            arbre.updateGround(colors);
+        },
         
         updateOutlinesCase: function(x,y,r){
             // Fonction qui permet de mettre à jour les contours d'une case en particulier avec recursion ou non
@@ -114,7 +118,7 @@ var Map = function(){
             else if(arbre.getAll(x+1,y)[1] >= z) lineB = 0;
             lineB = Math.min( lineB, z - arbre.getAll(x,y+1)[1] );
 
-            var groundColor = "rgb(0,0,0)";
+            let groundColor = "rgb(0,0,0)";
             if (z < -0.4){
                 groundColor = "rgb(180,180,98)";
             }
@@ -574,6 +578,12 @@ var mapNode = function(){
             return new mapVide();
         },
 
+        updateGround: function(colors){
+            for (let i = 0; i < 4;i ++){
+                children[i].updateGround(colors);
+            }
+        },
+        
         getExtreme: function(x,y,reverse){
             // Cette fonction va regarder les éléments les plus sur le bord et les compter. Elle renvoie alors leur nombre et la liste de leurs positions.
 
@@ -693,6 +703,17 @@ var mapElem = function(){
                 outlines = outline;
             }
         },
+
+        updateGround: function(colors){
+            let groundColor = "rgb(0,0,0)";
+            if (alti < -0.4){
+                groundColor = "rgb(180,180,98)";
+            }
+            else {
+                groundColor = "rgb("+Math.round(colors[3][0]+alti*colors[3][3])+","+Math.round(colors[3][1]+alti*colors[3][4])+","+Math.round(colors[3][2]+alti*colors[3][5])+")";
+            }
+            outlines[2] = groundColor;
+        },
         
         getAll: function(x,y){
             // fonction qui renvoie le tout
@@ -750,6 +771,8 @@ var mapVide = function(){
             return 0;
         },
 
+        updateGround: function(){},
+        
         setObject: function(){},
 
         addEnnemy: function(){},

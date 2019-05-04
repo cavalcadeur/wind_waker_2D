@@ -1,8 +1,9 @@
 function cTitre(){
-    setColors(out,5);
+    setColors(out,"nuit");
+    Map.updateGroundTotal();
     disalert();
     imgCinema[2] = [190,300,1,1,[],0];
-    var trucMuche = [imgDebris.flamme0,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeM,imgDebris.fumeeF,imgDebris.sword2,imgElement.rocher,imgHeros[2],imgHeros[6],imgElement.sleepingGoddess,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.pale0];
+    var trucMuche = [imgDebris.flamme0,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeM,imgDebris.fumeeF,imgDebris.sword2,imgHeros[34],imgHeros[2],imgHeros[6],imgElement.palmier,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.pale0];
     for (var i = 0; i < 0; i++){
         imgCinema[2][4].push([rnd(W),-rnd(500),0,4,trucMuche[rnd(trucMuche.length)]]);
     }
@@ -147,7 +148,7 @@ function cClickTitle(){
             }
         }
         else if (Math.hypot(mouse[1] - W + 35, mouse[0] - H + 35) < 30){
-            var elem = document.getElementById("alert");
+            let elem = document.getElementById("alert");
             imgCinema[2][5] = 2;
             elem.innerHTML = "A propos de Cavalcade <br> <br> Cavalcade est un jeu amateur open source. Vous pouvez y jouer dans votre navigateur web. <br> Le jeu est disponible directement en ligne afin d'avoir toujours la dernière mise à jour à cette adresse : <br> <br>https://cavalcadeur.github.io/wind_waker_2D/. <br> <br> Il est également possible de télécharger le jeu afin de jouer hors connexion. Cela raccourcie les temps de chargement mais vous ne benificierez pas des mises à jour automatiques. <br> <br>https://github.com/cavalcadeur/wind_waker_2D/archive/gh-pages.zip <br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br><br><br> <br><br><br><br> <br><br><br><br> <br><br><br><br> <br><br> <br> Woaw ! Vous avez un écran sacrément grand pour réussir à voir ce message.";
             elem.className = 'allText';

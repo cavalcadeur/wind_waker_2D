@@ -58,7 +58,7 @@ function attack(n,x){
         
         if (truc == "coffre0"){
             Map.replaceObject(XX,YY,"coffre1",0);
-            var contenu = Map.getObj(XX,YY);
+            var contenu = Map.getObject(XX,YY);
             if (contenu.length > 1)donnerHeros(contenu[1],n);
             else donnerHeros("",n);
         }

@@ -155,7 +155,7 @@ var Painter = function() {
             var y = Math.ceil(H / cellY) + 3;
             var n = Math.ceil((W + y*cellS) / (cellX));
             var x = n + 1;
-            console.log([n,x,y]);
+            //console.log([n,x,y]);
             return [x,y];
         },
 
