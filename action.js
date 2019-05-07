@@ -195,7 +195,7 @@ function move(d,n,gg){
     chooseAnimObject(n);
     // if (gg == 0 && heros[n].plane == 0 && heros[n].g == 0){
 
-    var truc = Map.getObject(heros[n].x + vecteurs[d][1],heros[n].y + vecteurs[d][0],true);
+    let truc = Map.getObject(heros[n].x + vecteurs[d][1],heros[n].y + vecteurs[d][0],true);
     if (heros[n].sens == 0){
         if (truc[0] == "house0" || truc[0] == "house1" || truc[0] == "house3" || truc[0] == "houseHelp" || truc[0] == "templeFeu1" || truc[0] == "templeEau1" || truc[0] == "miniTempleEau" || truc[0] == "canon1" || truc[0] == "sanctuaire" || truc[0] == "foret1" || truc[0] == "serre1"){
             teleport = [heros[n].y+vecteurs[d][0],heros[n].x+vecteurs[d][1]];

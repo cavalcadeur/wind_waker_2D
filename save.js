@@ -12,11 +12,11 @@ function save(){
 
     remetsEnnemies();
     
-    var result = {"heros":JSON.stringify(heros),"map":JSON.stringify(mapState),"where":Map.where(),"out":out};
+    let result = {"heros":JSON.stringify(heros),"map":JSON.stringify(mapState),"where":Map.where(),"out":out};
     
     result = JSON.stringify(result);
 
-    var nowadays = new Date(Date.now());
+    let nowadays = new Date(Date.now());
     nowadays =
         nowadays.getFullYear() + "-" +
         nowadays.getMonth() + "-" +
@@ -25,6 +25,27 @@ function save(){
         nowadays.getMinutes();
      
     SaveAs(new Blob([result]),"Cavalcade_" + nowadays + ".txt");
+}
+
+function saveCurrentMap(){
+    
+    rangeEnnemies();
+    
+    mapState = Map.stringToState(mapState);
+
+    remetsEnnemies();
+    
+    let result = mapState[Map.where()];
+
+    let nowadays = new Date(Date.now());
+    nowadays =
+        nowadays.getFullYear() + "-" +
+        nowadays.getMonth() + "-" +
+        nowadays.getDate() + "-" +
+        nowadays.getHours() + "-" +
+        nowadays.getMinutes();
+     
+    SaveAs(new Blob([result]),"Cavalcade_Map_"+ Map.where() + "_" + nowadays + ".txt");
 }
 
 function unSave(){

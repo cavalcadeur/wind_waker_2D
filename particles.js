@@ -74,6 +74,9 @@ function defineParticles(type,x,y,z,g,n,lim,name,carry,sens,objType){
     else if (type == "bla"){
         return({n:n,type:"quake",x:x,y:y,alti:z,g:g,lim:lim,act:blact,draw:drawBla,viteModo:2,msgN:0,content:name,actu:"",xx:0,yy:0,x2:0,y2:0,touche:touchCount});
     }
+    else if (type == "blinvisible"){
+        return({n:n,type:"quake",x:x,y:y,alti:z,g:g,lim:lim,act:blact,draw:function(){},viteModo:2,msgN:0,content:name,actu:"",xx:0,yy:0,x2:0,y2:0,touche:touchCount});
+    }
     else if (type == "debris"){
         return({n:n,name:name,type:"debris",x:x,y:y,alti:z,g:g,lim:lim,act:limActG,draw:drawDebris});
     }
@@ -182,6 +185,8 @@ function blact(truc,i){
             truc.xx = rnd(10)/10 - 0.5;
         }
     }
+
+    alert(truc.actu);
     truc.n += 1;
     if (truc.n >= truc.lim && truc.lim >= 0) {disalert(); suppParticles(i);}
 }

@@ -179,8 +179,6 @@ function drawBla(truc){
     ctx.globalAlpha = 1 - truc.n%(truc.viteModo*15)/(truc.viteModo*15);
     Painter.img(ctx,truc.x + truc.x2,truc.y + truc.y2,truc.alti+1.8 + truc.n%(truc.viteModo*15)/(truc.viteModo*15),imgDebris.bla);
     ctx.globalAlpha = 1;
-
-    alert(truc.actu);
 }
 
 function drawExploM(truc){

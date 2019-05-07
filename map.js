@@ -149,12 +149,12 @@ var Map = function(){
             
             if (mapS[where] == undefined){
                 // On va chercher le fichier json qui nous interesse
-                var requestURL = "data/maps/" + out + "/" + where + ".json";
-                var request = new XMLHttpRequest();
+                let requestURL = "data/maps/" + out + "/" + where + ".json";
+                let request = new XMLHttpRequest();
                 request.open("GET",requestURL);
                 request.responseType = 'json';
                 request.send();
-                var that = this;
+                let that = this;
                 request.onload = function(){
                     currentData = request.response;
                     // les données sont arrivées, alors là ça va se compliquer.

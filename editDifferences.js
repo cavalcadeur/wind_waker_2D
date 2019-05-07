@@ -108,7 +108,8 @@ function clickEdit(x,y,b){
         }
     }
     else if (x > W-150){
-        if (y < 400){
+        if (y > H-70) saveCurrentMap();
+        else if (y < 400){
             var truc = Math.floor(y / 80)*2 + Math.floor((x-W+150)/75) + editNs[2]*10;
             if (editArray[sideEdit[editNs[1]]][truc] != undefined) editNs[3] = truc;
         }
