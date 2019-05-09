@@ -403,13 +403,13 @@ function animation(){
         fondfond.onload = function(){};
         if (out == 4) alert("Utilisez les flèches pour vous déplacer et la barre espace pour interagir avec la case en face de vous ou faire disparaître ce message. Allez parler au visage du developpeur pour plus d'infos.");
         ctx.globalAlpha = 1;
-
-        //let FPS = {
-          //  lastTime: 0,
-            //nbFrames: 0,
-            //fps: document.getElementById('FPS')
-        //};
-        
+        /*
+        let FPS = {
+            lastTime: 0,
+            nbFrames: 0,
+            fps: document.getElementById('FPS')
+        };
+        */
         let f = function(t) {
             // Calcul des FPS.
             /*
@@ -424,7 +424,7 @@ function animation(){
                     FPS.nbFrames = 0;
                 }
             }
-             */
+            */
             
             try {
                 //let loops = 1;

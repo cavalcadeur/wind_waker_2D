@@ -89,7 +89,7 @@ function action(t){
                         h.timerF = 200;
                     }
                 }
-                if (h.imgUp != 1){
+                if (h.imgUp != 1 && cinematicos != 11){
                     if (1 == keys[heros[n].touche[1]]) {if (0 == keys[heros[n].touche[3]]) move(1,n,0);}
                     else if (1 == keys[heros[n].touche[3]]) move(3,n,0);
                     else if (1 == keys[heros[n].touche[0]]){if (0 == keys[heros[n].touche[2]]) move(0,n,0);}

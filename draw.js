@@ -1,6 +1,8 @@
 // Ce fichier contient toutes les fonctions de dessins. Ces fonctions servent à dessiner concretement le jeu durant les phases en vue de dessus qui sont quasiment les seules phases
 // Il y a ici les fonctions drawRoom() draw() drawHeros() drawEnnemi() drawInterface()
 
+let param = {antiClip:5};
+
 function drawRoom(kk,ctxa,map){
     //nivniv.forEach(
     //function(e,y){
@@ -86,7 +88,26 @@ function drawRoom(kk,ctxa,map){
     }
     else ennemyRefresh -= 1;
     takeBackEvent(map);
-    
+
+    for(let y = scrollCaseY + nCasesY;y < scrollCaseY + nCasesY + param.antiClip;y++){
+        for(var x = scrollCaseX; x < scrollCaseX + nCasesX ;x++){
+            let altititi = map.getFloor(x,y,666);
+            let coorsss = Painter.realCoor(x,y,altititi);
+            if (coorsss[1] < W && coorsss[0] > 0){
+                let cell = map.getCell(x,y); 
+                let f = cell[1];
+                let outline = cell[4];
+                /*
+                  if (outline[2] == undefined){        // A n'activer qu'en cas de besoin
+                  map.updateOutlinesCase(x,y,0);  //  Cela sert à remettre d'aplomb des données qui seraient partielles
+                  }
+                */
+                Painter.cell( ctxa, x, y, f ,0 , outline);
+                
+                drawObj(x,y,f,map.getObject(x,y,true),ctxa);
+            }
+        }
+    }
     //);
 }
 

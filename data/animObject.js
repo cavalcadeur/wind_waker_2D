@@ -8,8 +8,8 @@ function chooseAnimObject(n){
         if (heros[n].img == 16){
             if (heros[n].sens == 2) animObject[n].f = swordDispAtt1;
             else if (heros[n].sens == 0) animObject[n].bf = swordDispAtt1F;
-            else if (heros[n].sens == 1) animObject[n].bf = swordDispAtt1G;
-            else if (heros[n].sens == 3) animObject[n].bf = swordDispAtt1D;
+            else if (heros[n].sens == 1) animObject[n].bf = swordDispAtt1D;
+            else if (heros[n].sens == 3) animObject[n].f = swordDispAtt1G;
         }
         else if (heros[n].wear == 0){
             if (heros[n].sens == 2) animObject[n].bf = swordDispBack;
@@ -91,9 +91,9 @@ function swordDispAtt1F(n){
 }
 
 function swordDispAtt1G(n){
-    Painter.imgEnnemy(ctx,heros[n].x + heros[n].vx/50+0.45,heros[n].y + heros[n].vy/50 + 1,heros[n].z + 1.9,1,0,imgElement["sword2"],1);
+    Painter.imgEnnemy(ctx,heros[n].x + heros[n].vx/50+0.4,heros[n].y + heros[n].vy/50 + 1,heros[n].z + 2.9,1,-0.6,imgElement["sword3"],1);
 }
 
 function swordDispAtt1D(n){
-    Painter.imgEnnemy(ctx,heros[n].x + heros[n].vx/50 + 0.72,heros[n].y + heros[n].vy/50 + 1,heros[n].z + 1.9,1,0,imgElement["sword2"],1);
+    Painter.imgEnnemy(ctx,heros[n].x + heros[n].vx/50 + 0.79,heros[n].y + heros[n].vy/50 + 1,heros[n].z + 2.93,1,-1.3,imgElement["sword3"],1);
 }

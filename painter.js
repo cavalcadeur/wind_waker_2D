@@ -19,11 +19,13 @@ var Painter = function() {
     var counter = 0;
 
     function toX( x, y, z ) {
-        return Math.floor( scrollX + x * cellX - y * cellS);
+        return scrollX + x * cellX - y * cellS;
+        //return Math.floor( scrollX + x * cellX - y * cellS);
     }
 
     function toY( x, y, z ) {
-        return Math.floor( scrollY + y * cellY - z * cellZ);
+        return scrollY + y * cellY - z * cellZ;
+        //return Math.floor( scrollY + y * cellY - z * cellZ);
     }
 
     function exploMY( n ) {
@@ -361,8 +363,8 @@ var Painter = function() {
                 ctx.fillStyle = outline[2];
                 if (n == 1) ctx.fillStyle = "rgb(255,255,255)";
                 ctx.beginPath();
-                ctx.moveTo( X, Y );
-                ctx.lineTo( X + cellX + 1, Y );
+                ctx.moveTo( X, Y + 1);
+                ctx.lineTo( X + cellX + 1, Y + 1);
                 ctx.lineTo( X + cellX + 1 + cellS, Y - cellY );
                 ctx.lineTo( X + cellS, Y - cellY );
                 ctx.closePath();

@@ -14,7 +14,7 @@ function keyDown(keyCode){
         return;
     }
     //Crossed.keysPress(event.keyCode);
-    if (keys[keyCode] != 1){
+    if (keys[keyCode] != 1 && cinematicos != 11){
         if (keyCode == heros[0].touche[4] && onSea == 0) {disalert(); if (figer == 1){figer = 0; heros[0].aura = ""; heros[1].aura = "";} else{attack(0);}}
         else if (keyCode == heros[1].touche[4] && onSea == 0) {disalert(); if (figer == 1){figer = 0; heros[0].aura = ""; heros[1].aura = "";} else{attack(1);}}
         else if (keyCode == heros[0].touche[6] && onSea == 0) {disalert(); if (figer == 1){figer = 0; heros[0].aura = ""; heros[1].aura = "";} else{attack(0,1);}}
@@ -29,7 +29,7 @@ function keyUp(keyCode){
         toucheHelp(keyCode);
         return;
     }
-    if (alerting == 1) {
+    if (alerting == 1 || cinematicos == 11) {
         //disalert();
         return;
     }

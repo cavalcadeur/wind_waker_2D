@@ -1,8 +1,8 @@
 function cTitre(){
-    setColors(out,"nuit");
+    setColors(out,"jour");
     Map.updateGroundTotal();
     disalert();
-    imgCinema[2] = [190,300,1,1,[],0];
+    imgCinema[2] = [-450,-1400,1,1,[],0];
     var trucMuche = [imgDebris.flamme0,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.fumeeM,imgDebris.fumeeF,imgDebris.sword2,imgHeros[34],imgHeros[2],imgHeros[6],imgElement.palmier,imgDebris.fumeeF,imgDebris.fumeeF,imgDebris.pale0];
     for (var i = 0; i < 0; i++){
         imgCinema[2][4].push([rnd(W),-rnd(500),0,4,trucMuche[rnd(trucMuche.length)]]);
@@ -97,7 +97,7 @@ function cTitre(){
             animation();
         }
         else if (imgCinema[1] == "salsonForever"){
-            goToLevel(1,"ocean",4,10,3,10);
+            goToLevel(1,"ocean",35,18,35,17);
             cinematicos = 0;
             animation();
         }
