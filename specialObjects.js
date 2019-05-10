@@ -30,7 +30,8 @@ function drawPot(f,i){
 }
 
 function drawQuakePP(e){
-    Painter.drawQuake(e.n);
+    if (e.ampli == undefined) e.ampli = 20;
+    Painter.drawQuake(e.n,e.ampli);
 }
 
 function drawCutGrass(e,ctxa){
@@ -39,6 +40,12 @@ function drawCutGrass(e,ctxa){
         Painter.img( ctxa, e.x + e.liste[i][0], e.y, e.liste[i][1] + e.alti, imgDebris[e.name + i]);
     }
     ctx.globalAlpha = 1;
+}
+
+function drawSwordWall(e,ctxa){
+    for (let i = 0; i < e.elem.length; i ++){
+        Painter.img( ctxa, e.x + Math.cos(e.elem[i])*e.n/20, e.y, e.alti  + Math.sin(e.elem[i])*e.n/20,imgDebris["swordWallHit"]);
+    }
 }
 
 function drawDebris(e){

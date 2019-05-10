@@ -81,7 +81,7 @@ function defineParticles(type,x,y,z,g,n,lim,name,carry,sens,objType){
         return({n:n,name:name,type:"debris",x:x,y:y,alti:z,g:g,lim:lim,act:limActG,draw:drawDebris});
     }
     else if (type == "quake"){
-        return({n:n,type:"quake",x:x,y:y,alti:z,g:g,lim:lim,act:limAct,draw:drawQuakePP});
+        return({n:n,type:"quake",x:x,y:y,alti:z,g:g,lim:lim,act:limAct,draw:drawQuakePP,ampli:name});
     }
     else if (type == "fumeeM" || type == "fumeeF" || type == "fumeeP"){
         return({n:n,type:"fumee",x:x,y:y,alti:z,g:g,lim:lim,act:limAct,draw:drawFumee,name:type});
@@ -91,6 +91,10 @@ function defineParticles(type,x,y,z,g,n,lim,name,carry,sens,objType){
     }
     else if (type == "pow"){
         return({n:n,type:"pow",x:x,y:y,alti:z,g:g,lim:lim,act:limAct,draw:drawPow});
+    }
+    else if (type == "swordWall"){
+        return({n:n,type:"swordWall",x:x,y:y,alti:z,g:g,lim:lim,act:limActG,draw:drawSwordWall,
+                elem:[rnd(314)/5,rnd(314)/5,rnd(314)/5,rnd(314)/5,rnd(314)/5,rnd(314)/5,rnd(314)/5]});
     }
     else if (type == "hitA"){
         return({n:n,type:"hitA",x:x,y:y,alti:z,g:g,lim:lim,act:limAct,draw:drawHit});

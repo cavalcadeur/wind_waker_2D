@@ -128,6 +128,8 @@ function clickEdit(x,y,b){
         else {
             if (editArray[sideEdit[editNs[1]]][editNs[3]] == "sky") pencil(x,y,-1);
             else if (editArray[sideEdit[editNs[1]]][editNs[3]] == "sky2") pencil(x,y,-0.2);
+            else if (editArray[sideEdit[editNs[1]]][editNs[3]] == "expand") pencil(x,y,"deExpand");
+            else if (editArray[sideEdit[editNs[1]]][editNs[3]] == "fill") pencil(x,y,"deFill");
             else pencil(x,y,"delete");
         }
         //if (b == 0) pencil(x,y,1);

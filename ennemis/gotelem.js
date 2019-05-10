@@ -305,7 +305,7 @@ let Gotelem = function(){
     }
 
     function explodeOnContact(){
-        if (z + 1.2 <= Map.getFloor(Math.floor(x),Math.floor(y))){
+        if (z + 1.2 <= Map.getFloor(Math.floor(x),Math.floor(y),z)){
             addParticles("fumeeM",Math.floor(x),Math.floor(y),z+0.9,0,0,25);
             addParticles("exploM",Math.floor(x),Math.floor(y),z+0.9,0,0,80);
             meurs();

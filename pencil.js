@@ -9,7 +9,7 @@ function pencil(x,y,action){
     //x = Math.floor(x-scrollX);
     //y = Math.floor(y-scrollY);
     //    if (x < 0 | y < 0 | x > (niveau[0].length)*50 | y > (niveau.length)*50) return;
-    var coor = Painter.case(Map,x,y);
+    let coor = Painter.case(Map,x,y);
     if (coor[0] == "ah") return;
     if (editPlate == 2){
         if (Math.abs(coor[0]-pressurePlate[3]) > Math.abs(coor[1] - pressurePlate[4])){
@@ -68,10 +68,25 @@ function pencil(x,y,action){
             var altiZ = Map.getAlti(coor[1],coor[0]);
             if (altiZ + action > -2) Map.setAlti(coor[1],coor[0],Math.round((altiZ + action)*10)/10,undefined,true);
         }
-        else if (action == "expand"){
-            // Dans ce cas là on veut faire monter 5 cases d'un coup. Pour des raisons de maniabilité, on ne fait monter les cases adjacentes que si elles sont plus basses que celle du centre.
-            var altiZ = Map.getAlti(coor[1],coor[0]);
-            Map.setAlti(coor[1],coor[0],Math.round((altiZ + 1)*10)/10,undefined,true);
+        else if (action == "expand" || action == "deExpand"){
+            // Dans ce cas là on veut faire monter 5 cases d'un coup. Pour des raisons de maniabilité, on ne fait monter les cases adjacentes que si elles sont plus basses que celles du centre.
+            let upping = 1;
+            if (action == "deExpand") upping = -1;
+            let altiZ = Map.getAlti(coor[1],coor[0]);
+            if (altiZ + upping > -2){
+                Map.setAlti(coor[1],coor[0],Math.round((altiZ + upping)*10)/10,undefined,true);
+                for (let i = 0; i < vecteurs.length; i ++){
+                    if (Map.getAlti(coor[1] + vecteurs[i][1],coor[0] + vecteurs[i][0]) * upping <= altiZ * upping){
+                        Map.setAlti(coor[1] + vecteurs[i][1],coor[0] + vecteurs[i][0],Math.round((altiZ + upping)*10)/10,undefined,true);
+                    }
+                }
+            }
+        }
+        else if (action == "fill" || action == "deFill"){
+            let alti = Map.getAlti(coor[1],coor[0]);
+            let upping = 1;
+            if (action == "deFill") upping = -1;
+            fillEdit(coor[1],coor[0],alti,upping,30,coor[1],coor[0]);
         }
         else if (action == "delete"){
             if (editNs[1] == 0){
@@ -163,6 +178,15 @@ function pencil(x,y,action){
                 editPlate = 1;
                 pressurePlate = [coor[0],coor[1],0];
             }
+        }
+    }
+}
+
+function fillEdit(x,y,alti,upping,lim,oriX,oriY){
+    if (Map.getAlti(x,y) == alti && (Math.abs(oriX - x) + Math.abs(oriY - y)) < lim){
+        Map.setAlti(x,y,Math.round((alti + upping)*10)/10,undefined,true);
+        for (let i = 0; i < vecteurs.length; i ++){
+            fillEdit(x + vecteurs[i][1],y + vecteurs[i][0],alti,upping,lim,oriX,oriY);
         }
     }
 }

@@ -221,8 +221,8 @@ var Painter = function() {
             scrollY = coor[1] - y * cellY + z * cellZ;
         },
 
-        drawQuake: function( n ) {
-            scrollX += Math.sin(n)*20;
+        drawQuake: function( n , ampli ) {
+            scrollX += Math.sin(n)*ampli;
         },
 
         drawChain: function(ctx,x,y,x2,y2,z) {
@@ -346,15 +346,15 @@ var Painter = function() {
                 // Partie frontale (verticale)
                 ctx.fillStyle = colors[1];
                 //ctx.createPattern(imgPat,"repeat");
-                ctx.fillRect( X, Y, cellX, cellZ * (z + 1) );
+                ctx.fillRect( X, Y, cellX + 1, cellZ * (z + 1) );
 
                 // Partie latérale (verticale)
                 ctx.fillStyle = colors[2];
                 ctx.beginPath();
-                ctx.moveTo( X + cellX, Y );
+                ctx.moveTo( X + cellX + 1, Y );
                 ctx.lineTo( X + cellX + cellS, Y - cellY );
                 ctx.lineTo( X + cellX + cellS, Y - cellY + (z + 1) * cellZ);
-                ctx.lineTo( X + cellX, Y + (z + 1) * cellZ );
+                ctx.lineTo( X + cellX + 1, Y + (z + 1) * cellZ );
                 ctx.closePath();
                 ctx.fill();
 

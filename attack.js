@@ -26,6 +26,8 @@ let attActFuncs = {
                 }
             }
             else{
+                addParticles("quake",Math.round(kgb.x),Math.round(kgb.y),altti,0,0,10,3);
+                addParticles("swordWall",kgb.x,kgb.y,kgb.alti,9,0,12);
                 kgb.n = kgb.lim;
                 suppParticles(i);
                 return;
