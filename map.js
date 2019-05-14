@@ -49,6 +49,18 @@ var Map = function(){
             
         },
 
+		simpleCase: function(){
+			let truc = new mapNode();
+			return JSON.stringify(truc.getJSON());
+		},
+
+        eraseAll: function(){
+            arbre = new mapNode();
+            arbre.init([0,0]);
+            arbre.setObject("alti",0,0,1,true);
+            this.updateOutlinesCase(0,0,1);
+        },
+
         goOut: function(n){
             out = n;
         },
@@ -93,6 +105,7 @@ var Map = function(){
             if( arbre.getAll(x-1,y)[1] < z ) {
                 v += 8;
             }
+            
 
             // Et maintenant les murs verticaux
             var lineA = 0;
@@ -181,10 +194,10 @@ var Map = function(){
         purifie: function(){
             // Fonction qui regarde en détail l'arbre actuel et le purifie pour en faciliter l'usage et le stockage à l'avenir. C'est une opération coûteuse mais fort utile. C'est le fameux dilemne du temps de précalcul.
             // On commence tout simplement par enlever toutes les cases vides et tous les noeuds inutiles.
-            var type = arbre.getType();
+            let type = arbre.getType();
             if (type == 1){
                 // Si l'arbre contient plusieurs éléments, on peut l'épurer
-                var newOne = arbre.epure();
+                let newOne = arbre.epure();
                 arbre = newOne;
             }
             // Bon on a réussi à se débarasser de tous les noeuds et éléments inutiles. Réduisant ainsi l'arbre et donc facilitant le stockage et augmentant la vitesse générale de calcul.
@@ -339,8 +352,8 @@ var mapNode = function(){
 
         addElem: function(elem,equi){
             // Fonction qui ajoute l'élément elem en dessous du noeud en question
-            var branche = 0;
-            var posElem = elem.position();
+            let branche = 0;
+            let posElem = elem.position();
             if (posElem[0] > pivot[0]) branche += 1;  // Ici on évalue la branche du nouvel élément par rapport au noeud.
             if (posElem[1] > pivot[1]) branche += 2;
            
@@ -371,15 +384,15 @@ var mapNode = function(){
 
         setObject: function(type,x,y,where,what){
             // Fonction qui refile le bébé à ceux en dessous de lui en les chargeant de modifier le noeud en x,y
-            var branche = 0;
+            let branche = 0;
             if (x > pivot[0]) branche += 1;  // Ici on évalue la branche du nouvel élément par rapport au noeud.
             if (y > pivot[1]) branche += 2;
 
             // On doit ensuite vérifier que la case que l'on va modifier existe bien. Si elle n'existe pas il va falloir la créer ce qui peut s'averer compliqué. Bon déjà on vérifie si l'enfant est un noeud.
 
-            var typeC = children[branche].getType();
+            let typeC = children[branche].getType();
             if (typeC == 0){ // On remarque qu'il s'agit d'un élément. On doit alors vérifier si ses coordonnées corespondent
-                var posC = children[branche].position();
+                let posC = children[branche].position();
                 if (posC[0] != x || posC[1] != y){
                     typeC = -1;
                 }
@@ -387,13 +400,15 @@ var mapNode = function(){
             
             if (typeC < 0){ // typeC < 0 : cela signifie que la case que l'on veut modifier n'existe pas encore ! On va devoir la créer.
                 // D'abord on setup l'élément
-                var e = new mapElem();
+                let e = new mapElem();
                 e.init([x,y],[[""],-1,[],[],[]]);
+                e.setObject(type,x,y,where,what);
                 // Et après on l'ajoute.
                 this.addElem(e);
             }
-
-            children[branche].setObject(type,x,y,where,what);
+            else {
+                children[branche].setObject(type,x,y,where,what);
+            }
         },
 
         addEnnemy: function(x,y,data,type){

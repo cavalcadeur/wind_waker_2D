@@ -3,19 +3,19 @@
 function init(){
     Painter.init(70,55,30,10,3);
     
-    colorSet = [[[97,97,97],[65,65,65],[140,140,140,-30,-30,-30],[0,0,0]],[[90,70,50],[80,64,46],[20,70,10,2,5,1],[72,98,178]],[[137,97,97],"rgb(115,65,65)",[200,140,140,-20,-30,-30],[209,82,28]],[[80,80,130],"rgb(40,40,85)",[140,140,200,-30,-30,-20],[0,0,50]],[[170,170,170],"rgb(150,150,150)",[210,210,210,-20,-20,-20],[0,0,15]],[[97,97,97],"rgb(65,65,65)",[140,140,140,-30,-30,-30],[28,134,182]],[[34,70,2],"rgb(19,55,0)",[30,120,20,-5,-20,-2],[20,40,0]],[[0,70,2],"rgb(19,55,0)",[30,120,20,-5,-20,-2],[0,30,30]],[[0,25,30],"rgb(0,20,25)",[4,35,45,0,7,7],[0,5,10]]];
+    colorSet = [[[97,97,97],[65,65,65],[140,140,140,-30,-30,-30],[0,0,0]],[[90,70,50],[80,64,46],[20,70,10,2,5,1],[72,98,178]],[[37,37,97],"rgb(115,65,65)",[138,138,179,10,10,15],[2,4,28]],[[80,80,130],"rgb(40,40,85)",[140,140,200,-30,-30,-20],[0,0,50]],[[170,170,170],"rgb(150,150,150)",[210,210,210,-20,-20,-20],[0,0,15]],[[97,97,97],"rgb(65,65,65)",[140,140,140,-30,-30,-30],[28,134,182]],[[34,70,2],"rgb(19,55,0)",[30,120,20,-5,-20,-2],[20,40,0]],[[0,70,2],"rgb(19,55,0)",[30,120,20,-5,-20,-2],[0,30,30]],[[0,25,30],"rgb(0,20,25)",[4,35,45,0,7,7],[0,5,10]]];
     
     quests = {"chef":0,"jehan":0,"garcon":0,"boussole":0,"boussoleF":0,"dev":0,"sky":0,"pencil":0,armes:{"pencil":1}};
     
     imgHeros = [new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image(),new Image()];
     
-    imgArbre = ["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","passerelle3","barriere0","barriere1","barriere2","palmiton","herbe0","herbe1","bush0","house0","house1","house2","palmier","sword1","sword2","sword3","gear","special","lambda0","fastTravel","loot","outDoor","inDoor","monsters","fireTemple","sky","sky1","sky2","sky3","expand","rocher","shell","coffre0","coffre1","spe","save","delete","fill"];
+    imgArbre = ["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","passerelle3","barriere0","barriere1","barriere2","palmiton","herbe0","herbe1","bush0","house0","house1","house2","palmier","sword1","sword2","sword3","gear","special","lambda0","fastTravel","loot","outDoor","inDoor","monsters","fireTemple","sky","sky1","sky2","sky3","expand","rocher","shell","coffre0","coffre1","spe","save","delete","fill","pole","tele","eraseAll","GPS"];
     
     nSpeImg = 10;
     
-    editObject = [[["bokoblin",2],["chuchu",17]], [["cochon",0],["gardeneer",4],["gotelem",10]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]]];
+    editObject = [[["bokoblin",2],["chuchu",17]], [["gardeneer",4],["gotelem",10]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]], [["bokoblin",2],["chuchu",17]]];
     
-    editArray = {"gear":[],"loot":["coffre0","coffre1","sword","pencil"],"herbe0":["herbe0","herbe1","palmier","palmiton","bush0","rocher","shell"],"outDoor":["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","passerelle3","barriere0","barriere1","barriere2","house0","house1","house2","lambda0"],"inDoor":[],"monsters":["bokoblin","chuchu","moblin","feu","scie","ballon"],"fireTemple":[],"sky":["sky","sky1","sky2","sky3","delete","expand","fill"],"special":["tele","mark","coffre2","fastTravel"],"spe":["spe0","spe1","spe2","spe3","spe4","spe5","spe6","spe7","spe8","spe9"]};
+    editArray = {"gear":["tele","eraseAll","GPS"],"loot":["coffre0","coffre1","sword","pencil"],"herbe0":["herbe0","herbe1","palmier","palmiton","bush0","rocher","shell"],"outDoor":["pont0","pont1","pont2","pont3","pont4","pont5","passerelle0","passerelle1","passerelle2","passerelle3","barriere0","barriere1","barriere2","house0","house1","house2","lambda0","pole"],"inDoor":[],"monsters":["bokoblin","chuchu","moblin","feu","scie","ballon"],"fireTemple":[],"sky":["sky","sky1","sky2","sky3","delete","expand","fill"],"special":["tele","mark","coffre2","fastTravel"],"spe":["spe0","spe1","spe2","spe3","spe4","spe5","spe6","spe7","spe8","spe9"]};
     
     boatPosition = [200,100];
 
@@ -41,7 +41,7 @@ function drawObj(x,y,z,obj,ctxa){
 }
 
 function taille(caseT){
-    var tailles = {"palmier":9.2,"house1":8,"house2":4,"pont0":1,"pont1":1,"pont2":1,"pont3":1,"pont4":1,"pont5":1,"barriere0":2.4,"barriere1":2.4,"barriere2":2.4,"palmiton":2,"rocher":0.3,"wallI":12,"house0":4.2,"PNJ":2.5,"coffre0":1.5,"coffre1":1.2,"spe0":[0,2.5,0,0,0,0,3,0,2.5][out],"spe1":[0,3.8,0,0,0,0,0.5,0,2.2][out],"spe2":[0,0,0,0,0,0,1.01,0,2.3][out],"spe3":[0,0,0,0,0,0,1.01,0,2.3][out],"spe4":[0,0,0,0,0,0,1.01][out],"spe5":[0,0,0,0,0,0,0][out],"spe6":[0,0,0,0,0,0,0][out],"spe7":[0,0,0,0,0,0,0][out],"spe8":[0.5,0,0,0,0,0,0][out],"spe9":[0,0,0,0,0,0,0][out]};
+    var tailles = {"palmier":9.2,"house1":8,"house2":4,"pont0":1,"pont1":1,"pont2":1,"pont3":1,"pont4":1,"pont5":1,"barriere0":2.4,"barriere1":2.4,"barriere2":2.4,"palmiton":2,"rocher":0.3,"wallI":12,"house0":4.2,"PNJ":2.5,"pole":3.9,"coffre0":1.5,"coffre1":1.2,"spe0":[0,2.5,3,0,0,0,3,0,2.5][out],"spe1":[0,3.8,0.8,3,12,15,6,0,2.2][out],"spe2":[0,0,0,0,0,0,1.01,0,2.3][out],"spe3":[0,10.5,0,0,0,0,1.01,0,2.3][out],"spe4":[0,9.5,0,0,0,0,1.01][out],"spe5":[0,10,0,0,0,0,0][out],"spe6":[0,4,0,0,0,0,0][out],"spe7":[0,0,0,0,0,0,0][out],"spe8":[0.5,0,0,0,0,0,0][out],"spe9":[0,0,0,0,0,0,0][out]};
     if (tailles[caseT] == undefined) return 0;
     else return tailles[caseT];
 }

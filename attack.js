@@ -17,9 +17,14 @@ let attActFuncs = {
         // Partie interaction avec le décor qui a lieu uniquement lors de la première frame.
         if (kgb.n == 0){
             let altti = Map.getFloor(Math.round(kgb.x),Math.round(kgb.y));
+            let touche = Map.getObject(Math.round(kgb.x),Math.round(kgb.y),0);
+            
+            if ((touche == "spe0" || touche == "spe1") && out == 2){
+                if (touche == "spe1") Map.replaceObject(Math.round(kgb.x),Math.round(kgb.y),"spe0",0);
+                else Map.replaceObject(Math.round(kgb.x),Math.round(kgb.y),"spe1",0);
+            }
             //if (kgb.alti >= altti - 0.2 && kgb.alti <= Map.superGetFloor(kgb.x,kgb.y,kgb.alti) + 0.2){
             if (kgb.alti >= altti){
-                let touche = Map.getObject(Math.round(kgb.x),Math.round(kgb.y),0);
                 if (touche == "herbe0" || touche == "herbe1") {
                     Map.suppressObject(Math.round(kgb.x),Math.round(kgb.y),0);
                     addParticles("cutGrass",Math.round(kgb.x),Math.round(kgb.y),altti,3,0,60,"herbe");

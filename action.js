@@ -57,8 +57,8 @@ function action(t){
                         supress = 0;
                     }
                     else if (truc[0] == "teleport"){
-                        teleport = [h.y,h.x];
-                        goToLevel(truc[1],truc[2],truc[3],truc[4],truc[5],truc[6]);
+                        console.log(truc);
+                        goToLevel(truc[1],truc[2],truc[3],truc[4],truc[3],truc[4]);
                     }
                     else if (truc[0] == "boomerang" || truc[0] == "sword" || truc[0] == "pencil" || truc[0] == "boat" || truc[0] == "hookShot" || truc[0] == "parachale" || truc[0] == "baton" || truc[0] == "seeds" || truc[0] == "flowerRod" || truc[0] == "maskWind"){                        
                         if (quests.armes[truc[0]] == 1) {addObj(truc[0],n);}
@@ -197,30 +197,15 @@ function move(d,n,gg){
 
     let truc = Map.getObject(heros[n].x + vecteurs[d][1],heros[n].y + vecteurs[d][0],true);
     if (heros[n].sens == 0){
-        if (truc[0] == "house0" || truc[0] == "house1" || truc[0] == "house3" || truc[0] == "houseHelp" || truc[0] == "templeFeu1" || truc[0] == "templeEau1" || truc[0] == "miniTempleEau" || truc[0] == "canon1" || truc[0] == "sanctuaire" || truc[0] == "foret1" || truc[0] == "serre1"){
+        if (truc[0] == "house0" || truc[0] == "house1" || (truc[0] == "spe4" && out == 1)){
             teleport = [heros[n].y+vecteurs[d][0],heros[n].x+vecteurs[d][1]];
             if (truc[1] == "void"){
                 goToLevel(out,"void",0,0,0,0);
             }
             else {
-                goto = truc[1];
-                if (truc[2] == 666){
-                    out = 1;
-                    cinematicos = 2;
-                    goToLevel(out,goto,iles[goto].heros[0][1],iles[goto].heros[0][0],iles[goto].heros[1][1],iles[goto].heros[1][0]);
-                }
-                else if (interieurs[goto] == undefined){
-                    out = 1;
-                    goToLevel(out,goto,iles[goto].heros[0][1],iles[goto].heros[0][0],iles[goto].heros[1][1],iles[goto].heros[1][0]);
-                }
-                else {
-                    out = interieurs[goto].out;
-                    goToLevel(out,goto,interieurs[goto].heros[0][1],interieurs[goto].heros[0][0],interieurs[goto].heros[1][1],interieurs[goto].heros[1][0]);
-                }
-                if (goto == "help1") alert("Place toi face à un personnage et appuie sur la touche maj pour lui parler.");
-            }
-            if (truc[0] == "canon1"){
-                cinematicos = 3;
+                // Structure du lot : [objet, out, goto, x,y]
+                console.log(truc);
+                goToLevel(truc[1],truc[2],truc[3],truc[4],truc[3],truc[4]);
             }
         }
     }

@@ -86,4 +86,7 @@ function cDoAutoAct(act){
         
         addParticles(act[2],act[3],act[4],act[5],act[6],act[7],act[8],act[9],act[10],act[11],act[12]);
     }
+    else if (act[1] == "goto"){
+        goToLevel(act[2],act[3],act[4],act[5],act[6],act[7]);
+    }
 }

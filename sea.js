@@ -49,20 +49,6 @@ function goToLevel(oo,go,x,y,x2,y2,scrollStore,d,n){
             particles[i] = deComposeParticle(e);
         }
     );
-    boomerang.forEach(
-        function(e,n){
-            if (e.endu > 5) {
-                var X = e.x - vecteurs[e.sens][1]*(10-e.endu);
-                var Y = e.y - vecteurs[e.sens][0]*(10-e.endu);
-            }
-            else{
-                var X = e.x + vecteurs[e.sens][1]*(e.endu);
-                var Y = e.y + vecteurs[e.sens][0]*(e.endu);
-            }
-            if (objNiveau[Y][X][0] == "main1") objNiveau[Y][X][0] = "main0";
-            else objNiveau[Y][X].splice(0,0,"boomerang");
-        }
-    );
     boomerang = [];
     if (oo == -1 || go == "void"){
         onSea = 5;
@@ -141,11 +127,13 @@ function defineTele(gg,outa){
 }
 
 function chooseBack(oo){
+    frontDraw = backg.nothing;
     if (oo == 1){
         backDraw = backg.fa;
     }
     else if (oo == 2){
-        backDraw = backg.fb;
+        frontDraw = backg.frontGod;
+        backDraw = backg.nothing;
     }
     else if (oo == 3){
         backDraw = backg.fc;

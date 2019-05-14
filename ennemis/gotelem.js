@@ -109,7 +109,8 @@ let Gotelem = function(){
             sens = choice;
             if (sens == 4) {goal = [x,y]; sens = 2;}
             else goal = [x + vecteurs[sens][1],y + vecteurs[sens][0]];
-            z += 0.01; g = 0.9; 
+            z += 0.01; g = 0.9;
+            /*
             if ((distance >= 1.5 && distance <= 2.5 && (Math.abs(x - (heros[closer].x+0.5)) <= 0.1 || Math.abs(y - (heros[closer].y+0.5)) <= 0.1)) || (distance <= 1.5 && rnd(10) == 1) ){
                 //console.log("HEY");
                 //console.log(x + " " + y + " " + heros[closer].x + " " + heros[closer].y);
@@ -119,9 +120,10 @@ let Gotelem = function(){
                 n = 40;
             }
             else {
+            */
                  zBody += 0.01; gBody = 0.9;
                 this.doing = jumping;
-            }
+            //}
         }
     }
 

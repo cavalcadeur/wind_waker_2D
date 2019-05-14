@@ -8,7 +8,7 @@ let ctx,canvas;
 let X = 0;
 let Y = 0;
 let keys = {};
-let heros = [{"x":0,"y":8,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:2,"rubis":0,"objet":0,"invent":["sword"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"prim":"pencil","imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":10,"touche":["ArrowUp","ArrowRight","ArrowDown","ArrowLeft","Shift","Control"," ","a","i"],"scrollSpeed":1,anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]},{"x":2,"y":9,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:3,"rubis":0,"objet":0,"invent":["sword"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":0,"touche":["5","3","2","1","Enter","0"],anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]}];
+let heros = [{"x":0,"y":8,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:2,"rubis":0,"objet":0,"invent":["blank"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"prim":"blank","imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":10,"touche":["ArrowUp","ArrowRight","ArrowDown","ArrowLeft","Shift","Control"," ","a","i"],"scrollSpeed":1,anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]},{"x":2,"y":9,z:0,g:0,r:0,s:1,"vx":0,"vy":0,"sens":2,"delay":0,taille:3,"rubis":0,"objet":0,"invent":["blank"],"aura":"","tAura":0,"vAura":1,"cles":0,"d":1,"vie":3,"vieTotale":3,"stun":0,"mortal":0,"grap":0,"grapD":-1,"imgUp":0,"imgN":0,"plane":0,"timerF":0,"etat":0,"caseSpe":0,"seedCount":0,"touche":["5","3","2","1","Enter","0"],anim:nonifiant,nAnim:0,datAnim:0,img:0,carry:[0,0],wear:0,toGo:[]}];
 let questObj = {"carteMaritime":0,"boussole":0,wear:0};
 let parameters = {mouseScrollPencil:false};
 let objInvent = [];
@@ -73,7 +73,7 @@ let sideEdit = ["monsters","spe","sky","fireTemple","inDoor","herbe0","outDoor",
 let sideSelect = -1;
 let workFloor;
 let backg;
-let backDraw;
+let backDraw,frontDraw;
 let nPas = 0;
 let rigolote = [-1,-1];
 let gamePads;

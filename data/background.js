@@ -14,6 +14,14 @@ var background = function(ctx) {
         );
     }
 
+    function frontGod(){
+        waves.forEach(
+            function(e,n){
+                sporeNiveau(e);
+            }
+        );
+    }
+
     function bfb(){
         waves.forEach(
             function(e){
@@ -95,6 +103,23 @@ var background = function(ctx) {
         e[2] += 1;
     }
 
+    function sporeNiveau(e,i){
+        ctx.fillStyle = "rgb(208,198,41)";
+        if (e[2] >= 180) ctx.globalAlpha = (200 - e[2])/20;
+        else if (e[2] <= 20) ctx.globalAlpha = (e[2])/20;
+        ctx.beginPath();
+        ctx.arc(e[0] + Math.sin(e[2]/50) * 40,e[1],6,Math.PI,-Math.PI);
+        ctx.closePath();
+        ctx.fill();
+        e[1] -= 0.5;
+        e[2] += 1;
+        if (200 <= e[2]){
+            e[0] = rnd(W); e[1] = rnd(H);
+            e[2] = 0;
+        }
+        ctx.globalAlpha = 1;
+    }
+    
     function crystalNiveau(e,i){
 
     }
@@ -307,6 +332,7 @@ var background = function(ctx) {
         fd: bfd,
         fe: bfe,
         ff: bff,
-        fg: bfg
+        fg: bfg,
+        frontGod: frontGod
     };
 };

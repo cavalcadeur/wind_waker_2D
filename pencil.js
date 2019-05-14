@@ -82,6 +82,10 @@ function pencil(x,y,action){
                 }
             }
         }
+        else if (action == "eraseAll"){
+            Map.eraseAll();
+            console.log("------------------------------------------------------------------------------------------------");
+        }
         else if (action == "fill" || action == "deFill"){
             let alti = Map.getAlti(coor[1],coor[0]);
             let upping = 1;
@@ -132,15 +136,20 @@ function pencil(x,y,action){
             islandData = {out:1,ileSet:0,x:0,y:0,select:0};
              */
         }
+        else if (action == "GPS"){
+            alert("Position en x : " + coor[1] + " Position en y : " + coor[0]);
+        }
         else if (action == "tele"){
-            var cObj = Map.getObject(coor[1],coor[0]);
-            var truck = cObj[0];
-            if (truck == "house0" || truck == "house1" || truck == "house3" || truck == "tele"){
+            let cObj = Map.getObject(coor[1],coor[0]);
+            let truck = cObj[0];
+            let outYY = parseInt(prompt("Id de l'environnement (entre 0 et 9)   (Attention : si vous n'êtes pas le devellopeur de ce jeu, mettez simplement 1 puis ocean puis 15 puis 15)"));
+            let gotoYY = prompt("Nom de la map.");
+            let xYY = parseInt(prompt("Position en x"));
+            let yYY = parseInt(prompt("Position en y"));
+            if (truck == "house0" || truck == "house1" || (truck == "spe4" && out == 1) || truck == "tele"){
+                Map.replaceObject(coor[1],coor[0],[truck,outYY,gotoYY,xYY,yYY],true);
             }
-            else Map.replaceObject(coor[1],coor[0],["teleport",-1,"void",0,0,0,0],true);
-            teleport = [coor[0],coor[1]];
-            onSea = 5;
-            islandData = {out:1,ileSet:0,x:0,y:0,select:0};
+            else Map.replaceObject(coor[1],coor[0],["teleport",outYY,gotoYY,xYY,yYY],true);
         }
         else if (action == "passerelle0" || action == "passerelle1" || action == "passerelle2" || action == "passerelle3"){
             var cObj = Map.getObject(coor[1],coor[0]);

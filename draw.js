@@ -194,6 +194,8 @@ function draw() {
         Painter.scrollPlus(scrollEditSpeed[0],scrollEditSpeed[1],W,H);
     }
     else if (edition == 0) Painter.scrollCenter(heros[0].x,heros[0].y,heros[0].z,W,H);
+
+    frontDraw();
     drawInterface();
 }
 
